@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url"><![CDATA[jdbc:postgresql://ec2-79-125-127-60.eu-west-1.compute.amazonaws.com:5432/d55rc0894f06nc]]></property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="com.KamilIsmail.MovieApp.entities.UserEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.MoviesEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.FavouritesEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.PersistentLoginsEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.PhotosEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.RatingsEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.RemindersEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.TvstationsEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.WanttowatchEntity"/>
+    </session-factory>
+</hibernate-configuration>
