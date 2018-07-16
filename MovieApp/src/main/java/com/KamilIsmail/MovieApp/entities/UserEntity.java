@@ -13,7 +13,7 @@ public class UserEntity {
     private int userId;
     private String username;
     private String password;
-    private Integer photoId;
+    private int photoId;
     private String role;
     private PhotosEntity photosByPhotoId;
     private Collection<FavouritesEntity> favouritesByUserId;
@@ -107,7 +107,7 @@ public class UserEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "photoid", referencedColumnName = "photoid", insertable = false, updatable = false)
+    @JoinColumn(name = "photoid", referencedColumnName = "photoid")
     public PhotosEntity getPhotosByPhotoId() {
         return photosByPhotoId;
     }
