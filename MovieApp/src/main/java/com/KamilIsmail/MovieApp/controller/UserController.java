@@ -38,7 +38,7 @@ public class UserController {
 
     @PostMapping("")
     public UserDTO createUser(@Valid @RequestBody CreateUserParam param) {
-        return userService.createUser(param.getUsername(),param.getPassword(), param.getRole());
+        return userService.createUser(param.getUsername(),param.getPassword(), param.getRole());  //zwrot info
     }
 
     @PutMapping("")
