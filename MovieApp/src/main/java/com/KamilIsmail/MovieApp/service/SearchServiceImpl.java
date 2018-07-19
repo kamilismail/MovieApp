@@ -1,6 +1,8 @@
 package com.KamilIsmail.MovieApp.service;
 
 import com.KamilIsmail.MovieApp.Constants;
+import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
+import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TvResultsPage;
@@ -8,9 +10,16 @@ import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.people.PersonPeople;
 import info.movito.themoviedbapi.model.tv.TvSeries;
+import info.talacha.filmweb.api.FilmwebApi;
+import info.talacha.filmweb.connection.FilmwebException;
+import info.talacha.filmweb.models.Broadcast;
+import info.talacha.filmweb.models.TVChannel;
+import info.talacha.filmweb.search.models.FilmSearchResult;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+
 import static java.lang.Math.toIntExact;
 
 @Service
@@ -31,17 +40,65 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public MovieDb getMovie(Long id) throws IOException {
+    public GetMovieDTO getMovie(Long id) throws IOException {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        return tmdbApi.getMovies().getMovie(toIntExact(id),"pl");
+        MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id),"pl");
+        FilmwebApi fa = new FilmwebApi();
+        List<Broadcast> broadcasts = null;
+        String chanel = "";
+        FilmSearchResult filmResult = null;
+        try {
+            filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0,4))).get(0);
+            broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
+            if(!broadcasts.isEmpty()) {
+                Long chanelID = broadcasts.get(0).getChannelId();
+                List<TVChannel> tvChannels = fa.getTvChannels();
+                for (TVChannel tvChannel : tvChannels) {
+                    if (tvChannel.getId() == chanelID) {
+                        chanel = tvChannel.getName();
+                        break;
+                    }
+                }
+            }
+        } catch (FilmwebException e) {
+            e.printStackTrace();
+        }
+        if (broadcasts.isEmpty()) {
+            return (new GetMovieDTO(tmdbResult));
+        }
+        return (new GetMovieDTO(tmdbResult,broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(), chanel, filmResult.getId().toString()));
     }
 
     @Override
-    public TvSeries getTVShow(Long id) throws IOException {
+    public GetSeriesDTO getTVShow(Long id) throws IOException {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        return tmdbApi.getTvSeries().getSeries(toIntExact(id),"pl");
+        TvSeries tmdbResult = tmdbApi.getTvSeries().getSeries(toIntExact(id),"pl");
+        FilmwebApi fa = new FilmwebApi();
+        List<Broadcast> broadcasts = null;
+        String chanel = "";
+        FilmSearchResult filmResult = null;
+        try {
+            filmResult = fa.findSeries(tmdbResult.getName()).get(0);
+            broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
+            if(!broadcasts.isEmpty()) {
+                Long chanelID = broadcasts.get(0).getChannelId();
+                List<TVChannel> tvChannels = fa.getTvChannels();
+                for (TVChannel tvChannel : tvChannels) {
+                    if (tvChannel.getId() == chanelID) {
+                        chanel = tvChannel.getName();
+                        break;
+                    }
+                }
+            }
+        } catch (FilmwebException e) {
+            e.printStackTrace();
+        }
+        if (broadcasts.isEmpty()) {
+            return (new GetSeriesDTO(tmdbResult));
+        }
+        return (new GetSeriesDTO(tmdbResult,broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(), chanel, broadcasts.get(0).getDescription(), filmResult.getId().toString()));
     }
 
     @Override

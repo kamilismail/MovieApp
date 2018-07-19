@@ -1,5 +1,7 @@
 package com.KamilIsmail.MovieApp.service;
 
+import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
+import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TvResultsPage;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -18,10 +20,10 @@ public interface SearchService {
     TvResultsPage getTVShows(String production) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    MovieDb getMovie(Long id) throws IOException;
+    GetMovieDTO getMovie(Long id) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    TvSeries getTVShow(Long id) throws IOException;
+    GetSeriesDTO getTVShow(Long id) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
     TmdbSearch.MultiListResultsPage getProductions(String production) throws IOException;
