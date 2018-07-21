@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(12);
         String hashed_password = BCrypt.hashpw(password_plaintext, salt);
-        return(hashed_password);
+        return (hashed_password);
     }
 
     @Override
@@ -44,12 +44,11 @@ public class UserDaoImpl implements UserDao {
     public Boolean changeUserPassword(String username, String password, String newPassword) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
-        if(pwEncoder.matches(password, userEntity.getPassword())) {
+        if (pwEncoder.matches(password, userEntity.getPassword())) {
             userEntity.setPassword(hashPassword(newPassword));
             userRepository.save(userEntity);
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -57,11 +56,10 @@ public class UserDaoImpl implements UserDao {
     public Boolean deleteUser(String username, String password) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
-        if(pwEncoder.matches(password, userEntity.getPassword())) {
+        if (pwEncoder.matches(password, userEntity.getPassword())) {
             userRepository.deleteById((long) userEntity.getUserId());
             return true;
-        }
-        else
+        } else
             return false;
     }
 

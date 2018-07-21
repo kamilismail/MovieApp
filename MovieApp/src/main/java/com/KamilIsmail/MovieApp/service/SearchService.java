@@ -4,10 +4,8 @@ import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TvResultsPage;
-import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.people.PersonPeople;
-import info.movito.themoviedbapi.model.tv.TvSeries;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.IOException;

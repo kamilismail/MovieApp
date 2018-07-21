@@ -19,10 +19,11 @@ public class CreateUserParam {
 
     public CreateUserParam() {
     }
+
     @JsonCreator
     public CreateUserParam(@JsonProperty("username") String username,
                            @JsonProperty("password") String password,
-                           @JsonProperty("role")  String role) {
+                           @JsonProperty("role") String role) {
         this.username = username;
         this.password = password;
         this.role = role;

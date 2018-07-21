@@ -28,14 +28,14 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUser(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).get(0);
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(userEntity,UserDTO.class);
+        return mapper.map(userEntity, UserDTO.class);
     }
 
     @Override
     public List<UserDTO> getAllUser() {
         List<UserEntity> userEntityList = userRepository.findAll();
         List<UserDTO> userList = new ArrayList<>();
-        for(UserEntity userEntity : userEntityList) {
+        for (UserEntity userEntity : userEntityList) {
             userList.add(new UserDTO(userEntity.getUserId(), userEntity.getUsername(), userEntity.getRole()));
         }
         return userList;
@@ -44,15 +44,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(String username, String password, String role) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(userDao.createUser(username,password,role), UserDTO.class);
+        return mapper.map(userDao.createUser(username, password, role), UserDTO.class);
     }
 
     @Override
-    public Boolean changeUserPassword(String username, String password, String newPassword){ return userDao.changeUserPassword(username, password, newPassword);}
+    public Boolean changeUserPassword(String username, String password, String newPassword) {
+        return userDao.changeUserPassword(username, password, newPassword);
+    }
 
     @Override
     public Boolean deleteUser(String username, String password) {
-        return userDao.deleteUser(username,password);
+        return userDao.deleteUser(username, password);
     }
 
     @Override

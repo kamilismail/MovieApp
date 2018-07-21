@@ -13,7 +13,7 @@ public class UserSecDao {
     @Autowired
     UserRepository userRepository;
 
-    UserEntity getUserByUsername(String username){
+    UserEntity getUserByUsername(String username) {
         return userRepository.findByUsername(username).get(0);
     }
 }

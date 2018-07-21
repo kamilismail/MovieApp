@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.KamilIsmail.MovieApp.repository")
 public class MovieAppApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MovieAppApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MovieAppApplication.class, args);
+    }
 }

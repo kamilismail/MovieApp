@@ -3,9 +3,10 @@ package com.KamilIsmail.MovieApp.DTO;
 public class GetUsernameDTO {
     private String username;
 
-    public GetUsernameDTO() { }
+    public GetUsernameDTO() {
+    }
 
-    public GetUsernameDTO(String username){
+    public GetUsernameDTO(String username) {
         this.username = username;
     }
 

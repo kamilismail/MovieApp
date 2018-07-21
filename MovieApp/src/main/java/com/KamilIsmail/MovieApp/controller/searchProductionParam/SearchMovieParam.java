@@ -13,6 +13,7 @@ public class SearchMovieParam {
 
     public SearchMovieParam() {
     }
+
     @JsonCreator
     public SearchMovieParam(@JsonProperty("production") String production) {
         this.production = production;

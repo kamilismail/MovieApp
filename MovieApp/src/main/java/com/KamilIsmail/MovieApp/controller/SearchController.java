@@ -24,12 +24,12 @@ public class SearchController {
 
     @GetMapping("movies")
     public MovieResultsPage getMovies(@RequestParam("name") String production) throws IOException {
-        return searchService.getMovies(production.replaceAll("_"," "));
+        return searchService.getMovies(production.replaceAll("_", " "));
     }
 
     @GetMapping("tvshows")
     public TvResultsPage getTVShows(@RequestParam("name") String production) throws IOException {
-        return searchService.getTVShows(production.replaceAll("_"," "));
+        return searchService.getTVShows(production.replaceAll("_", " "));
     }
 
     @GetMapping("movie")
@@ -44,7 +44,7 @@ public class SearchController {
 
     @GetMapping("productions")
     public TmdbSearch.MultiListResultsPage getProductions(@RequestParam("name") String production) throws IOException {
-        return searchService.getProductions(production.replaceAll("_"," "));
+        return searchService.getProductions(production.replaceAll("_", " "));
     }
 
     @GetMapping("person")

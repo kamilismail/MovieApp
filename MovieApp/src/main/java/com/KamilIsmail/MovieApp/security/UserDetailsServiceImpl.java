@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userSecDao.getUserByUsername(username);
-        if(user == null)
+        if (user == null)
             throw new UsernameNotFoundException("User" + username + " was not found in the database");
 
         List<GrantedAuthority> grantedList = new ArrayList<>();
