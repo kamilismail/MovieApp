@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "ratings", schema = "public", catalog = "d55rc0894f06nc")
 public class RatingsEntity {
     private int ratingId;
-    private Integer userId;
+    private long userId;
     private Integer movieId;
     private String rating;
     private UserEntity userByUserId;
@@ -35,6 +35,16 @@ public class RatingsEntity {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    @Basic
+    @Column(name = "userid")
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Override

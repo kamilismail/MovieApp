@@ -3,6 +3,8 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
+import com.KamilIsmail.MovieApp.entities.RatingsEntity;
+import com.KamilIsmail.MovieApp.repository.RatingRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TvResultsPage;
@@ -15,6 +17,7 @@ import info.talacha.filmweb.connection.FilmwebException;
 import info.talacha.filmweb.models.Broadcast;
 import info.talacha.filmweb.models.TVChannel;
 import info.talacha.filmweb.search.models.FilmSearchResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +27,9 @@ import static java.lang.Math.toIntExact;
 
 @Service
 public class SearchServiceImpl implements SearchService {
+
+    @Autowired
+    RatingRepository ratingRepository;
 
     @Override
     public MovieResultsPage getMovies(String production) throws IOException {
@@ -40,7 +46,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public GetMovieDTO getMovie(Long id) throws IOException {
+    public GetMovieDTO getMovie(Long id, Long userID) throws IOException {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id), "pl");
@@ -67,7 +73,13 @@ public class SearchServiceImpl implements SearchService {
         if (broadcasts.isEmpty()) {
             return (new GetMovieDTO(tmdbResult));
         }
-        return (new GetMovieDTO(tmdbResult, broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(), chanel, filmResult.getId().toString()));
+
+        RatingsEntity ratingsEntity = ratingRepository.findRatingsEntityByUserId(userID);
+        String ratingResult = "";
+        if (ratingsEntity != null)
+            ratingResult = ratingsEntity.getRating();
+
+        return (new GetMovieDTO(tmdbResult, broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(), chanel, filmResult.getId().toString(), ratingResult));
     }
 
     @Override

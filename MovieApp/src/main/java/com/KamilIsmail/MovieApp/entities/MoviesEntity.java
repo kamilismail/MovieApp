@@ -14,6 +14,8 @@ public class MoviesEntity {
     private String movieName;
     private Integer filmwebId;
     private Integer tmdbId;
+    private String poster_path;
+    private String release_date;
     private Collection<FavouritesEntity> favouritesByMovieId;
     private Collection<RemindersEntity> remindersByMovieId;
     private Collection<WanttowatchEntity> wanttowatchesByMovieId;
@@ -59,6 +61,26 @@ public class MoviesEntity {
         this.tmdbId = tmdbId;
     }
 
+    @Basic
+    @Column(name = "poster_path")
+    public String getPosterPath() {
+        return poster_path;
+    }
+
+    public void setPosterPath(String poster_path) {
+        this.poster_path = poster_path;
+    }
+
+    @Basic
+    @Column(name = "release_date")
+    public String getReleaseDate() {
+        return release_date;
+    }
+
+    public void setReleaseDate(String release_date) {
+        this.release_date = release_date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,6 +89,8 @@ public class MoviesEntity {
         return movieId == that.movieId &&
                 Objects.equals(movieName, that.movieName) &&
                 Objects.equals(filmwebId, that.filmwebId) &&
+                Objects.equals(poster_path, that.poster_path) &&
+                Objects.equals(release_date, that.release_date) &&
                 Objects.equals(tmdbId, that.tmdbId);
     }
 

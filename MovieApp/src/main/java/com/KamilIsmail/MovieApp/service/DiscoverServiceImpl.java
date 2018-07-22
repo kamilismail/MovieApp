@@ -28,7 +28,7 @@ public class DiscoverServiceImpl implements DiscoverService {
     public DiscoverDTO getJSON() throws IOException {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        MovieResultsPage upcomming = tmdbApi.getMovies().getUpcoming("pl", 1, "");
+        MovieResultsPage upcoming = tmdbApi.getMovies().getUpcoming("pl", 1, "");
         MovieResultsPage nowPlaying = tmdbApi.getMovies().getNowPlayingMovies("pl", 1, "");
         MovieResultsPage popularMovies = tmdbApi.getMovies().getPopularMovies("pl", 1);
         TvResultsPage popularSeries = tmdbApi.getTvSeries().getPopular("pl", 1);
@@ -36,7 +36,7 @@ public class DiscoverServiceImpl implements DiscoverService {
         ArrayList<DiscoverMovieDTO> nowPlayingList = new ArrayList<>();
         ArrayList<DiscoverMovieDTO> popularMoviesList = new ArrayList<>();
         ArrayList<DiscoverSeriesDTO> popularSeriesList = new ArrayList<>();
-        for (MovieDb movie : upcomming.getResults()) {
+        for (MovieDb movie : upcoming.getResults()) {
             upcomingList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
                     movie.getTitle(), movie.getPosterPath(), movie.getReleaseDate()));
         }

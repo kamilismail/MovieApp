@@ -32,13 +32,14 @@ public class UserController {
     }
 
     @GetMapping("all")
-    public List<UserDTO> getAllUser() {
+    public List<UserDTO> getAllUser(Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return userService.getAllUser();
     }
 
     @PostMapping("")
     public UserDTO createUser(@Valid @RequestBody CreateUserParam param) {
-        return userService.createUser(param.getUsername(), param.getPassword(), param.getRole());  //zwrot info
+        return userService.createUser(param.getUsername(), param.getPassword(), param.getRole());
     }
 
     @PutMapping("")

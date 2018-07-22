@@ -70,6 +70,7 @@ public class UserEntity {
         return userId == that.userId &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
+                Objects.equals(role, that.role) &&
                 Objects.equals(photoId, that.photoId);
     }
 

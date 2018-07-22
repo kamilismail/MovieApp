@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 public interface UserService {
-    @PreAuthorize("hasAnyAuthority('user')")
+    @PreAuthorize("hasAnyAuthority('admin','user')")
     UserDTO getUser(String username);
 
     @PreAuthorize("hasAuthority('admin')")

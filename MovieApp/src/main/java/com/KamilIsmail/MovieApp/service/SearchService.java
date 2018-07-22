@@ -18,7 +18,7 @@ public interface SearchService {
     TvResultsPage getTVShows(String production) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    GetMovieDTO getMovie(Long id) throws IOException;
+    GetMovieDTO getMovie(Long id, Long userID) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
     GetSeriesDTO getTVShow(Long id) throws IOException;

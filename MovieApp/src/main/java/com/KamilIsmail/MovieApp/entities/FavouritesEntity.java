@@ -26,6 +26,26 @@ public class FavouritesEntity {
         this.favId = favId;
     }
 
+    @Basic
+    @Column(name = "userid", nullable = false, insertable = false, updatable = false)
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "movieid", nullable = false, insertable = false, updatable = false)
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,7 +63,7 @@ public class FavouritesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
     public UserEntity getUserByUserId() {
         return userByUserId;
     }
@@ -53,7 +73,7 @@ public class FavouritesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "movieid", referencedColumnName = "movieid", insertable = false, updatable = false)
+    @JoinColumn(name = "movieid", referencedColumnName = "movieid")
     public MoviesEntity getMoviesByMovieId() {
         return moviesByMovieId;
     }

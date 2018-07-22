@@ -19,12 +19,16 @@ public class GetMovieDTO {
     @JsonProperty("film_id")
     private String filmID;
 
-    public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID) {
+    @JsonProperty("user_rating")
+    private String userRating;
+
+    public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID, String userRating) {
         this.result = result;
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
         this.filmID = filmID;
+        this.userRating = userRating;
     }
 
     public GetMovieDTO(MovieDb result) {
@@ -33,6 +37,7 @@ public class GetMovieDTO {
         this.hour = "";
         this.chanel = "";
         this.filmID = "";
+        this.userRating = "";
     }
 
     public MovieDb getResult() {
@@ -73,5 +78,13 @@ public class GetMovieDTO {
 
     public void setFilmID(String filmID) {
         this.filmID = filmID;
+    }
+
+    public String getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(String userRating) {
+        this.userRating = userRating;
     }
 }

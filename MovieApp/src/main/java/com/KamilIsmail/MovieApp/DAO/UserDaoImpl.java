@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         if (pwEncoder.matches(password, userEntity.getPassword())) {
-            userRepository.deleteById((long) userEntity.getUserId());
+            userRepository.deleteById(userEntity.getUserId());
             return true;
         } else
             return false;
