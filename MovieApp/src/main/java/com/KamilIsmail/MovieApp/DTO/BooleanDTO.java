@@ -4,7 +4,7 @@ public class BooleanDTO {
 
     private Boolean result;
 
-    public BooleanDTO (Boolean result) {
+    public BooleanDTO(Boolean result) {
         this.result = result;
     }
 

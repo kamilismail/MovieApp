@@ -12,6 +12,7 @@ import java.util.Objects;
 public class TvstationsEntity {
     private int tvstationId;
     private String name;
+    private String logoPath;
     private Collection<RemindersEntity> remindersByTvstationId;
 
     @Id
@@ -35,19 +36,30 @@ public class TvstationsEntity {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "logo_path")
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TvstationsEntity that = (TvstationsEntity) o;
         return tvstationId == that.tvstationId &&
-                Objects.equals(name, that.name);
+                Objects.equals(name, that.name) &&
+                Objects.equals(logoPath, that.logoPath);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(tvstationId, name);
+        return Objects.hash(tvstationId, name, logoPath);
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tvstationsByTvstationId")

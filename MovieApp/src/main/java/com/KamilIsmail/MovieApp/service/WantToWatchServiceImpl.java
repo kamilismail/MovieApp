@@ -22,23 +22,23 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     WantToWatchDao wantDao;
 
     @Override
-    public List<DiscoverMovieDTO> getFavourites(int userid) throws IOException {
+    public List<DiscoverMovieDTO> getWants(int userid) throws IOException {
         List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
         List<DiscoverMovieDTO> wantResults = new ArrayList<>();
 
-        for(WanttowatchEntity wantList : wantEntitiesList){
-            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(wantList.getMoviesByMovieId().getTmdbId()),wantList.getMoviesByMovieId().getMovieName(), wantList.getMoviesByMovieId().getPosterPath(),wantList.getMoviesByMovieId().getReleaseDate());
+        for (WanttowatchEntity wantList : wantEntitiesList) {
+            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(wantList.getMoviesByMovieId().getTmdbId()), wantList.getMoviesByMovieId().getMovieName(), wantList.getMoviesByMovieId().getPosterPath(), wantList.getMoviesByMovieId().getReleaseDate());
             wantResults.add(result);
         }
         return wantResults;
     }
 
     @Override
-    public BooleanDTO addFavourite(int userid, int movieId) {
+    public BooleanDTO addWant(int userid, int movieId) {
         try {
             List<WanttowatchEntity> favsEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
-            for(WanttowatchEntity favList : favsEntitiesList){
-                if(favList.getMoviesByMovieId().getMovieId() == movieId)
+            for (WanttowatchEntity favList : favsEntitiesList) {
+                if (favList.getMoviesByMovieId().getMovieId() == movieId)
                     return new BooleanDTO(false);
             }
             return wantDao.addFavourite(userid, movieId);
@@ -49,7 +49,7 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     }
 
     @Override
-    public BooleanDTO deleteFavourite(int userid, int movieId) {
-        return wantDao.deleteFavourite(userid,movieId);
+    public BooleanDTO deleteWant(int userid, int movieId) {
+        return wantDao.deleteFavourite(userid, movieId);
     }
 }

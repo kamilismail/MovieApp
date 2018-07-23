@@ -4,6 +4,7 @@ import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
+import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.RatingRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
@@ -30,6 +31,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     RatingRepository ratingRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
 
     @Override
     public MovieResultsPage getMovies(String production) throws IOException {
@@ -70,14 +74,20 @@ public class SearchServiceImpl implements SearchService {
         } catch (FilmwebException e) {
             e.printStackTrace();
         }
-        if (broadcasts.isEmpty()) {
-            return (new GetMovieDTO(tmdbResult));
+
+        List<RatingsEntity> ratingsEntity = ratingRepository.findRatingsEntityByUserId(userID);
+        String ratingResult = "";
+        if (ratingsEntity != null) {
+            for (RatingsEntity rate : ratingsEntity) {
+                if (rate.getMoviesByMovieId().getTmdbId() == toIntExact(id)) {
+                    ratingResult = rate.getRating();
+                }
+            }
         }
 
-        RatingsEntity ratingsEntity = ratingRepository.findRatingsEntityByUserId(userID);
-        String ratingResult = "";
-        if (ratingsEntity != null)
-            ratingResult = ratingsEntity.getRating();
+        if (broadcasts.isEmpty()) {
+            return (new GetMovieDTO(tmdbResult, ratingResult));
+        }
 
         return (new GetMovieDTO(tmdbResult, broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(), chanel, filmResult.getId().toString(), ratingResult));
     }

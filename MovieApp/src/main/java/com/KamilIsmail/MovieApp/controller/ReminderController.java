@@ -1,10 +1,10 @@
 package com.KamilIsmail.MovieApp.controller;
 
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
-import com.KamilIsmail.MovieApp.DTO.DiscoverMovieDTO;
+import com.KamilIsmail.MovieApp.DTO.ReminderDTO;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
 import com.KamilIsmail.MovieApp.repository.UserRepository;
-import com.KamilIsmail.MovieApp.service.FavouritesService;
+import com.KamilIsmail.MovieApp.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -15,32 +15,32 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("favourite/")
-public class FavouriteController {
+@RequestMapping("reminder/")
+public class ReminderController {
 
     @Autowired
-    FavouritesService favService;
+    ReminderService reminderService;
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("getFavourites")
-    public List<DiscoverMovieDTO> getFavourites(Principal principal) throws IOException {
+    @GetMapping("getReminders")
+    public List<ReminderDTO> getReminders(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return favService.getFavourites((int) userEntity.getUserId());
+        return reminderService.getReminders((int) userEntity.getUserId());
     }
 
-    @PostMapping("addFavourite")
-    public BooleanDTO addFavourite(@RequestParam("movieID") int movieId, Principal principal) {
+    @PostMapping("addReminder")
+    public BooleanDTO addReminder(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return favService.addFavourite((int) userEntity.getUserId(), movieId);
+        return reminderService.addReminder((int) userEntity.getUserId(), movieId);
     }
 
-    @DeleteMapping("deleteFavourite")
-    public BooleanDTO deleteFavourite(@RequestParam("movieID") int movieID, Principal principal) {
+    @DeleteMapping("deleteReminder")
+    public BooleanDTO deleteReminder(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return favService.deleteFavourite((int) userEntity.getUserId(), movieID);
+        return reminderService.deleteReminder((int) userEntity.getUserId(), movieID);
     }
 }

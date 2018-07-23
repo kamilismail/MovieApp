@@ -69,8 +69,8 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
     @Override
     public BooleanDTO deleteFavourite(int userId, int pubId) {
         List<WanttowatchEntity> favsEntitiesList = wantRepository.findWanttowatchEntityByUserId(userId);
-        for(WanttowatchEntity favList : favsEntitiesList){
-            if(favList.getMoviesByMovieId().getTmdbId() == pubId) {
+        for (WanttowatchEntity favList : favsEntitiesList) {
+            if (favList.getMoviesByMovieId().getTmdbId() == pubId) {
                 wantRepository.delete(favList);
                 return new BooleanDTO(true);
             }

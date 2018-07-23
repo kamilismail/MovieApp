@@ -40,6 +40,36 @@ public class RemindersEntity {
         this.data = data;
     }
 
+    @Basic
+    @Column(name = "userid", insertable = false, updatable = false)
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "movieid", insertable = false, updatable = false)
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    @Basic
+    @Column(name = "tvstationid", insertable = false, updatable = false)
+    public int getTvstationId() {
+        return tvstationId;
+    }
+
+    public void setTvstationId(int tvstationId) {
+        this.tvstationId = tvstationId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,7 +89,7 @@ public class RemindersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
     public UserEntity getUserByUserId() {
         return userByUserId;
     }
@@ -69,7 +99,7 @@ public class RemindersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "movieid", referencedColumnName = "movieid", insertable = false, updatable = false)
+    @JoinColumn(name = "movieid", referencedColumnName = "movieid")
     public MoviesEntity getMoviesByMovieId() {
         return moviesByMovieId;
     }
@@ -79,7 +109,7 @@ public class RemindersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "tvstationid", referencedColumnName = "tvstationid", insertable = false, updatable = false)
+    @JoinColumn(name = "tvstationid", referencedColumnName = "tvstationid")
     public TvstationsEntity getTvstationsByTvstationId() {
         return tvstationsByTvstationId;
     }

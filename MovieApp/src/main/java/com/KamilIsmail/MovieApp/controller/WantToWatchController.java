@@ -23,23 +23,23 @@ public class WantToWatchController {
     UserRepository userRepository;
 
     @GetMapping("getWants")
-    public List<DiscoverMovieDTO> getFavourites(Principal principal) throws IOException {
+    public List<DiscoverMovieDTO> getWants(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.getFavourites((int) userEntity.getUserId());
+        return wantService.getWants((int) userEntity.getUserId());
     }
 
     @PostMapping("addWant")
-    public BooleanDTO addFavourite(@RequestParam("movieID") int movieId, Principal principal){
+    public BooleanDTO addWant(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.addFavourite((int) userEntity.getUserId(), movieId);
+        return wantService.addWant((int) userEntity.getUserId(), movieId);
     }
 
     @DeleteMapping("deleteWant")
-    public BooleanDTO deleteFavourite(@RequestParam("movieID") int movieID, Principal principal){
+    public BooleanDTO deleteWant(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.deleteFavourite((int) userEntity.getUserId(), movieID);
+        return wantService.deleteWant((int) userEntity.getUserId(), movieID);
     }
 }

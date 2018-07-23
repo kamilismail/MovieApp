@@ -19,6 +19,7 @@ public class MoviesEntity {
     private Collection<FavouritesEntity> favouritesByMovieId;
     private Collection<RemindersEntity> remindersByMovieId;
     private Collection<WanttowatchEntity> wanttowatchesByMovieId;
+    private Collection<RatingsEntity> ratingsByMovieId;
 
     @Id
     @GeneratedValue(generator = "seq2")
@@ -125,5 +126,14 @@ public class MoviesEntity {
 
     public void setWanttowatchesByMovieId(Collection<WanttowatchEntity> wanttowatchesByMovieId) {
         this.wanttowatchesByMovieId = wanttowatchesByMovieId;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "moviesByMovieId")
+    public Collection<RatingsEntity> getRatingsByMovieId() {
+        return ratingsByMovieId;
+    }
+
+    public void setRatingsByMovieId(Collection<RatingsEntity> ratingsByMovieId) {
+        this.ratingsByMovieId = ratingsByMovieId;
     }
 }

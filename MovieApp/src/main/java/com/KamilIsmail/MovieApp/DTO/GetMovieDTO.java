@@ -31,13 +31,13 @@ public class GetMovieDTO {
         this.userRating = userRating;
     }
 
-    public GetMovieDTO(MovieDb result) {
+    public GetMovieDTO(MovieDb result, String userRating) {
         this.result = result;
         this.date = "";
         this.hour = "";
         this.chanel = "";
         this.filmID = "";
-        this.userRating = "";
+        this.userRating = userRating;
     }
 
     public MovieDb getResult() {

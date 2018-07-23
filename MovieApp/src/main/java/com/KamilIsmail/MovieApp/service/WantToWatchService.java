@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface WantToWatchService {
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    List<DiscoverMovieDTO> getFavourites(int userId) throws IOException;
+    List<DiscoverMovieDTO> getWants(int userId) throws IOException;
+
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    BooleanDTO addFavourite(int userId, int movieID);
+    BooleanDTO addWant(int userId, int movieID);
+
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    BooleanDTO deleteFavourite(int userId, int movieID);
+    BooleanDTO deleteWant(int userId, int movieID);
 }

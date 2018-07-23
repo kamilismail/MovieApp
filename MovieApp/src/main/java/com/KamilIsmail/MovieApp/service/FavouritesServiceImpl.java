@@ -26,8 +26,8 @@ public class FavouritesServiceImpl implements FavouritesService {
         List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
         List<DiscoverMovieDTO> favResults = new ArrayList<>();
 
-        for(FavouritesEntity favList : favsEntitiesList){
-            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(favList.getMoviesByMovieId().getTmdbId()),favList.getMoviesByMovieId().getMovieName(), favList.getMoviesByMovieId().getPosterPath(),favList.getMoviesByMovieId().getReleaseDate());
+        for (FavouritesEntity favList : favsEntitiesList) {
+            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(favList.getMoviesByMovieId().getTmdbId()), favList.getMoviesByMovieId().getMovieName(), favList.getMoviesByMovieId().getPosterPath(), favList.getMoviesByMovieId().getReleaseDate());
             favResults.add(result);
         }
         return favResults;
@@ -37,8 +37,8 @@ public class FavouritesServiceImpl implements FavouritesService {
     public BooleanDTO addFavourite(int userid, int movieId) {
         try {
             List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
-            for(FavouritesEntity favList : favsEntitiesList){
-                if(favList.getMoviesByMovieId().getMovieId() == movieId)
+            for (FavouritesEntity favList : favsEntitiesList) {
+                if (favList.getMoviesByMovieId().getTmdbId() == movieId)
                     return new BooleanDTO(false);
             }
             return favsDao.addFavourite(userid, movieId);
@@ -50,7 +50,7 @@ public class FavouritesServiceImpl implements FavouritesService {
 
     @Override
     public BooleanDTO deleteFavourite(int userid, int movieId) {
-        return favsDao.deleteFavourite(userid,movieId);
+        return favsDao.deleteFavourite(userid, movieId);
     }
 
 }

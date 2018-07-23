@@ -7,13 +7,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.IOException;
 import java.util.List;
 
-public interface FavouritesService {
+public interface RatingService {
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    List<DiscoverMovieDTO> getFavourites(int userId) throws IOException;
+    BooleanDTO setRating(int userID, int movieID, int rating) throws IOException;
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    BooleanDTO addFavourite(int userId, int movieID);
-
-    @PreAuthorize("hasAnyAuthority('admin','user')")
-    BooleanDTO deleteFavourite(int userId, int movieID);
+    List<DiscoverMovieDTO> getRatings(int userID) throws IOException;
 }

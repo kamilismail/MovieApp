@@ -2,11 +2,11 @@ package com.KamilIsmail.MovieApp.DAO;
 
 import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
-import com.KamilIsmail.MovieApp.entities.FavouritesEntity;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
+import com.KamilIsmail.MovieApp.entities.RatingsEntity;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
-import com.KamilIsmail.MovieApp.repository.FavouriteRepository;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
+import com.KamilIsmail.MovieApp.repository.RatingRepository;
 import com.KamilIsmail.MovieApp.repository.UserRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -20,10 +20,10 @@ import java.util.List;
 import static java.lang.Math.toIntExact;
 
 @Service
-public class FavouriteDaoImpl implements FavouriteDao {
+public class RatingDaoImpl implements RatingDao {
 
     @Autowired
-    FavouriteRepository favRepository;
+    RatingRepository ratingRepository;
 
     @Autowired
     MovieRepository movieRepository;
@@ -31,11 +31,13 @@ public class FavouriteDaoImpl implements FavouriteDao {
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public BooleanDTO addFavourite(int userId, int movieId) {
-        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
-        UserEntity userEntity = userRepository.findByUserId(userId);
 
+    @Override
+    public BooleanDTO setRating(int userId, int movieId, int rating) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
+
+        //dodanie filmu do tabeli fimów
         if (movieEntity == null) {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
@@ -51,31 +53,32 @@ public class FavouriteDaoImpl implements FavouriteDao {
             movieRepository.save(movieEntity);
         }
 
-        FavouritesEntity favEntity = new FavouritesEntity();
-        favEntity.setMovieId(movieEntity.getMovieId());
-        favEntity.setUserId(userEntity.getUserId());
-        favEntity.setMoviesByMovieId(movieEntity);
-        favEntity.setUserByUserId(userEntity);
-        favRepository.save(favEntity);
-
-        movieEntity.setFavouritesByMovieId(favRepository.findFavouritesEntityByUserId(userId));
-        movieRepository.save(movieEntity);
-
-        userEntity.setFavouritesByUserId(favRepository.findFavouritesEntityByUserId(userId));
-        userRepository.save(userEntity);
-
-        return (new BooleanDTO(true));
-    }
-
-    @Override
-    public BooleanDTO deleteFavourite(int userId, int movieId) {
-        List<FavouritesEntity> favsEntitiesList = favRepository.findFavouritesEntityByUserId(userId);
-        for (FavouritesEntity favList : favsEntitiesList) {
-            if (favList.getMoviesByMovieId().getTmdbId() == movieId) {
-                favRepository.delete(favList);
-                return new BooleanDTO(true);
+        List<RatingsEntity> ratingsEntityList = ratingRepository.findRatingsEntityByUserId(userId);
+        RatingsEntity ratingEntity = null;
+        for (RatingsEntity ratingList : ratingsEntityList) {
+            if (ratingList.getMoviesByMovieId().getTmdbId() == movieId) {
+                ratingEntity = ratingList;
             }
         }
-        return new BooleanDTO(false);
+
+        if (ratingEntity == null) { //utworzenie nowej encji
+            RatingsEntity newRating = new RatingsEntity();
+            newRating.setRating(Integer.toString(rating));
+            newRating.setMovieId(movieId);
+            newRating.setUserId(userId);
+            newRating.setMoviesByMovieId(movieEntity);
+            newRating.setUserByUserId(userEntity);
+            ratingRepository.save(newRating);
+
+            movieEntity.setRatingsByMovieId(ratingRepository.findRatingsEntityByUserId(userId));
+            movieRepository.save(movieEntity);
+
+            userEntity.setRatingsByUserId(ratingRepository.findRatingsEntityByUserId(userId));
+            userRepository.save(userEntity);
+        } else {
+            ratingEntity.setRating(Integer.toString(rating));
+            ratingRepository.save(ratingEntity);
+        }
+        return new BooleanDTO(true);
     }
 }

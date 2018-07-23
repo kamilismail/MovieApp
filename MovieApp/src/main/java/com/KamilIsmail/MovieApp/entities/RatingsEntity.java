@@ -38,13 +38,23 @@ public class RatingsEntity {
     }
 
     @Basic
-    @Column(name = "userid")
+    @Column(name = "userid", insertable = false, updatable = false)
     public long getUserId() {
         return userId;
     }
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "movieid", insertable = false, updatable = false)
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     @Override
@@ -65,7 +75,7 @@ public class RatingsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userid", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
     public UserEntity getUserByUserId() {
         return userByUserId;
     }
@@ -75,7 +85,7 @@ public class RatingsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "movieid", referencedColumnName = "movieid", insertable = false, updatable = false)
+    @JoinColumn(name = "movieid", referencedColumnName = "movieid")
     public MoviesEntity getMoviesByMovieId() {
         return moviesByMovieId;
     }

@@ -4,8 +4,8 @@ import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FavouriteDao {
-    BooleanDTO addFavourite(int userId, int movieId);
+public interface ReminderDao {
+    BooleanDTO addReminder(int userId, int movieId);
 
-    BooleanDTO deleteFavourite(int userId, int movieId);
+    BooleanDTO deleteReminder(int userId, int movieId);
 }
