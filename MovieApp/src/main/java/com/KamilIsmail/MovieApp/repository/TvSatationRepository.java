@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TvSatationRepository extends JpaRepository<TvstationsEntity, Long> {
     List<TvstationsEntity> findTvstationsEntitiesByName(String name);
+    TvstationsEntity findTvstationsEntityByTvstationId(int id);
 }

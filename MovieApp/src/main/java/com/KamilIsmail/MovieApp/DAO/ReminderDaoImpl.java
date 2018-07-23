@@ -51,9 +51,9 @@ public class ReminderDaoImpl implements ReminderDao {
         String stationName = "";
         String logoPath = "";
         String date = "";
-
+        String time = "";
+        Constants constants = new Constants();
         if (movieEntity == null) {
-            Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
             FilmwebApi fa = new FilmwebApi();
@@ -68,7 +68,8 @@ public class ReminderDaoImpl implements ReminderDao {
                         if (tvChannel.getId() == chanelID) {
                             stationName = tvChannel.getName();
                             logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                            date = broadcasts.get(0).getTime().toString();
+                            date = broadcasts.get(0).getDate().toString();
+                            time = broadcasts.get(0).getTime().toString();
                             break;
                         }
                     }
@@ -83,11 +84,35 @@ public class ReminderDaoImpl implements ReminderDao {
             movieEntity.setPosterPath(tmdbResult.getPosterPath());
             movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
             movieRepository.save(movieEntity);
+        } else {
+            TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
+            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+            FilmwebApi fa = new FilmwebApi();
+            FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
+            List<Broadcast> broadcasts = null;
+            try {
+                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
+                if (!broadcasts.isEmpty()) {
+                    Long chanelID = broadcasts.get(0).getChannelId();
+                    List<TVChannel> tvChannels = fa.getTvChannels();
+                    for (TVChannel tvChannel : tvChannels) {
+                        if (tvChannel.getId() == chanelID) {
+                            stationName = tvChannel.getName();
+                            logoPath = tvChannel.getLogo(Size.SMALL).getPath();
+                            date = broadcasts.get(0).getDate().toString();
+                            time = broadcasts.get(0).getTime().toString();
+                            break;
+                        }
+                    }
+                }
+            } catch (FilmwebException e) {
+                e.printStackTrace();
+            }
         }
         TvstationsEntity tvstationsEntity = null;
         List <TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
-        if (stationsList.isEmpty()) {
+        if (stationsList.size() < 1) {
             tvstationsEntity = new TvstationsEntity();
             tvstationsEntity.setName(stationName);
             tvstationsEntity.setLogoPath(logoPath);
@@ -101,8 +126,8 @@ public class ReminderDaoImpl implements ReminderDao {
         remindersEntity.setUserId(userEntity.getUserId());
         Timestamp sqlDate;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-            Date parsedDate = dateFormat.parse(date);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            Date parsedDate = dateFormat.parse(date + ' ' + time);
             sqlDate = new java.sql.Timestamp(parsedDate.getTime());
         } catch(Exception e) {
             return (new BooleanDTO(false));
