@@ -1,6 +1,7 @@
 package com.KamilIsmail.MovieApp.service;
 
 import com.KamilIsmail.MovieApp.DAO.UserDao;
+import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
@@ -48,12 +49,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean changeUserPassword(String username, String password, String newPassword) {
+    public BooleanDTO changeUserPassword(String username, String password, String newPassword) {
         return userDao.changeUserPassword(username, password, newPassword);
     }
 
     @Override
-    public Boolean deleteUser(String username, String password) {
+    public BooleanDTO deleteUser(String username, String password) {
         return userDao.deleteUser(username, password);
     }
 

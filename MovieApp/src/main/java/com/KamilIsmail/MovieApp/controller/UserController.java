@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.controller;
 
+import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.CreateUserParam;
@@ -43,13 +44,13 @@ public class UserController {
     }
 
     @PutMapping("")
-    public Boolean changeUserPassword(@Valid @RequestParam(name = "password") String password, @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
+    public BooleanDTO changeUserPassword(@Valid @RequestParam(name = "password") String password, @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.changeUserPassword(user.getUsername(), password, newPassword);
     }
 
     @DeleteMapping("")
-    public Boolean deleteUser(@Valid @RequestParam(name = "password") String password, Principal principal) {
+    public BooleanDTO deleteUser(@Valid @RequestParam(name = "password") String password, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.deleteUser(user.getUsername(), password);
     }

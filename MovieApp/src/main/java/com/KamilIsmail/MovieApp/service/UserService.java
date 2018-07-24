@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.service;
 
+import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,10 +17,10 @@ public interface UserService {
     UserDTO createUser(String username, String password, String role);
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    Boolean changeUserPassword(String username, String password, String newPassword);
+    BooleanDTO changeUserPassword(String username, String password, String newPassword);
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
-    Boolean deleteUser(String username, String password);
+    BooleanDTO deleteUser(String username, String password);
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
     GetUsernameDTO getUsername(int id);

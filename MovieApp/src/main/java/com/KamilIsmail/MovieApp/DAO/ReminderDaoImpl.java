@@ -110,7 +110,7 @@ public class ReminderDaoImpl implements ReminderDao {
             }
         }
         TvstationsEntity tvstationsEntity = null;
-        List <TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
+        List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
         if (stationsList.size() < 1) {
             tvstationsEntity = new TvstationsEntity();
@@ -129,7 +129,7 @@ public class ReminderDaoImpl implements ReminderDao {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             Date parsedDate = dateFormat.parse(date + ' ' + time);
             sqlDate = new java.sql.Timestamp(parsedDate.getTime());
-        } catch(Exception e) {
+        } catch (Exception e) {
             return (new BooleanDTO(false));
         }
         remindersEntity.setData(sqlDate);

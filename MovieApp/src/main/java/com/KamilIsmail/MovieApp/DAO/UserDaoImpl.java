@@ -1,22 +1,30 @@
 package com.KamilIsmail.MovieApp.DAO;
 
+import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
-import com.KamilIsmail.MovieApp.entities.PhotosEntity;
-import com.KamilIsmail.MovieApp.entities.UserEntity;
-import com.KamilIsmail.MovieApp.repository.PhotoRepository;
-import com.KamilIsmail.MovieApp.repository.UserRepository;
+import com.KamilIsmail.MovieApp.entities.*;
+import com.KamilIsmail.MovieApp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserDaoImpl implements UserDao {
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     PhotoRepository photoRepository;
+    @Autowired
+    RatingRepository ratingRepository;
+    @Autowired
+    WantToWatchRepository wantToWatchRepository;
+    @Autowired
+    FavouriteRepository favouriteRepository;
+    @Autowired
+    ReminderRepository reminderRepository;
 
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(12);
@@ -41,26 +49,45 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Boolean changeUserPassword(String username, String password, String newPassword) {
+    public BooleanDTO changeUserPassword(String username, String password, String newPassword) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         if (pwEncoder.matches(password, userEntity.getPassword())) {
             userEntity.setPassword(hashPassword(newPassword));
             userRepository.save(userEntity);
-            return true;
+            return new BooleanDTO(true);
         } else
-            return false;
+            return new BooleanDTO(false);
     }
 
     @Override
-    public Boolean deleteUser(String username, String password) {
+    public BooleanDTO deleteUser(String username, String password) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         if (pwEncoder.matches(password, userEntity.getPassword())) {
+            PhotosEntity photosEntity = userEntity.getPhotosByPhotoId();
+            photoRepository.delete(photosEntity);
+
+            List<RatingsEntity> ratingsList = ratingRepository.findRatingsEntityByUserId(userEntity.getUserId());
+            for (RatingsEntity rating : ratingsList)
+                ratingRepository.delete(rating);
+
+            List<WanttowatchEntity> wanttowatchList = wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId());
+            for (WanttowatchEntity want : wanttowatchList)
+                wantToWatchRepository.delete(want);
+
+            List<FavouritesEntity> favList = favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId());
+            for (FavouritesEntity favouritesEntity : favList)
+                favouriteRepository.delete(favouritesEntity);
+
+            List<RemindersEntity> remindersEntityList = reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId());
+            for (RemindersEntity remindersEntity : remindersEntityList)
+                reminderRepository.delete(remindersEntity);
+
             userRepository.deleteById(userEntity.getUserId());
-            return true;
+            return new BooleanDTO(true);
         } else
-            return false;
+            return new BooleanDTO(false);
     }
 
     @Override
