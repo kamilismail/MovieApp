@@ -13,6 +13,7 @@ public class UserEntity {
     private int userId;
     private String username;
     private String password;
+    private String notificationId;
     private int photoId;
     private String role;
     private PhotosEntity photosByPhotoId;
@@ -62,6 +63,16 @@ public class UserEntity {
         this.password = password;
     }
 
+    @Basic
+    @Column(name = "notificationid")
+    public String getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(String notificationId) {
+        this.notificationId = notificationId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,13 +82,14 @@ public class UserEntity {
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(role, that.role) &&
+                Objects.equals(notificationId, that.notificationId) &&
                 Objects.equals(photoId, that.photoId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId, username, password, photoId);
+        return Objects.hash(userId, username, password, photoId, notificationId);
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserId")

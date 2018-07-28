@@ -116,7 +116,6 @@ public class ReminderDaoImpl implements ReminderDao {
             tvstationsEntity = new TvstationsEntity();
             tvstationsEntity.setName(stationName);
             tvstationsEntity.setLogoPath(logoPath);
-            //tvstationsEntity.setRemindersByTvstationId();
             tvSatationRepository.save(tvstationsEntity);
         } else {
             tvstationsEntity = stationsList.get(0);
@@ -157,5 +156,52 @@ public class ReminderDaoImpl implements ReminderDao {
             }
         }
         return new BooleanDTO(false);
+    }
+
+    @Override
+    public BooleanDTO changeReminder(int tvStationId, int reminderId, int movieId) {
+        RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByReminderId(reminderId);
+        TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(tvStationId);
+        FilmwebApi fa = new FilmwebApi();
+        String stationName = "";
+        String logoPath = "";
+        String date = "";
+        String time = "";
+        try {
+            List<Broadcast> broadcasts = fa.getBroadcasts((long) movieId, 0, 20);
+            if (!broadcasts.isEmpty()) {
+                Long chanelID = broadcasts.get(0).getChannelId();
+                List<TVChannel> tvChannels = fa.getTvChannels();
+                for (TVChannel tvChannel : tvChannels) {
+                    if (tvChannel.getId() == chanelID) {
+                        stationName = tvChannel.getName();
+                        logoPath = tvChannel.getLogo(Size.SMALL).getPath();
+                        date = broadcasts.get(0).getDate().toString();
+                        time = broadcasts.get(0).getTime().toString();
+                        break;
+                    }
+                }
+            }
+        } catch (FilmwebException e) {
+            return (new BooleanDTO(false));
+        }
+
+        Timestamp sqlDate;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            Date parsedDate = dateFormat.parse(date + ' ' + time);
+            sqlDate = new java.sql.Timestamp(parsedDate.getTime());
+        } catch (Exception e) {
+            return (new BooleanDTO(false));
+        }
+
+        remindersEntity.setData(sqlDate);
+        reminderRepository.save(remindersEntity);
+
+        tvstationsEntity.setName(stationName);
+        tvstationsEntity.setLogoPath(logoPath);
+        tvSatationRepository.save(tvstationsEntity);
+
+        return new BooleanDTO(true);
     }
 }

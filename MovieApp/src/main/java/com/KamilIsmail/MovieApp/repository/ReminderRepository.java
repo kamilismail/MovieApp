@@ -12,4 +12,6 @@ public interface ReminderRepository extends JpaRepository<RemindersEntity, Long>
     List<RemindersEntity> findRemindersEntitiesByMovieId(int movieId);
 
     List<RemindersEntity> findRemindersEntitiesByTvstationId(int stationId);
+
+    RemindersEntity findRemindersEntityByReminderId(int reminderId);
 }

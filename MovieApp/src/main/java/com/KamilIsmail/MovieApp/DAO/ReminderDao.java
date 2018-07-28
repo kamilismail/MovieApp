@@ -8,4 +8,6 @@ public interface ReminderDao {
     BooleanDTO addReminder(int userId, int movieId);
 
     BooleanDTO deleteReminder(int userId, int movieId);
+
+    BooleanDTO changeReminder(int tvStationId, int reminderId, int movieId);
 }
