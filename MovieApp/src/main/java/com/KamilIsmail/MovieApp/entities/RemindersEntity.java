@@ -14,6 +14,7 @@ public class RemindersEntity {
     private Integer userId;
     private Integer movieId;
     private Integer tvstationId;
+    private Boolean reminded;
     private Timestamp data;
     private UserEntity userByUserId;
     private MoviesEntity moviesByMovieId;
@@ -70,6 +71,16 @@ public class RemindersEntity {
         this.tvstationId = tvstationId;
     }
 
+    @Basic
+    @Column(name = "reminded")
+    public Boolean getReminded() {
+        return reminded;
+    }
+
+    public void setReminded(Boolean reminded) {
+        this.reminded = reminded;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,13 +90,14 @@ public class RemindersEntity {
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(movieId, that.movieId) &&
                 Objects.equals(tvstationId, that.tvstationId) &&
+                Objects.equals(reminded, that.reminded) &&
                 Objects.equals(data, that.data);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(reminderId, userId, movieId, tvstationId, data);
+        return Objects.hash(reminderId, userId, movieId, tvstationId, data, reminded);
     }
 
     @ManyToOne

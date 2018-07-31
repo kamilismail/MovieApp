@@ -46,14 +46,13 @@ public class RemindersScheduler {
             try {
                 Date parsedDate = dateFormat.parse(dateFormat.format(new Date()));
                 Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-                if (remindersEntity.getData().after(timestamp)) { //usuwanie powiadomienia, które już było
+                if (remindersEntity.getData().after(timestamp) && remindersEntity.getReminded()) { //usuwanie powiadomienia, które już było
                     log.info("Removing past reminders: " + dateFormat.format(new Date()), dateFormat.format(new Date()));
                     reminderDao.deleteReminder(remindersEntity.getUserId(), remindersEntity.getMovieId());
                     log.info("Removed past reminders: " + dateFormat.format(new Date()), dateFormat.format(new Date()));
                 }
             } catch (Exception e) {
             }
-
         }
         remindersEntityList = reminderRepository.findAll();
         Date parsedDate = null;
@@ -65,7 +64,7 @@ public class RemindersScheduler {
             parsedDate = dateFormat.parse(dateFormat.format(data));
             Timestamp timestamp2 = new java.sql.Timestamp(parsedDate.getTime()); //data zwiększona o godzinę
             for (RemindersEntity remindersEntity : remindersEntityList) {
-                if (remindersEntity.getData().after(timestamp) && remindersEntity.getData().before(timestamp2)) {
+                if (remindersEntity.getData().after(timestamp) && remindersEntity.getData().before(timestamp2) && !remindersEntity.getReminded()) {
                     log.info("Sending reminder: " + dateFormat.format(new Date()), dateFormat.format(new Date()));
                     //TODO - wysyłanie powiadomień do użytkowników
                     UserEntity userEntity = userRepository.findByUserId(remindersEntity.getUserId());
