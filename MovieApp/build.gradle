@@ -32,7 +32,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
-
+	compile ('org.json:json:20171018')
 	compile group: 'info.movito', name: 'themoviedbapi', version:'1.7'
 
 	runtime('org.springframework.boot:spring-boot-devtools')

@@ -9,6 +9,7 @@ import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
 import info.talacha.filmweb.api.FilmwebApi;
 import info.talacha.filmweb.connection.FilmwebException;
 import info.talacha.filmweb.models.Broadcast;
+import info.talacha.filmweb.models.Program;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
