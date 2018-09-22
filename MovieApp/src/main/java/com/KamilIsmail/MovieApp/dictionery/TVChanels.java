@@ -14,9 +14,9 @@ public class TVChanels {
         list.add("TVP 2 HD");
         list.add("TVN HD");
         list.add("POLSAT HD");
-        list.add("TV PULS HD");
+        list.add("TV Puls HD");
         list.add("TV 4 HD");
-        list.add("TVN Fabula HD");
+        //list.add("TVN Fabula HD");
         //list.add("HBO HD");
         //list.add("HBO2 HD");
         //list.add("HBO3 HD");
@@ -24,12 +24,16 @@ public class TVChanels {
         //list.add("CANAL+ 1 HD");
         list.add("Kino TV");
         list.add("Comedy Central HD");
+        list.add("Comedy Central Family");
         list.add("Paramount Channel HD");
         list.add("AXN HD");
         list.add("Stopklatka TV HD");
         list.add("Polsat Film HD");
         list.add("TVN FABUŁA HD");
         list.add("TVN 7 HD");
+        list.add("FOX HD");
+        list.add("Ale Kino+ HD");
+        list.add("CBS Europa");
 
         showType.add("serial");
         showType.add("reality show");
@@ -38,6 +42,9 @@ public class TVChanels {
         showType.add("magazyn");
         showType.add("widowisko");
         showType.add("telenowela");
+        showType.add("sport");
+        showType.add("felieton");
+        showType.add("koncert");
     }
 
     public Boolean ifContains(String channel) {

@@ -65,11 +65,11 @@ public class ParseTVGuide {
      * @param list
      * @return
      */
-    private List<MovieBean> getBestMovies(List<MovieBean> list) {
+    private List<MovieBean> getWorstMovies(List<MovieBean> list) {
         Collections.sort(list, new Comparator<MovieBean>() {
             public int compare(MovieBean movie1, MovieBean movie2) {
-                Float rate1 = new Float(movie1.getRating());
-                Float rate2 = new Float(movie2.getRating());
+                Float rate1 = movie1.getRating();
+                Float rate2 = movie2.getRating();
                 return rate1.compareTo(rate2);
             }
         });
@@ -81,11 +81,11 @@ public class ParseTVGuide {
      * @param list
      * @return
      */
-    private List<MovieBean> getWorstMovies(List<MovieBean> list) {
+    private List<MovieBean> getBestMovies(List<MovieBean> list) {
         Collections.sort(list, new Comparator<MovieBean>() {
             public int compare(MovieBean movie1, MovieBean movie2) {
-                Float rate1 = new Float(movie1.getRating());
-                Float rate2 = new Float(movie2.getRating());
+                Float rate1 = movie1.getRating();
+                Float rate2 = movie2.getRating();
                 return rate2.compareTo(rate1);
             }
         });
@@ -127,8 +127,9 @@ public class ParseTVGuide {
             }
         }
         movieBean.parseYear();
-        movieBean.setFilmwebRating();
-        return movieBean;
+        if (movieBean.setFilmwebRating())
+            return movieBean;
+        else return null;
     }
 
     /**
