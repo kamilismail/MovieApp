@@ -103,6 +103,14 @@ public class MovieBean {
                 + this.rating +"\n description: " + this.description;
     }
 
+    public MovieDb getMovieDb() {
+        return movieDb;
+    }
+
+    public void setMovieDb(MovieDb movieDb) {
+        this.movieDb = movieDb;
+    }
+
     public Date getDate() {
         return date;
     }

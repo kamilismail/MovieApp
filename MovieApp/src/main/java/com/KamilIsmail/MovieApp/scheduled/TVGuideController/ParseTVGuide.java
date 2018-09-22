@@ -1,10 +1,12 @@
 package com.KamilIsmail.MovieApp.scheduled.TVGuideController;
 
+import com.KamilIsmail.MovieApp.DAO.TVGuideDao;
 import com.KamilIsmail.MovieApp.dictionery.TVChanels;
 import com.KamilIsmail.MovieApp.scheduled.TVGuideBean.MovieBean;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,17 +30,20 @@ public class ParseTVGuide {
     private Logger log = LoggerFactory.getLogger(ParseTVGuide.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); //20180916000500
 
+    @Autowired
+    TVGuideDao tvGuideDao;
+
     /**
      * Przetworzenie pobranego pliku xml zawierającego program telewizyjny.
      */
-    public void run() {
+    public Boolean run() {
         try {
             File file = new File("/Users/kamilismail/Downloads/guide.xml");
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = documentBuilder.parse(file);
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("programme");
-            List<MovieBean> movieBeanList = new ArrayList<>();
+            ArrayList<MovieBean> movieBeanList = new ArrayList<>();
             TVChanels tvChanels = new TVChanels();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 MovieBean temp = getMovie(nodeList.item(i), tvChanels);
@@ -47,17 +52,18 @@ public class ParseTVGuide {
                     log.info("\nADDED NEW MOVIE: " + temp.toString());
                 }
             }
-            List<MovieBean> movieBeanListTemp = movieBeanList;
             movieBeanList = getBestMovies(movieBeanList);
-            movieBeanListTemp = getWorstMovies(movieBeanListTemp);
-
+            for (MovieBean movieBean : movieBeanList) {
+                tvGuideDao.addTVGuide(movieBean);
+            }
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            return false;
         } catch (SAXException e) {
-            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -65,7 +71,7 @@ public class ParseTVGuide {
      * @param list
      * @return
      */
-    private List<MovieBean> getWorstMovies(List<MovieBean> list) {
+    private ArrayList<MovieBean> getWorstMovies(ArrayList<MovieBean> list) {
         Collections.sort(list, new Comparator<MovieBean>() {
             public int compare(MovieBean movie1, MovieBean movie2) {
                 Float rate1 = movie1.getRating();
@@ -81,7 +87,7 @@ public class ParseTVGuide {
      * @param list
      * @return
      */
-    private List<MovieBean> getBestMovies(List<MovieBean> list) {
+    private ArrayList<MovieBean> getBestMovies(ArrayList<MovieBean> list) {
         Collections.sort(list, new Comparator<MovieBean>() {
             public int compare(MovieBean movie1, MovieBean movie2) {
                 Float rate1 = movie1.getRating();
