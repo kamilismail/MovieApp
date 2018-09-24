@@ -34,6 +34,7 @@ public class TVChanels {
         list.add("FOX HD");
         list.add("Ale Kino+ HD");
         list.add("CBS Europa");
+        list.add("Metro TV HD");
 
         showType.add("serial");
         showType.add("reality show");

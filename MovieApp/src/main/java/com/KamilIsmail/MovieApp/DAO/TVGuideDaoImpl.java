@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.DAO;
 
+import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
@@ -17,7 +18,6 @@ import info.talacha.filmweb.search.models.FilmSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import static java.lang.Math.toIntExact;
@@ -35,33 +35,25 @@ public class TVGuideDaoImpl implements TVGuideDao {
     @Override
     public BooleanDTO addTVGuide(MovieBean movieBean) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieBean.getMovieDb().getId());
-        FilmwebApi fa = new FilmwebApi();
+        String stationName = "";
+        String logoPath = "";
+        String date = "";
+        String time = "";
         if (movieEntity == null) {
-
+            FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(movieBean.getMovieDb().getTitle(), Integer.parseInt(movieBean.getMovieDb().getReleaseDate().substring(0, 4))).get(0);
-            movieEntity = new MoviesEntity();
-            movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
-            movieEntity.setTmdbId(movieBean.getMovieDb().getId());
-            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(movieBean.getMovieDb().getPosterPath());
-            movieEntity.setReleaseDate(movieBean.getMovieDb().getReleaseDate());
-            movieRepository.save(movieEntity);
-        }
-        List <TvstationsEntity> tvstationsEntityList = tvSatationRepository.findTvstationsEntitiesByName(movieBean.getChanel());
-        TvstationsEntity tvstationsEntity;
-        if (tvstationsEntityList.size() < 1) {
-            tvstationsEntity = new TvstationsEntity();
             List<Broadcast> broadcasts = null;
             try {
-                broadcasts = fa.getBroadcasts(movieEntity.getFilmwebId().longValue(), 0, 20);
+                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
                 if (!broadcasts.isEmpty()) {
                     Long chanelID = broadcasts.get(0).getChannelId();
                     List<TVChannel> tvChannels = fa.getTvChannels();
                     for (TVChannel tvChannel : tvChannels) {
                         if (tvChannel.getId() == chanelID) {
-                            tvstationsEntity.setName(tvChannel.getName());
-                            tvstationsEntity.setLogoPath(tvChannel.getLogo(Size.SMALL).getPath());
-                            tvSatationRepository.save(tvstationsEntity);
+                            stationName = tvChannel.getName();
+                            logoPath = tvChannel.getLogo(Size.SMALL).getPath();
+                            date = broadcasts.get(0).getDate().toString();
+                            time = broadcasts.get(0).getTime().toString();
                             break;
                         }
                     }
@@ -69,16 +61,64 @@ public class TVGuideDaoImpl implements TVGuideDao {
             } catch (FilmwebException e) {
                 e.printStackTrace();
             }
-        } else
-            tvstationsEntity = tvstationsEntityList.get(0);
+            movieEntity = new MoviesEntity();
+            movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
+            movieEntity.setTmdbId(movieBean.getMovieDb().getId());
+            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
+            movieEntity.setPosterPath(movieBean.getMovieDb().getPosterPath());
+            movieEntity.setReleaseDate(movieBean.getMovieDb().getReleaseDate());
+            movieRepository.save(movieEntity);
+        } else {
+            FilmwebApi fa = new FilmwebApi();
+            FilmSearchResult filmResult = fa.findFilm(movieBean.getMovieDb().getTitle(), Integer.parseInt(movieBean.getMovieDb().getReleaseDate().substring(0, 4))).get(0);
+            List<Broadcast> broadcasts = null;
+            try {
+                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
+                if (!broadcasts.isEmpty()) {
+                    Long chanelID = broadcasts.get(0).getChannelId();
+                    List<TVChannel> tvChannels = fa.getTvChannels();
+                    for (TVChannel tvChannel : tvChannels) {
+                        if (tvChannel.getId() == chanelID) {
+                            stationName = tvChannel.getName();
+                            logoPath = tvChannel.getLogo(Size.SMALL).getPath();
+                            date = broadcasts.get(0).getDate().toString();
+                            time = broadcasts.get(0).getTime().toString();
+                            break;
+                        }
+                    }
+                }
+            } catch (FilmwebException e) {
+                e.printStackTrace();
+            }
+        }
+        TvstationsEntity tvstationsEntity = null;
+        List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
+        if (stationsList.size() < 1) {
+            tvstationsEntity = new TvstationsEntity();
+            tvstationsEntity.setName(stationName);
+            tvstationsEntity.setLogoPath(logoPath);
+            tvSatationRepository.save(tvstationsEntity);
+        } else {
+            tvstationsEntity = stationsList.get(0);
+        }
         TVGuideEntity tvGuideEntity = new TVGuideEntity();
-        tvGuideEntity.setDate(movieBean.parseDateToTimestamp());
         tvGuideEntity.setMovieId(movieEntity.getMovieId());
-        tvGuideEntity.setMoviesByMovieId(movieEntity);
+        tvGuideEntity.setDate(movieBean.parseDateToTimestamp());
         tvGuideEntity.setTvstationId(tvstationsEntity.getTvstationId());
+        tvGuideEntity.setMoviesByMovieId(movieEntity);
         tvGuideEntity.setTvstationsByTvstationId(tvstationsEntity);
         tvGuideRepository.save(tvGuideEntity);
+
         return (new BooleanDTO(true));
+    }
+
+    @Override
+    public boolean deleteTVGuide() {
+        List<TVGuideEntity> tvGuideEntityList = tvGuideRepository.findAll();
+        for (TVGuideEntity tvGuideEntity : tvGuideEntityList) {
+                tvGuideRepository.delete(tvGuideEntity);
+            }
+        return true;
     }
 }

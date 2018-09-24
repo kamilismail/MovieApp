@@ -7,6 +7,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,20 +31,18 @@ public class ParseTVGuide {
     private Logger log = LoggerFactory.getLogger(ParseTVGuide.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); //20180916000500
 
-    @Autowired
-    TVGuideDao tvGuideDao;
-
     /**
      * Przetworzenie pobranego pliku xml zawierającego program telewizyjny.
      */
-    public Boolean run() {
+    public ArrayList<MovieBean> run() {
+        ArrayList<MovieBean> movieBeanList = null;
         try {
             File file = new File("/Users/kamilismail/Downloads/guide.xml");
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = documentBuilder.parse(file);
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("programme");
-            ArrayList<MovieBean> movieBeanList = new ArrayList<>();
+            movieBeanList = new ArrayList<>();
             TVChanels tvChanels = new TVChanels();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 MovieBean temp = getMovie(nodeList.item(i), tvChanels);
@@ -52,18 +51,14 @@ public class ParseTVGuide {
                     log.info("\nADDED NEW MOVIE: " + temp.toString());
                 }
             }
-            movieBeanList = getBestMovies(movieBeanList);
-            for (MovieBean movieBean : movieBeanList) {
-                tvGuideDao.addTVGuide(movieBean);
-            }
+            return getBestMovies(movieBeanList);
         } catch (ParserConfigurationException e) {
-            return false;
+            return null;
         } catch (SAXException e) {
-            return false;
+            return null;
         } catch (IOException e) {
-            return false;
+            return null;
         }
-        return true;
     }
 
     /**

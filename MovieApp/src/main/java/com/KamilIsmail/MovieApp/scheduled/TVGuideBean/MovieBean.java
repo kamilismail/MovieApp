@@ -23,6 +23,7 @@ public class MovieBean {
     private String PREMIERA = "Premiera: ";
     private String MOCNEKINO = "Mocne sobotnie kino: ";
     private String GWIAZDY = "Niedziela z gwiazdami: ";
+    private String MEGAHIT = "Megahit: ";
 
     public MovieBean(Date date, String chanel, String title, String description) {
         this.date = date;
@@ -35,6 +36,8 @@ public class MovieBean {
             this.title = title.substring(MOCNEKINO.length(),title.length());
         else if(title.contains(GWIAZDY))
             this.title = title.substring(GWIAZDY.length(),title.length());
+        else if(title.contains(MEGAHIT))
+            this.title = title.substring(MEGAHIT.length(),title.length());
         else
             this.title = title;
 
@@ -75,6 +78,10 @@ public class MovieBean {
                         return popularity2.compareTo(popularity1);
                     }
                 });
+                for (MovieDb movieDb : movieResultsPage) {
+                    if (!movieDb.getReleaseDate().contains(Integer.toString(productionYear)))
+                        movieResultsPage.remove(movieDb);
+                }
             }
             this.movieDb = movieResultsPage.get(0);
             setWeightedRating(movieDb.getVoteAverage(), movieDb.getPopularity(), movieDb.getVoteCount());

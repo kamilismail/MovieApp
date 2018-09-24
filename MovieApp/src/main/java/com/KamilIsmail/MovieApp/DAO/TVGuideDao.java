@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TVGuideDao {
     BooleanDTO addTVGuide(MovieBean movieBean);
+    boolean deleteTVGuide();
 }

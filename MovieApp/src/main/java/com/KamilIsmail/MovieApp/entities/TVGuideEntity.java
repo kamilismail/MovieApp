@@ -30,7 +30,7 @@ public class TVGuideEntity {
     }
 
     @Basic
-    @Column(name = "movieid")
+    @Column(name = "movieid", insertable = false, updatable = false)
     public Integer getMovieId() {
         return movieId;
     }
@@ -40,7 +40,7 @@ public class TVGuideEntity {
     }
 
     @Basic
-    @Column(name = "tvstationid")
+    @Column(name = "tvstationid", insertable = false, updatable = false)
     public Integer getTvstationId() {
         return tvstationId;
     }
