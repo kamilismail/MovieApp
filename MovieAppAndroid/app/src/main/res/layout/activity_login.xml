@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".Activities.LoginActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <!--ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/app_wallpaper"
+        android:scaleType="centerCrop"
+        /-->
+
+    <TextView
+        android:id="@+id/tLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="320dp"
+        android:text="Login"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id = "@+id/eLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="270dp"
+        />
+
+    <EditText
+        android:id = "@+id/ePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="200dp"
+        />
+
+    <Button style = "@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="150dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginBottom="100dp"
+        android:text="@string/Log_in"
+        android:id="@+id/bLogin"
+        android:backgroundTint="#2196f3"
+        android:textColor="@android:color/white"
+        />
+
+    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/Sign_up"
+        android:clickable="true"
+        android:id="@+id/tSignUp"
+        android:textColor="#2196f3"
+        />
+
+    <ProgressBar
+        android:id="@+id/mProgressBarProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

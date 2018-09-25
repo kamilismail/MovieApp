@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.kamilismail.movieappandroid.R;
 
-public class BaseActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(R.layout.activity_signup);
     }
 }
