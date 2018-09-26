@@ -3,5 +3,4 @@
     <string name="Log_in">Log in</string>
     <string name="Sign_up">No account? Sign up!</string>
     <string name="EmptyField">This field cannot be empty</string>
-    <string name="serverName">serverName</string>
 </resources>

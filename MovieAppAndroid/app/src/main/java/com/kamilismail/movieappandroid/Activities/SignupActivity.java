@@ -1,4 +1,4 @@
-package com.kamilismail.movieappandroid.Activities;
+package com.kamilismail.movieappandroid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

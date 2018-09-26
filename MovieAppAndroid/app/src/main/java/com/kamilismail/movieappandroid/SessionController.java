@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.kamilismail.movieappandroid.Activities.LoginActivity;
+import com.kamilismail.movieappandroid.activities.LoginActivity;
 
 public class SessionController {
     // Shared Preferences
@@ -87,14 +87,5 @@ public class SessionController {
     // Get Login State
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
-    }
-
-    public boolean isPubLoggedIn() {
-        return pref.getBoolean(PUB_LOGIN, false);
-    }
-
-    public void setPubLogin() {
-        editor.putBoolean(PUB_LOGIN, true);
-        editor.commit();
     }
 }

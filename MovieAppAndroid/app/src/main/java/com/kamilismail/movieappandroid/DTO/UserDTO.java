@@ -1,27 +1,35 @@
 package com.kamilismail.movieappandroid.DTO;
 
-import com.kamilismail.movieappandroid.Enum.Role;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class UserDTO {
-    private String login;
-    private int id;
-    private Role role;
 
-    public UserDTO(String _login, int _id, Role _role) {
-        this.login = _login;
-        this.id = _id;
-        this.role = _role;
+    @SerializedName("username")
+    @Expose
+    private String username;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public UserDTO() {
     }
 
-    public Role getRole() {
-        return this.role;
+    /**
+     *
+     * @param username
+     */
+    public UserDTO(String username) {
+        super();
+        this.username = username;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public int getId() {
-        return id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
