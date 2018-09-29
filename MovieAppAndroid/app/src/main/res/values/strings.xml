@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">MovieAppAndroid</string>
+    <string name="app_name">Movie Time!</string>
     <string name="Log_in">Log in</string>
     <string name="Sign_up">No account? Sign up!</string>
     <string name="EmptyField">This field cannot be empty</string>
+    <string name="Already_signedup">Already signed up? Sign in!</string>
+    <string name="Register">Sign up</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

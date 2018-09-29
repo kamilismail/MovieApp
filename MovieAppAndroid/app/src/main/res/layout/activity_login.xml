@@ -14,7 +14,7 @@
         android:src="@drawable/web_hi_res_512"
         android:scaleX="1"
         android:scaleY="1"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="420dp"
         />
 
     <TextView
@@ -68,8 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="150dp"
-        android:layout_marginRight="150dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginRight="130dp"
         android:layout_marginBottom="100dp"
         android:text="@string/Log_in"
         android:id="@+id/bLogin"

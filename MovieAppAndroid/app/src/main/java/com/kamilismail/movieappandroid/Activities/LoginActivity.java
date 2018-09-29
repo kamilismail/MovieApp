@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.*;
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
-import com.kamilismail.movieappandroid.connection.Api;
+import com.kamilismail.movieappandroid.connection.ApiUser;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -101,12 +100,13 @@ public class LoginActivity extends AppCompatActivity {
         final String credentials = "Basic " + Base64.encodeToString((login + ":" + password).getBytes(), Base64.NO_WRAP);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
+                .baseUrl(ApiUser.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Api api = retrofit.create(Api.class);
-        Call <UserDTO> call = api.getUser(credentials);
+        ApiUser apiUser = retrofit.create(ApiUser.class);
+        Call <UserDTO> call = apiUser.getUser(credentials);
+
         call.enqueue(new Callback<UserDTO>() {
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserDTO> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT);
+                onLoginFailed();
             }
         });
     }
@@ -152,5 +152,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginFailed() {
         _loginButton.setEnabled(true);
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT);
     }
 }
