@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:design="http://schemas.android.com/tools">
+    <item
+        android:id = "@+id/action_discover"
+        android:title = "Discover"
+        android:icon="@drawable/ic_discover"
+        app:showAsAction="ifRoom"
+        android:iconTint="@color/Black"
+        />
+    <item
+        android:id = "@+id/action_tv"
+        android:title = "On TV"
+        android:icon="@drawable/ic_tv"
+        android:iconTint="@color/Black"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id = "@+id/action_search"
+        android:title = "Search"
+        android:icon="@drawable/ic_search"
+        android:iconTint="@color/Black"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id = "@+id/action_notification"
+        android:title = "Notifications"
+        android:icon="@drawable/ic_notification"
+        android:iconTint="@color/Black"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id = "@+id/action_user"
+        android:title = "Profile"
+        android:icon="@drawable/ic_profile"
+        android:iconTint="@color/Black"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>

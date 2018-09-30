@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 String sessionToken = cookies.get(0).toString();
                 sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
+                sessionController.saveUsername(userDTO.getUsername());
                 onLoginSuccess();
             }
 

@@ -22,7 +22,7 @@ public class SessionController {
     private static final String IS_LOGIN = "IsLoggedIn";
 
     public static final String KEY_COOKIE = "Cookie";
-    private static final String PUB_LOGIN = "IsPubLoggedIn";
+    private static final String USERNAME = "Username";
 
     // Constructor
     @SuppressLint("CommitPrefEdits")
@@ -41,6 +41,19 @@ public class SessionController {
         editor.putString(KEY_COOKIE, cookie);
         // commit changes
         editor.commit();
+    }
+
+    /**
+     * Save username
+     * @param username
+     */
+    public void saveUsername(String username) {
+        editor.putString(USERNAME, username);
+        editor.commit();
+    }
+
+    public String getUsername () {
+        return pref.getString(USERNAME, null);
     }
 
     /**

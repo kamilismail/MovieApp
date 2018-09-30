@@ -1,6 +1,6 @@
 package com.kamilismail.movieappandroid.connection;
 
-import com.kamilismail.movieappandroid.DTO.UserDTO;
+import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,5 +12,5 @@ public interface ApiDiscover {
     String BASE_URL = "http://192.168.0.16:8080/";
 
     @GET("discover/")
-    Call<UserDTO> getDiscovery(@Header("Authorization") String credentials);
+    Call<DiscoverDTO> getDiscovery(@Header("Cookie") String cookie);
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProfileFragment"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="40dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Profile"
+        android:textSize="35dp"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/username"
+        android:text="Username"
+        android:textSize="30dp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="70dp"/>
+
+        <Button style = "@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginBottom="140dp"
+            android:text="@string/Sign_out"
+            android:id="@+id/bSignout"
+            android:backgroundTint="@color/DeepRed"
+            android:textColor="@android:color/white"
+            />
+
+    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="80dp"
+        android:text="@string/Change_password"
+        android:id="@+id/bChange"
+        android:clickable="true"
+        android:textColor="@android:color/black"
+        />
+
+    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/Delete_account"
+        android:id="@+id/bDelete"
+        android:clickable="true"
+        android:textColor="@android:color/black"
+        />
+
+</FrameLayout>

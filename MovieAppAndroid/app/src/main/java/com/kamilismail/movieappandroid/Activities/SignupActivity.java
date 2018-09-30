@@ -40,8 +40,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText _passwordText2;
     @BindView(R.id.bSignUp)
     Button _loginButton;
-    @BindView(R.id.tSignUp)
-    TextView _signupText;
+    @BindView(R.id.tCancel)
+    TextView _cancelText;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
 
@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            setContentView(R.layout.activity_login);
+            setContentView(R.layout.activity_signup);
             ButterKnife.bind(this);
             ActionBar actionBar = getSupportActionBar();
             actionBar.hide();
@@ -78,10 +78,10 @@ public class SignupActivity extends AppCompatActivity {
                 }
             });
 
-            _signupText.setOnClickListener(new View.OnClickListener() {
+            _cancelText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivityForResult(intent, 0);
                 }
             });

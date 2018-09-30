@@ -1,5 +1,6 @@
 package com.kamilismail.movieappandroid.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,16 +9,16 @@ public class DiscoverDTO {
 
     @SerializedName("popular_movies")
     @Expose
-    private List<PopularMoviesDTO> popularMovies = null;
+    private ArrayList<PopularMoviesDTO> popularMovies = null;
     @SerializedName("popular_series")
     @Expose
-    private List<PopularSeriesDTO> popularSeries = null;
+    private ArrayList<PopularSeriesDTO> popularSeries = null;
     @SerializedName("upcoming_movies")
     @Expose
-    private List<UpcomingMoviesDTO> upcomingMovies = null;
+    private ArrayList<UpcomingMoviesDTO> upcomingMovies = null;
     @SerializedName("nowplaying")
     @Expose
-    private List<NowPlayingDTO> nowplaying = null;
+    private ArrayList<NowPlayingDTO> nowplaying = null;
 
     /**
      * No args constructor for use in serialization
@@ -33,7 +34,7 @@ public class DiscoverDTO {
      * @param upcomingMovies
      * @param popularSeries
      */
-    public DiscoverDTO(List<PopularMoviesDTO> popularMovies, List<PopularSeriesDTO> popularSeries, List<UpcomingMoviesDTO> upcomingMovies, List<NowPlayingDTO> nowplaying) {
+    public DiscoverDTO(ArrayList<PopularMoviesDTO> popularMovies, ArrayList<PopularSeriesDTO> popularSeries, ArrayList<UpcomingMoviesDTO> upcomingMovies, ArrayList<NowPlayingDTO> nowplaying) {
         super();
         this.popularMovies = popularMovies;
         this.popularSeries = popularSeries;
@@ -41,35 +42,35 @@ public class DiscoverDTO {
         this.nowplaying = nowplaying;
     }
 
-    public List<PopularMoviesDTO> getPopularMovies() {
+    public ArrayList<PopularMoviesDTO> getPopularMovies() {
         return popularMovies;
     }
 
-    public void setPopularMovies(List<PopularMoviesDTO> popularMovies) {
+    public void setPopularMovies(ArrayList<PopularMoviesDTO> popularMovies) {
         this.popularMovies = popularMovies;
     }
 
-    public List<PopularSeriesDTO> getPopularSeries() {
+    public ArrayList<PopularSeriesDTO> getPopularSeries() {
         return popularSeries;
     }
 
-    public void setPopularSeries(List<PopularSeriesDTO> popularSeries) {
+    public void setPopularSeries(ArrayList<PopularSeriesDTO> popularSeries) {
         this.popularSeries = popularSeries;
     }
 
-    public List<UpcomingMoviesDTO> getUpcomingMovies() {
+    public ArrayList<UpcomingMoviesDTO> getUpcomingMovies() {
         return upcomingMovies;
     }
 
-    public void setUpcomingMovies(List<UpcomingMoviesDTO> upcomingMovies) {
+    public void setUpcomingMovies(ArrayList<UpcomingMoviesDTO> upcomingMovies) {
         this.upcomingMovies = upcomingMovies;
     }
 
-    public List<NowPlayingDTO> getNowplaying() {
+    public ArrayList<NowPlayingDTO> getNowplaying() {
         return nowplaying;
     }
 
-    public void setNowplaying(List<NowPlayingDTO> nowplaying) {
+    public void setNowplaying(ArrayList<NowPlayingDTO> nowplaying) {
         this.nowplaying = nowplaying;
     }
 

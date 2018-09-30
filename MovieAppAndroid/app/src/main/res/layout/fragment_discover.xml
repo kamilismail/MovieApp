@@ -3,12 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DiscoverFragment">
+    tools:context=".fragments.DiscoverFragment"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="40dp">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="Discover"
+        android:textSize="35dp"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Popular movies"
+        android:textSize="25dp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="70dp"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bViewPopularMovies">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/production_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Popular series"
+        android:textSize="25dp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="120dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Upcoming movies"
+        android:textSize="25dp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="170dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Nowplaying"
+        android:textSize="25dp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="220dp"/>
 
 </FrameLayout>
