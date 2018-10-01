@@ -16,6 +16,9 @@ public class PopularSeriesDTO {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
 
     /**
      * No args constructor for use in serialization
@@ -31,12 +34,13 @@ public class PopularSeriesDTO {
      * @param posterPath
      * @param mediaType
      */
-    public PopularSeriesDTO(String mediaType, String id, String title, String posterPath) {
+    public PopularSeriesDTO(String mediaType, String id, String title, String posterPath, String rating) {
         super();
         this.mediaType = mediaType;
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
+        this.rating = rating;
     }
 
     public String getMediaType() {
@@ -69,5 +73,13 @@ public class PopularSeriesDTO {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

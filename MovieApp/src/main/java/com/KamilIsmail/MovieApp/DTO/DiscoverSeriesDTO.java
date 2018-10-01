@@ -15,11 +15,23 @@ public class DiscoverSeriesDTO {
     @JsonProperty("poster_path")
     private String poster_path;
 
+    @JsonProperty("rating")
+    private String rating;
+
     public DiscoverSeriesDTO(String id, String title, String poster_path) {
         this.mediaType = "tv";
         this.id = id;
         this.title = title;
         this.poster_path = poster_path;
+        this.rating = "";
+    }
+
+    public DiscoverSeriesDTO(String id, String title, String poster_path, String rating) {
+        this.mediaType = "tv";
+        this.id = id;
+        this.title = title;
+        this.poster_path = poster_path;
+        this.rating = rating;
     }
 
     public String getMediaType() {
@@ -52,5 +64,13 @@ public class DiscoverSeriesDTO {
 
     public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

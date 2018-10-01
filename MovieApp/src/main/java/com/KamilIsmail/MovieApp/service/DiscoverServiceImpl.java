@@ -38,15 +38,15 @@ public class DiscoverServiceImpl implements DiscoverService {
         ArrayList<DiscoverSeriesDTO> popularSeriesList = new ArrayList<>();
         for (MovieDb movie : upcoming.getResults()) {
             upcomingList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate()));
+                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate(), String.valueOf(movie.getVoteAverage())));
         }
         for (MovieDb movie : nowPlaying.getResults()) {
             nowPlayingList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate()));
+                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate(), String.valueOf(movie.getVoteAverage())));
         }
         for (MovieDb movie : popularMovies.getResults()) {
             popularMoviesList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate()));
+                    movie.getTitle(), constants.getPosterPath() + movie.getPosterPath(), movie.getReleaseDate(), String.valueOf(movie.getVoteAverage())));
         }
         for (TvSeries series : popularSeries.getResults()) {
             popularSeriesList.add(new DiscoverSeriesDTO(Integer.toString(series.getId()), series.getName(),

@@ -18,12 +18,25 @@ public class DiscoverMovieDTO {
     @JsonProperty("release_date")
     private String release_date;
 
+    @JsonProperty("rating")
+    private String rating;
+
     public DiscoverMovieDTO(String mediaType, String id, String title, String poster_path, String release_date) {
         this.mediaType = mediaType;
         this.id = id;
         this.title = title;
         this.poster_path = poster_path;
         this.release_date = release_date;
+        this.rating = "";
+    }
+
+    public DiscoverMovieDTO(String mediaType, String id, String title, String poster_path, String release_date, String rating) {
+        this.mediaType = mediaType;
+        this.id = id;
+        this.title = title;
+        this.poster_path = poster_path;
+        this.release_date = release_date;
+        this.rating = rating;
     }
 
     public String getMediaType() {
@@ -64,5 +77,13 @@ public class DiscoverMovieDTO {
 
     public void setRelease_date(String release_date) {
         this.release_date = release_date;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

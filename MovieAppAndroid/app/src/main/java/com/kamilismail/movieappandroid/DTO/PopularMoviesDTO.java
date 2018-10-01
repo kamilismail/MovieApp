@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PopularMoviesDTO {
-
     @SerializedName("mediaType")
     @Expose
     private String mediaType;
@@ -20,6 +19,9 @@ public class PopularMoviesDTO {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
 
     /**
      * No args constructor for use in serialization
@@ -36,13 +38,14 @@ public class PopularMoviesDTO {
      * @param posterPath
      * @param mediaType
      */
-    public PopularMoviesDTO(String mediaType, String id, String title, String posterPath, String releaseDate) {
+    public PopularMoviesDTO(String mediaType, String id, String title, String posterPath, String releaseDate, String rating) {
         super();
         this.mediaType = mediaType;
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
         this.releaseDate = releaseDate;
+        this.rating = rating;
     }
 
     public String getMediaType() {
@@ -85,4 +88,11 @@ public class PopularMoviesDTO {
         this.releaseDate = releaseDate;
     }
 
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 }

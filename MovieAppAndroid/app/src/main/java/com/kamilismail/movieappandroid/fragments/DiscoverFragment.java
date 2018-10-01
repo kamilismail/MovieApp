@@ -4,6 +4,10 @@ package com.kamilismail.movieappandroid.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,10 @@ import android.widget.Toast;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
+import com.kamilismail.movieappandroid.adapters.NowPlayingRecyclerViewAdapter;
+import com.kamilismail.movieappandroid.adapters.PopularMoviesRecyclerViewAdapter;
+import com.kamilismail.movieappandroid.adapters.PopularSeriesRecyclerViewAdapter;
+import com.kamilismail.movieappandroid.adapters.UpcomingMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
 
 import java.net.HttpCookie;
@@ -43,7 +51,7 @@ public class DiscoverFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         this.sessionController = new SessionController(getContext());
-        getData();
+        getData(view);
         return view;
     }
 
@@ -52,7 +60,7 @@ public class DiscoverFragment extends Fragment {
         return discoverFragment;
     }
 
-    private void getData() {
+    private void getData(final View view) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiDiscover.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -65,15 +73,8 @@ public class DiscoverFragment extends Fragment {
         call.enqueue(new Callback<DiscoverDTO>() {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
-                String cookiesHeader = response.headers().get("Set-Cookie");
-                List<HttpCookie> cookies = HttpCookie.parse(cookiesHeader);
-                for (HttpCookie cookie : cookies) {
-                    msCookieManager.getCookieStore().add(null, cookie);
-                }
-                String sessionToken = cookies.get(0).toString();
-                sessionController.createLoginSession(sessionToken);
                 DiscoverDTO discoverDTO = response.body();
-                onSuccess(discoverDTO);
+                onSuccess(discoverDTO, view);
             }
 
             @Override
@@ -83,8 +84,38 @@ public class DiscoverFragment extends Fragment {
         });
     }
 
-    private void onSuccess(DiscoverDTO discoverDTO) {
+    private void onSuccess(DiscoverDTO discoverDTO, final View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.nowplayingList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView));
 
+        RecyclerView recyclerView2 = view.findViewById(R.id.popularMoviesList);
+        recyclerView2.setHasFixedSize(true);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        PagerSnapHelper snapHelper2 = new PagerSnapHelper();
+        snapHelper2.attachToRecyclerView(recyclerView2);
+        recyclerView2.setItemAnimator(new DefaultItemAnimator());
+        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2));
+
+        RecyclerView recyclerView3 = view.findViewById(R.id.popularSeriesList);
+        recyclerView3.setHasFixedSize(true);
+        recyclerView3.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        PagerSnapHelper snapHelper3 = new PagerSnapHelper();
+        snapHelper3.attachToRecyclerView(recyclerView3);
+        recyclerView3.setItemAnimator(new DefaultItemAnimator());
+        recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
+
+        RecyclerView recyclerView4 = view.findViewById(R.id.upcomingMoviesList);
+        recyclerView4.setHasFixedSize(true);
+        recyclerView4.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        PagerSnapHelper snapHelper4 = new PagerSnapHelper();
+        snapHelper4.attachToRecyclerView(recyclerView4);
+        recyclerView4.setItemAnimator(new DefaultItemAnimator());
+        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4));
     }
 
     private void onFailed() {

@@ -1,65 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".fragments.DiscoverFragment"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="40dp">
+    android:layout_marginBottom="80dp">
 
-    <!-- TODO: Update blank fragment layout -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:paddingBottom="8dp"
         android:text="Discover"
-        android:textSize="35dp"
-        android:textColor="@color/Black"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textColor="@android:color/black"
+        android:textSize="50dp"
+        android:textStyle="bold"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Popular movies"
-        android:textSize="25dp"
-        android:textColor="@color/Black"
-        android:layout_marginTop="70dp"/>
+        android:layout_weight="1">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bViewPopularMovies">
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Popular movies"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/production_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:id="@+id/popularMoviesList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview1"/>
+
     </RelativeLayout>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Popular series"
-        android:textSize="25dp"
-        android:textColor="@color/Black"
-        android:layout_marginTop="120dp"/>
+        android:layout_weight="1">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Upcoming movies"
-        android:textSize="25dp"
-        android:textColor="@color/Black"
-        android:layout_marginTop="170dp"/>
+        <TextView
+            android:id="@+id/textview2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Popular series"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
 
-    <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/popularSeriesList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Nowplaying"
-        android:textSize="25dp"
-        android:textColor="@color/Black"
-        android:layout_marginTop="220dp"/>
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textview3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Upcoming movies"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/upcomingMoviesList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview3"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textview4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Nowplaying"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/nowplayingList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview4" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+</ScrollView>
 
 </FrameLayout>
