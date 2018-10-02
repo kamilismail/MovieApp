@@ -5,7 +5,7 @@
     tools:context=".fragments.DiscoverFragment"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="80dp">
+    android:layout_marginBottom="57dp">
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,6 +47,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview1"/>
 
+        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/popularMoviesList"
+            app:spi_dotSelectedColor="@color/DeepRed"
+            app:spi_visibleDotCount='21'
+            android:layout_centerHorizontal="true"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -68,6 +77,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview2"/>
+
+        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/indicator2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/popularSeriesList"
+            app:spi_dotSelectedColor="@color/DeepRed"
+            app:spi_visibleDotCount='21'
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
@@ -91,6 +109,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview3"/>
 
+        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/indicator3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upcomingMoviesList"
+            app:spi_dotSelectedColor="@color/DeepRed"
+            app:spi_visibleDotCount='21'
+            android:layout_centerHorizontal="true"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -112,6 +139,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview4" />
+
+        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/indicator4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nowplayingList"
+            app:spi_dotSelectedColor="@color/DeepRed"
+            app:spi_visibleDotCount='21'
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 

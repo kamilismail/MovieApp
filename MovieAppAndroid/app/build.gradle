@@ -30,6 +30,8 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.0.6'
+
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

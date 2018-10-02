@@ -12,18 +12,22 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.BufferOverflowException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 //http://epg.koditvepg2.com/PL/guide.xml.gz
 public class ParseTVGuide {
@@ -36,6 +40,33 @@ public class ParseTVGuide {
      */
     public ArrayList<MovieBean> run() {
         ArrayList<MovieBean> movieBeanList = null;
+        try {
+            URL url = new URL("http://epg.koditvepg2.com/PL/guide.xml.gz");
+            URLConnection connection = url.openConnection();
+            InputStream stream = connection.getInputStream();
+            stream = new GZIPInputStream(stream);
+            InputSource is = new InputSource(stream);
+            InputStream input = new BufferedInputStream(is.getByteStream());
+            OutputStream output = new FileOutputStream("/Users/kamilismail/Downloads/guide.xml");
+            byte data[] = new byte[2097152];
+            long total = 0;
+            int count;
+
+            while ((count = input.read(data)) != -1) {
+                total += count;
+                output.write(data, 0, count);
+            }
+
+            output.flush();
+            output.close();
+            input.close();
+        } catch (BufferOverflowException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
         try {
             File file = new File("/Users/kamilismail/Downloads/guide.xml");
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

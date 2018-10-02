@@ -2,6 +2,7 @@ package com.kamilismail.movieappandroid.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,20 +17,19 @@ import android.widget.Toast;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
+import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.adapters.NowPlayingRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.PopularMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.PopularSeriesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.UpcomingMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
 
-import java.net.HttpCookie;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,6 +74,11 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
+                if (discoverDTO == null) {
+                    sessionController.logoutUser();
+                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 onSuccess(discoverDTO, view);
             }
 
@@ -92,6 +97,8 @@ public class DiscoverFragment extends Fragment {
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView));
+        ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
+        recyclerIndicator.attachToRecyclerView(recyclerView);
 
         RecyclerView recyclerView2 = view.findViewById(R.id.popularMoviesList);
         recyclerView2.setHasFixedSize(true);
@@ -100,6 +107,8 @@ public class DiscoverFragment extends Fragment {
         snapHelper2.attachToRecyclerView(recyclerView2);
         recyclerView2.setItemAnimator(new DefaultItemAnimator());
         recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2));
+        ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
+        recyclerIndicator2.attachToRecyclerView(recyclerView2);
 
         RecyclerView recyclerView3 = view.findViewById(R.id.popularSeriesList);
         recyclerView3.setHasFixedSize(true);
@@ -108,6 +117,8 @@ public class DiscoverFragment extends Fragment {
         snapHelper3.attachToRecyclerView(recyclerView3);
         recyclerView3.setItemAnimator(new DefaultItemAnimator());
         recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
+        ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
+        recyclerIndicator3.attachToRecyclerView(recyclerView3);
 
         RecyclerView recyclerView4 = view.findViewById(R.id.upcomingMoviesList);
         recyclerView4.setHasFixedSize(true);
@@ -116,6 +127,8 @@ public class DiscoverFragment extends Fragment {
         snapHelper4.attachToRecyclerView(recyclerView4);
         recyclerView4.setItemAnimator(new DefaultItemAnimator());
         recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4));
+        ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
+        recyclerIndicator4.attachToRecyclerView(recyclerView4);
     }
 
     private void onFailed() {
