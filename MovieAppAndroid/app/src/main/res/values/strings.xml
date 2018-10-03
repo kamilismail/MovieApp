@@ -8,6 +8,9 @@
     <string name="Sign_out">Sign out</string>
     <string name="Change_password">Change password</string>
     <string name="Delete_account">Delete account</string>
+    <string name="Want_to_watch">Want to watch list</string>
+    <string name="Favourites">Favourites list</string>
+    <string name="Ratings">Ratings list</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

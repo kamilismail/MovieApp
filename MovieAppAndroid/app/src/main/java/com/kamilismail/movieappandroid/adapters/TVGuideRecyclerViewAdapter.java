@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MovieDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
+public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<TVGuideDTO> tvGuideDTOS;
 
     private RecyclerView mRecyclerView;
@@ -41,7 +41,7 @@ public class MovieDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public MovieDetailsRecyclerViewAdapter(ArrayList <TVGuideDTO> tvGuideDTOS, RecyclerView _recyclerView) {
+    public TVGuideRecyclerViewAdapter(ArrayList <TVGuideDTO> tvGuideDTOS, RecyclerView _recyclerView) {
         this.tvGuideDTOS = tvGuideDTOS;
         this.mRecyclerView = _recyclerView;
     }

@@ -18,7 +18,7 @@ import com.kamilismail.movieappandroid.DTO.tvGuide.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.activities.LoginActivity;
-import com.kamilismail.movieappandroid.adapters.MovieDetailsRecyclerViewAdapter;
+import com.kamilismail.movieappandroid.adapters.TVGuideRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
 import com.kamilismail.movieappandroid.connection.ApiTVGuide;
 
@@ -95,7 +95,7 @@ public class TVFragment extends Fragment {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MovieDetailsRecyclerViewAdapter(tvGuideDTOS, recyclerView));
+        recyclerView.setAdapter(new TVGuideRecyclerViewAdapter(tvGuideDTOS, recyclerView));
     }
 
     private void onFailed() {
