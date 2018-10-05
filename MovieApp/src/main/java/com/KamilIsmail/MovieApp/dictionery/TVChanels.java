@@ -28,6 +28,7 @@ public class TVChanels {
         list.add("Paramount Channel HD");
         list.add("AXN HD");
         list.add("Stopklatka TV HD");
+        //list.add("Stopklatka TV");
         list.add("Polsat Film HD");
         list.add("TVN FABUŁA HD");
         list.add("TVN 7 HD");

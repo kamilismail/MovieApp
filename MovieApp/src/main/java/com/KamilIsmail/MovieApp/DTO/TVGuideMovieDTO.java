@@ -1,8 +1,7 @@
 package com.KamilIsmail.MovieApp.DTO;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DiscoverSeriesDTO {
+public class TVGuideMovieDTO {
     @JsonProperty("mediaType")
     private String mediaType;
 
@@ -16,26 +15,31 @@ public class DiscoverSeriesDTO {
     private String poster_path;
 
     @JsonProperty("release_date")
-    private String releaseDate;
+    private String release_date;
 
     @JsonProperty("rating")
     private String rating;
 
-    public DiscoverSeriesDTO(String id, String title, String poster_path) {
-        this.mediaType = "tv";
-        this.id = id;
-        this.title = title;
-        this.poster_path = poster_path;
-        this.rating = "";
-    }
+    @JsonProperty("chanel")
+    private String chanel;
 
-    public DiscoverSeriesDTO(String id, String title, String poster_path, String rating, String releaseDate) {
-        this.mediaType = "tv";
+    @JsonProperty("logo_path")
+    private String logoPath;
+
+    @JsonProperty("hour")
+    private String hour;
+
+    public TVGuideMovieDTO(String mediaType, String id, String title, String poster_path, String release_date,
+                           String rating, String chanel, String logoPath, String hour) {
+        this.mediaType = mediaType;
         this.id = id;
         this.title = title;
         this.poster_path = poster_path;
+        this.release_date = release_date;
         this.rating = rating;
-        this.releaseDate = releaseDate;
+        this.chanel = chanel;
+        this.logoPath = logoPath;
+        this.hour = hour;
     }
 
     public String getMediaType() {
@@ -70,6 +74,14 @@ public class DiscoverSeriesDTO {
         this.poster_path = poster_path;
     }
 
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
+
     public String getRating() {
         return rating;
     }
@@ -78,11 +90,27 @@ public class DiscoverSeriesDTO {
         this.rating = rating;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getChanel() {
+        return chanel;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setChanel(String chanel) {
+        this.chanel = chanel;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
     }
 }

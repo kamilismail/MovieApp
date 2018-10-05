@@ -1,6 +1,5 @@
 package com.KamilIsmail.MovieApp.entities;
 
-import com.KamilIsmail.MovieApp.Constants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -66,8 +65,7 @@ public class MoviesEntity {
     @Basic
     @Column(name = "poster_path")
     public String getPosterPath() {
-        Constants constants = new Constants();
-        return constants.getPosterPath() + poster_path;
+        return poster_path;
     }
 
     public void setPosterPath(String poster_path) {

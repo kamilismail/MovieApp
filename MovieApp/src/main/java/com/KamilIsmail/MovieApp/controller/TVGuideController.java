@@ -1,6 +1,7 @@
 package com.KamilIsmail.MovieApp.controller;
 
 import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
+import com.KamilIsmail.MovieApp.DTO.TVGuideMovieDTO;
 import com.KamilIsmail.MovieApp.service.TVGuideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class TVGuideController {
     TVGuideService tvGuideService;
 
     @GetMapping("")
-    public ArrayList<GetMovieDTO> getTVGuide() throws IOException {
+    public ArrayList<TVGuideMovieDTO> getTVGuide() throws IOException {
         return tvGuideService.getTVGuide();
     }
 }

@@ -50,7 +50,7 @@ public class DiscoverServiceImpl implements DiscoverService {
         }
         for (TvSeries series : popularSeries.getResults()) {
             popularSeriesList.add(new DiscoverSeriesDTO(Integer.toString(series.getId()), series.getName(),
-                    constants.getPosterPath() + series.getPosterPath()));
+                    constants.getPosterPath() + series.getPosterPath(), String.valueOf(series.getVoteAverage()), series.getFirstAirDate()));
         }
         return (new DiscoverDTO(upcomingList, nowPlayingList, popularMoviesList, popularSeriesList));
     }

@@ -24,6 +24,7 @@ public class MovieBean {
     private String MOCNEKINO = "Mocne sobotnie kino: ";
     private String GWIAZDY = "Niedziela z gwiazdami: ";
     private String MEGAHIT = "Megahit: ";
+    private String STRASZNY_PIATEK = "Straszny piątek: ";
 
     public MovieBean(Date date, String chanel, String title, String description) {
         this.date = date;
@@ -38,6 +39,8 @@ public class MovieBean {
             this.title = title.substring(GWIAZDY.length(),title.length());
         else if(title.contains(MEGAHIT))
             this.title = title.substring(MEGAHIT.length(),title.length());
+        else if(title.contains(STRASZNY_PIATEK))
+            this.title = title.substring(STRASZNY_PIATEK.length(),title.length());
         else
             this.title = title;
 

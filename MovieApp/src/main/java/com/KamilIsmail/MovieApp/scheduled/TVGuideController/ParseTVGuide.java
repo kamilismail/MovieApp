@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.scheduled.TVGuideController;
 
+import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.TVGuideDao;
 import com.KamilIsmail.MovieApp.dictionery.TVChanels;
 import com.KamilIsmail.MovieApp.scheduled.TVGuideBean.MovieBean;
@@ -41,7 +42,7 @@ public class ParseTVGuide {
     public ArrayList<MovieBean> run() {
         ArrayList<MovieBean> movieBeanList = null;
         try {
-            URL url = new URL("http://epg.koditvepg2.com/PL/guide.xml.gz");
+            URL url = new URL(Constants.getTvGuideUrl());
             URLConnection connection = url.openConnection();
             InputStream stream = connection.getInputStream();
             stream = new GZIPInputStream(stream);

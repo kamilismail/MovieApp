@@ -1,7 +1,7 @@
 package com.KamilIsmail.MovieApp.service;
 
 import com.KamilIsmail.MovieApp.Constants;
-import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
+import com.KamilIsmail.MovieApp.DTO.TVGuideMovieDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
@@ -28,8 +28,8 @@ public class TVGuideServiceImpl implements TVGuideService {
     TvSatationRepository tvSatationRepository;
 
     @Override
-    public ArrayList <GetMovieDTO> getTVGuide() {
-        ArrayList <GetMovieDTO> getMovieDTOList = new ArrayList<>();
+    public ArrayList <TVGuideMovieDTO> getTVGuide() {
+        ArrayList <TVGuideMovieDTO> getMovieDTOList = new ArrayList<>();
         List<TVGuideEntity> tvGuideEntitiesList = tvGuideRepository.findAll();
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
@@ -37,8 +37,16 @@ public class TVGuideServiceImpl implements TVGuideService {
             MoviesEntity moviesEntity = movieRepository.findMovieEntityByMovieId(tvGuideEntity.getMovieId());
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(moviesEntity.getTmdbId()), "pl");
             TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(tvGuideEntity.getTvstationId());
-            getMovieDTOList.add(new GetMovieDTO(tmdbResult, tvGuideEntity.getDate().toString(), "",
-                    tvstationsEntity.getName(), moviesEntity.getFilmwebId().toString(), String.valueOf(tmdbResult.getVoteAverage())));
+
+            String logoPath = "";
+            if(!tvstationsEntity.getLogoPath().isEmpty()) {
+                logoPath = Constants.getLogoPath() + tvstationsEntity.getLogoPath();
+            }
+
+            getMovieDTOList.add(new TVGuideMovieDTO("MOVIE", moviesEntity.getTmdbId().toString(), tmdbResult.getTitle(),
+                     Constants.getPosterPath() + tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),
+                    String.valueOf(tmdbResult.getVoteAverage()), tvstationsEntity.getName(), logoPath,
+                    tvGuideEntity.getDate().toString()));
         }
         return getMovieDTOList;
     }

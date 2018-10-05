@@ -91,6 +91,8 @@ public class TVGuideDaoImpl implements TVGuideDao {
                 e.printStackTrace();
             }
         }
+        if (stationName.equals(""))
+            stationName = movieBean.getChanel();
         TvstationsEntity tvstationsEntity = null;
         List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
@@ -116,9 +118,8 @@ public class TVGuideDaoImpl implements TVGuideDao {
     @Override
     public boolean deleteTVGuide() {
         List<TVGuideEntity> tvGuideEntityList = tvGuideRepository.findAll();
-        for (TVGuideEntity tvGuideEntity : tvGuideEntityList) {
+        for (TVGuideEntity tvGuideEntity : tvGuideEntityList)
                 tvGuideRepository.delete(tvGuideEntity);
-            }
         return true;
     }
 }
