@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="40dp"
+    tools:context=".fragments.MovieDetailsFragment">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/poster"
+                    android:src="@drawable/ic_discover"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/avarageRating"
+                    android:layout_below="@+id/poster"
+                    android:text="Avarage rating: 5.8/10"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    android:padding="5dp"/>
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Rate it"
+                    android:id="@+id/rating"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/avarageRating"
+                    android:padding="5dp"
+                    />
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Want to watch"
+                    android:id="@+id/addFav"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/rating"
+                    android:padding="5dp"
+                    />
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Add to favourites"
+                    android:id="@+id/addWantToWatch"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/addFav"
+                    android:padding="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvDate"
+                    android:layout_below="@+id/addWantToWatch"
+                    android:text="On TV: 20.12.2018 at 20:30"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvChanel"
+                    android:layout_below="@+id/tvDate"
+                    android:text="Chanel: TVP1"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    android:padding="5dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tvlogo"
+                    android:src="@drawable/ic_discover"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_below="@id/tvDate"
+                    android:layout_alignRight="@+id/tvChanel"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release"
+                    android:layout_below="@+id/tvlogo"
+                    android:text="Release date: 20.08.2001"
+                    android:textSize="12dp"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/description"
+                    android:layout_below="@+id/release"
+                    android:text="Description:\nLorem ipsum..."
+                    android:textSize="12dp"
+                    android:padding="5dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

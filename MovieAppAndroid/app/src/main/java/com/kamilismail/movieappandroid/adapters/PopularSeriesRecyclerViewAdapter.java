@@ -56,9 +56,6 @@ public class PopularSeriesRecyclerViewAdapter extends RecyclerView.Adapter {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
                 PopularSeriesDTO data = nowPlayingDTOS.get(position);
-                if (!data.getId().equals("")) {
-
-                }
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder
