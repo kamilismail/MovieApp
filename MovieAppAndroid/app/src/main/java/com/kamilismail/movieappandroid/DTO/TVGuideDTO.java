@@ -3,7 +3,7 @@ package com.kamilismail.movieappandroid.DTO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PopularSeriesDTO {
+public class TVGuideDTO {
     @SerializedName("mediaType")
     @Expose
     private String mediaType;
@@ -16,35 +16,50 @@ public class PopularSeriesDTO {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-    @SerializedName("rating")
-    @Expose
-    private String rating;
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
+    @SerializedName("chanel")
+    @Expose
+    private String chanel;
+    @SerializedName("logo_path")
+    @Expose
+    private String logoPath;
+    @SerializedName("hour")
+    @Expose
+    private String hour;
 
     /**
      * No args constructor for use in serialization
-     *
      */
-    public PopularSeriesDTO() {
+    public TVGuideDTO() {
     }
 
     /**
-     *
      * @param id
+     * @param chanel
      * @param title
+     * @param releaseDate
      * @param posterPath
+     * @param hour
+     * @param rating
+     * @param logoPath
      * @param mediaType
      */
-    public PopularSeriesDTO(String mediaType, String id, String title, String posterPath, String rating, String releaseDate) {
+    public TVGuideDTO(String mediaType, String id, String title, String posterPath, String releaseDate, String rating, String chanel, String logoPath, String hour) {
         super();
         this.mediaType = mediaType;
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
-        this.rating = rating;
         this.releaseDate = releaseDate;
+        this.rating = rating;
+        this.chanel = chanel;
+        this.logoPath = logoPath;
+        this.hour = hour;
     }
 
     public String getMediaType() {
@@ -79,6 +94,14 @@ public class PopularSeriesDTO {
         this.posterPath = posterPath;
     }
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public String getRating() {
         return rating;
     }
@@ -87,11 +110,27 @@ public class PopularSeriesDTO {
         this.rating = rating;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getChanel() {
+        return chanel;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setChanel(String chanel) {
+        this.chanel = chanel;
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
     }
 }

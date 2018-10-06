@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MainActivity"
+                  android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.SignupActivity"></activity>
     </application>
 

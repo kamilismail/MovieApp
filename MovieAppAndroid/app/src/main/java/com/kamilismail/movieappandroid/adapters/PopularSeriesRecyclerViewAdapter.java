@@ -73,7 +73,7 @@ public class PopularSeriesRecyclerViewAdapter extends RecyclerView.Adapter {
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
-        //((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
+        ((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
     }
 
     @Override

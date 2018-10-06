@@ -94,6 +94,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         PagerSnapHelper snapHelper = new PagerSnapHelper();
+        recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView));
@@ -104,6 +105,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView2.setHasFixedSize(true);
         recyclerView2.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         PagerSnapHelper snapHelper2 = new PagerSnapHelper();
+        recyclerView2.setOnFlingListener(null);
         snapHelper2.attachToRecyclerView(recyclerView2);
         recyclerView2.setItemAnimator(new DefaultItemAnimator());
         recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2));
@@ -114,6 +116,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView3.setHasFixedSize(true);
         recyclerView3.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         PagerSnapHelper snapHelper3 = new PagerSnapHelper();
+        recyclerView3.setOnFlingListener(null);
         snapHelper3.attachToRecyclerView(recyclerView3);
         recyclerView3.setItemAnimator(new DefaultItemAnimator());
         recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
@@ -124,6 +127,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView4.setHasFixedSize(true);
         recyclerView4.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         PagerSnapHelper snapHelper4 = new PagerSnapHelper();
+        recyclerView4.setOnFlingListener(null);
         snapHelper4.attachToRecyclerView(recyclerView4);
         recyclerView4.setItemAnimator(new DefaultItemAnimator());
         recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4));

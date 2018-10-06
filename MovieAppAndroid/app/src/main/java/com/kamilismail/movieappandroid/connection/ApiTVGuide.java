@@ -1,6 +1,6 @@
 package com.kamilismail.movieappandroid.connection;
 
-import com.kamilismail.movieappandroid.DTO.tvGuide.TVGuideDTO;
+import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 
 import java.util.ArrayList;
 

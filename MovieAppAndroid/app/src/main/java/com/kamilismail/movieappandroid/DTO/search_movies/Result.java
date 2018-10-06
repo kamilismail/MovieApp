@@ -1,11 +1,9 @@
-package com.kamilismail.movieappandroid.DTO.tvGuide;
+package com.kamilismail.movieappandroid.DTO.search_movies;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Result {
-
     @SerializedName("mediaType")
     @Expose
     private String mediaType;
@@ -29,7 +27,7 @@ public class Result {
     private Double popularity;
     @SerializedName("backdrop_path")
     @Expose
-    private String backdropPath;
+    private Object backdropPath;
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
@@ -41,31 +39,31 @@ public class Result {
     private Boolean adult;
     @SerializedName("belongs_to_collection")
     @Expose
-    private BelongsToCollection belongsToCollection;
+    private Object belongsToCollection;
     @SerializedName("budget")
     @Expose
     private Integer budget;
     @SerializedName("genres")
     @Expose
-    private List<Genre> genres = null;
+    private Object genres;
     @SerializedName("homepage")
     @Expose
-    private String homepage;
+    private Object homepage;
     @SerializedName("overview")
     @Expose
     private String overview;
     @SerializedName("imdb_id")
     @Expose
-    private String imdbId;
+    private Object imdbId;
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
     @SerializedName("production_companies")
     @Expose
-    private List<ProductionCompany> productionCompanies = null;
+    private Object productionCompanies;
     @SerializedName("production_countries")
     @Expose
-    private List<ProductionCountry> productionCountries = null;
+    private Object productionCountries;
     @SerializedName("revenue")
     @Expose
     private Integer revenue;
@@ -74,22 +72,22 @@ public class Result {
     private Integer runtime;
     @SerializedName("spoken_languages")
     @Expose
-    private List<SpokenLanguage> spokenLanguages = null;
+    private Object spokenLanguages;
     @SerializedName("tagline")
     @Expose
-    private String tagline;
+    private Object tagline;
     @SerializedName("rating")
     @Expose
-    private Integer rating;
+    private Float rating;
     @SerializedName("vote_average")
     @Expose
-    private Integer voteAverage;
+    private Float voteAverage;
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
     @SerializedName("status")
     @Expose
-    private String status;
+    private Object status;
     @SerializedName("alternative_titles")
     @Expose
     private Object alternativeTitles;
@@ -169,7 +167,7 @@ public class Result {
      * @param rating
      * @param tagline
      */
-    public Result(String mediaType, Object cast, Object crew, Integer id, String title, String originalTitle, Double popularity, String backdropPath, String posterPath, String releaseDate, Boolean adult, BelongsToCollection belongsToCollection, Integer budget, List<Genre> genres, String homepage, String overview, String imdbId, String originalLanguage, List<ProductionCompany> productionCompanies, List<ProductionCountry> productionCountries, Integer revenue, Integer runtime, List<SpokenLanguage> spokenLanguages, String tagline, Integer rating, Integer voteAverage, Integer voteCount, String status, Object alternativeTitles, Object credits, Object images, Object keywords, Object releases, Object videos, Object translations, Object similar, Object reviews, Object lists) {
+    public Result(String mediaType, Object cast, Object crew, Integer id, String title, String originalTitle, Double popularity, Object backdropPath, String posterPath, String releaseDate, Boolean adult, Object belongsToCollection, Integer budget, Object genres, Object homepage, String overview, Object imdbId, String originalLanguage, Object productionCompanies, Object productionCountries, Integer revenue, Integer runtime, Object spokenLanguages, Object tagline, Float rating, Float voteAverage, Integer voteCount, Object status, Object alternativeTitles, Object credits, Object images, Object keywords, Object releases, Object videos, Object translations, Object similar, Object reviews, Object lists) {
         super();
         this.mediaType = mediaType;
         this.cast = cast;
@@ -267,11 +265,11 @@ public class Result {
         this.popularity = popularity;
     }
 
-    public String getBackdropPath() {
+    public Object getBackdropPath() {
         return backdropPath;
     }
 
-    public void setBackdropPath(String backdropPath) {
+    public void setBackdropPath(Object backdropPath) {
         this.backdropPath = backdropPath;
     }
 
@@ -299,11 +297,11 @@ public class Result {
         this.adult = adult;
     }
 
-    public BelongsToCollection getBelongsToCollection() {
+    public Object getBelongsToCollection() {
         return belongsToCollection;
     }
 
-    public void setBelongsToCollection(BelongsToCollection belongsToCollection) {
+    public void setBelongsToCollection(Object belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
     }
 
@@ -315,19 +313,19 @@ public class Result {
         this.budget = budget;
     }
 
-    public List<Genre> getGenres() {
+    public Object getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(Object genres) {
         this.genres = genres;
     }
 
-    public String getHomepage() {
+    public Object getHomepage() {
         return homepage;
     }
 
-    public void setHomepage(String homepage) {
+    public void setHomepage(Object homepage) {
         this.homepage = homepage;
     }
 
@@ -339,11 +337,11 @@ public class Result {
         this.overview = overview;
     }
 
-    public String getImdbId() {
+    public Object getImdbId() {
         return imdbId;
     }
 
-    public void setImdbId(String imdbId) {
+    public void setImdbId(Object imdbId) {
         this.imdbId = imdbId;
     }
 
@@ -355,19 +353,19 @@ public class Result {
         this.originalLanguage = originalLanguage;
     }
 
-    public List<ProductionCompany> getProductionCompanies() {
+    public Object getProductionCompanies() {
         return productionCompanies;
     }
 
-    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
+    public void setProductionCompanies(Object productionCompanies) {
         this.productionCompanies = productionCompanies;
     }
 
-    public List<ProductionCountry> getProductionCountries() {
+    public Object getProductionCountries() {
         return productionCountries;
     }
 
-    public void setProductionCountries(List<ProductionCountry> productionCountries) {
+    public void setProductionCountries(Object productionCountries) {
         this.productionCountries = productionCountries;
     }
 
@@ -387,35 +385,35 @@ public class Result {
         this.runtime = runtime;
     }
 
-    public List<SpokenLanguage> getSpokenLanguages() {
+    public Object getSpokenLanguages() {
         return spokenLanguages;
     }
 
-    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
+    public void setSpokenLanguages(Object spokenLanguages) {
         this.spokenLanguages = spokenLanguages;
     }
 
-    public String getTagline() {
+    public Object getTagline() {
         return tagline;
     }
 
-    public void setTagline(String tagline) {
+    public void setTagline(Object tagline) {
         this.tagline = tagline;
     }
 
-    public Integer getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
-    public Integer getVoteAverage() {
+    public Float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Float voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -427,11 +425,11 @@ public class Result {
         this.voteCount = voteCount;
     }
 
-    public String getStatus() {
+    public Object getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Object status) {
         this.status = status;
     }
 

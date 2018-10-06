@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
+import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
+public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
+    private List<Result> nowPlayingDTOS;
 
-    private ArrayList<TVGuideDTO> movieDetailDTOS;
     private RecyclerView mRecyclerView;
 
     // implementacja wzorca ViewHolder
@@ -23,12 +23,9 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     // dzięki temu wywołujemy findViewById() tylko raz dla każdego elementu
     private class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
-        public ImageView mLogo;
         public TextView mTitle;
         public TextView mRating;
         public TextView mRelease;
-        public TextView mHour;
-        public TextView mChannel;
 
         public MyViewHolder(View v) {
             super(v);
@@ -36,15 +33,12 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
             mTitle = v.findViewById(R.id.title);
             mRating = v.findViewById(R.id.rating);
             mRelease = v.findViewById(R.id.release);
-            mHour = v.findViewById(R.id.hour);
-            mChannel = v.findViewById(R.id.channel);
-            mLogo = v.findViewById(R.id.logo);
         }
     }
 
     // konstruktor adaptera
-    public TVGuideRecyclerViewAdapter(ArrayList <TVGuideDTO> movieDetailDTOS, RecyclerView _recyclerView) {
-        this.movieDetailDTOS = movieDetailDTOS;
+    public SearchMoviesRecyclerViewAdapter(List <Result> nowPlayingDTOList, RecyclerView _recyclerView) {
+        this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
     }
 
@@ -52,7 +46,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
         // tworzymy layout artykułu oraz obiekt ViewHoldera
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.tvguide_list, viewGroup, false);
+                .inflate(R.layout.production_list, viewGroup, false);
 
         //przejscie do widoku z detalami
         //TODO
@@ -61,7 +55,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
-                TVGuideDTO data = movieDetailDTOS.get(position);
+                Result data = nowPlayingDTOS.get(position);
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder
@@ -71,20 +65,17 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
-        TVGuideDTO data = movieDetailDTOS.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(340,534).into(((MyViewHolder) viewHolder).mImageView);
+        Result data = nowPlayingDTOS.get(i);
+        if (data.getPosterPath() != null)
+            Picasso.get().load("https://image.tmdb.org/t/p/w500/" + data.getPosterPath().toString()).resize(320,534).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
-        ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
+        ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getVoteAverage());
         ((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
-        ((MyViewHolder) viewHolder).mHour.setText("When: " + data.getHour().substring(11,16));
-        ((MyViewHolder) viewHolder).mChannel.setText("Channel: " + data.getChanel());
-        if (!data.getLogoPath().isEmpty())
-            Picasso.get().load(data.getLogoPath()).resize(150,100).into(((MyViewHolder) viewHolder).mLogo);
     }
 
     @Override
     public int getItemCount() {
-        return movieDetailDTOS.size();
+        return nowPlayingDTOS.size();
     }
 }
