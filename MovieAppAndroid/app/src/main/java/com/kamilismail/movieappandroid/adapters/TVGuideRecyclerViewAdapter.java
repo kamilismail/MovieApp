@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
+import com.kamilismail.movieappandroid.fragments.TVFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private ArrayList<TVGuideDTO> movieDetailDTOS;
     private RecyclerView mRecyclerView;
+    private TVFragment.SendArgumentsAndLaunchFragment mCallback;
 
     // implementacja wzorca ViewHolder
     // każdy obiekt tej klasy przechowuje odniesienie do layoutu elementu listy
@@ -43,9 +45,10 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public TVGuideRecyclerViewAdapter(ArrayList <TVGuideDTO> movieDetailDTOS, RecyclerView _recyclerView) {
+    public TVGuideRecyclerViewAdapter(ArrayList <TVGuideDTO> movieDetailDTOS, RecyclerView _recyclerView, TVFragment.SendArgumentsAndLaunchFragment callback) {
         this.movieDetailDTOS = movieDetailDTOS;
         this.mRecyclerView = _recyclerView;
+        this.mCallback = callback;
     }
 
     @Override
@@ -62,6 +65,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
                 TVGuideDTO data = movieDetailDTOS.get(position);
+                mCallback.passMovieData(data.getId(), data.getTitle());
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder

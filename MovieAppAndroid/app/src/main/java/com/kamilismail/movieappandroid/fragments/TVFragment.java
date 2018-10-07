@@ -37,6 +37,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class TVFragment extends Fragment {
 
+    private SendArgumentsAndLaunchFragment mCallback;
+
+    public interface SendArgumentsAndLaunchFragment {
+        void logoutUser();
+        void passMovieData(String id, String title);
+    }
+
     public static String TAG = "TVFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
@@ -85,9 +92,7 @@ public class TVFragment extends Fragment {
             public void onResponse(Call<ArrayList <TVGuideDTO>> call, Response<ArrayList <TVGuideDTO>> response) {
                 ArrayList <TVGuideDTO> movieDetailDTOS = response.body();
                 if (movieDetailDTOS == null) {
-                    sessionController.logoutUser();
-                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    mCallback.logoutUser();
                 }
                 onSuccess(movieDetailDTOS, view);
             }
@@ -107,7 +112,7 @@ public class TVFragment extends Fragment {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new TVGuideRecyclerViewAdapter(movieDetailDTOS, recyclerView));
+        recyclerView.setAdapter(new TVGuideRecyclerViewAdapter(movieDetailDTOS, recyclerView, mCallback));
         progressBar.setVisibility(View.GONE);
     }
 
@@ -118,6 +123,10 @@ public class TVFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Toast.makeText(context, "Zaladowano TV", Toast.LENGTH_SHORT);
+        try {
+            mCallback = (SendArgumentsAndLaunchFragment) context;
+        } catch (ClassCastException e) {
+
+        }
     }
 }

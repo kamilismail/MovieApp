@@ -1,6 +1,5 @@
 package com.kamilismail.movieappandroid.adapters;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.DTO.NowPlayingDTO;
-import com.kamilismail.movieappandroid.DTO.PopularMoviesDTO;
-import com.kamilismail.movieappandroid.DTO.PopularSeriesDTO;
-import com.kamilismail.movieappandroid.DTO.UpcomingMoviesDTO;
 import com.kamilismail.movieappandroid.R;
+import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +19,7 @@ public class NowPlayingRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<NowPlayingDTO> nowPlayingDTOS;
 
     private RecyclerView mRecyclerView;
+    private DiscoverFragment.SendArgumentsAndLaunchFragment mCallback;
 
     // implementacja wzorca ViewHolder
     // każdy obiekt tej klasy przechowuje odniesienie do layoutu elementu listy
@@ -43,9 +40,10 @@ public class NowPlayingRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public NowPlayingRecyclerViewAdapter(ArrayList <NowPlayingDTO> nowPlayingDTOList, RecyclerView _recyclerView) {
+    public NowPlayingRecyclerViewAdapter(ArrayList <NowPlayingDTO> nowPlayingDTOList, RecyclerView _recyclerView, DiscoverFragment.SendArgumentsAndLaunchFragment callback) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
+        this.mCallback = callback;
     }
 
     @Override
@@ -62,9 +60,7 @@ public class NowPlayingRecyclerViewAdapter extends RecyclerView.Adapter {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
                 NowPlayingDTO data = nowPlayingDTOS.get(position);
-                if (!data.getId().equals("")) {
-
-                }
+                mCallback.passMovieData(data.getId(), data.getTitle());
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder

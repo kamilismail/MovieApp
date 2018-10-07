@@ -5,12 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.kamilismail.movieappandroid.R;
+import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
+import com.kamilismail.movieappandroid.fragments.MovieDetailsFragment;
 import com.kamilismail.movieappandroid.fragments.NotificationFragment;
 import com.kamilismail.movieappandroid.fragments.ProfileFragment;
 import com.kamilismail.movieappandroid.fragments.SearchFragment;
@@ -20,10 +23,13 @@ import com.kamilismail.movieappandroid.helpers.BottomNavigationViewHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
+        SearchFragment.SendArgumentsAndLaunchFragment {
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;
+    private SessionController sessionController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
-
+        this.sessionController = new SessionController(this);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mItemSelectedListener);
 
         // Launch initial fragment.
@@ -134,4 +140,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             };
+
+    @Override
+    public void logoutUser() {
+        sessionController.logoutUser();
+    }
+
+    @Override
+    public void passMovieData(String id, String title) {
+        MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        args.putString("title", title);
+        movieDetailsFragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.frame, movieDetailsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }

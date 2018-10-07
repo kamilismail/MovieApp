@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.R;
+import com.kamilismail.movieappandroid.fragments.SearchFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     private List<Result> nowPlayingDTOS;
-
+    private SearchFragment.SendArgumentsAndLaunchFragment mCallback;
     private RecyclerView mRecyclerView;
 
     // implementacja wzorca ViewHolder
@@ -37,9 +38,10 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public SearchMoviesRecyclerViewAdapter(List <Result> nowPlayingDTOList, RecyclerView _recyclerView) {
+    public SearchMoviesRecyclerViewAdapter(List <Result> nowPlayingDTOList, RecyclerView _recyclerView, SearchFragment.SendArgumentsAndLaunchFragment callback) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
+        this.mCallback = callback;
     }
 
     @Override
@@ -56,6 +58,7 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
                 Result data = nowPlayingDTOS.get(position);
+                mCallback.passMovieData(data.getId().toString(), data.getTitle());
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder

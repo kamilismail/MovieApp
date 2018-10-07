@@ -36,6 +36,13 @@ import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
  */
 public class DiscoverFragment extends Fragment {
 
+    private SendArgumentsAndLaunchFragment mCallback;
+
+    public interface SendArgumentsAndLaunchFragment {
+        void logoutUser();
+        void passMovieData(String id, String title);
+    }
+
     public static String TAG = "DiscoverFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
@@ -75,9 +82,7 @@ public class DiscoverFragment extends Fragment {
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
                 if (discoverDTO == null) {
-                    sessionController.logoutUser();
-                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    mCallback.logoutUser();
                 }
                 onSuccess(discoverDTO, view);
             }
@@ -97,7 +102,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView));
+        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView, mCallback));
         ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
         recyclerIndicator.attachToRecyclerView(recyclerView);
 
@@ -108,7 +113,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView2.setOnFlingListener(null);
         snapHelper2.attachToRecyclerView(recyclerView2);
         recyclerView2.setItemAnimator(new DefaultItemAnimator());
-        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2));
+        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2, mCallback));
         ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
         recyclerIndicator2.attachToRecyclerView(recyclerView2);
 
@@ -130,9 +135,13 @@ public class DiscoverFragment extends Fragment {
         recyclerView4.setOnFlingListener(null);
         snapHelper4.attachToRecyclerView(recyclerView4);
         recyclerView4.setItemAnimator(new DefaultItemAnimator());
-        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4));
+        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4, mCallback));
         ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
         recyclerIndicator4.attachToRecyclerView(recyclerView4);
+    }
+
+    private void setAdapters(Integer recyclerId, Integer indicatorId, DiscoverDTO discoverDTO, final View view) {
+
     }
 
     private void onFailed() {
@@ -142,7 +151,11 @@ public class DiscoverFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mCallback = (SendArgumentsAndLaunchFragment) context;
+        } catch (ClassCastException e) {
 
-        Toast.makeText(getContext(), "Zaladowano Discovery", Toast.LENGTH_SHORT);
+        }
+
     }
 }

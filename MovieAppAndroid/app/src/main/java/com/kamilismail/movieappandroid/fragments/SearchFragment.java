@@ -40,6 +40,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener,
         MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
 
+
+    private SearchFragment.SendArgumentsAndLaunchFragment mCallback;
+
+    public interface SendArgumentsAndLaunchFragment {
+        void logoutUser();
+        void passMovieData(String id, String title);
+    }
+
     public static String TAG = "SearchFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
@@ -89,8 +97,11 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mCallback = (SendArgumentsAndLaunchFragment) context;
+        } catch (ClassCastException e) {
 
-        Toast.makeText(getContext(), "Zaladowano Search", Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
@@ -146,9 +157,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
             public void onResponse(Call<SearchMovieDTO> call, Response<SearchMovieDTO> response) {
                 SearchMovieDTO movieDetailDTO = response.body();
                 if (movieDetailDTO == null) {
-                    sessionController.logoutUser();
-                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    mCallback.logoutUser();
                 }
                 if (movieDetailDTO.getResults().size() < 1)
                     mInfo.setVisibility(View.VISIBLE);
@@ -172,7 +181,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new SearchMoviesRecyclerViewAdapter(movieDetailDTO.getResults(), recyclerView));
+        recyclerView.setAdapter(new SearchMoviesRecyclerViewAdapter(movieDetailDTO.getResults(), recyclerView, mCallback));
         //progressBar.setVisibility(View.GONE);
     }
 

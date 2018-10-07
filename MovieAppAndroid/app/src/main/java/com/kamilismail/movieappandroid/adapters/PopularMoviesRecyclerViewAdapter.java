@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kamilismail.movieappandroid.DTO.PopularMoviesDTO;
 import com.kamilismail.movieappandroid.R;
+import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class PopularMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<PopularMoviesDTO> nowPlayingDTOS;
 
     private RecyclerView mRecyclerView;
+    private DiscoverFragment.SendArgumentsAndLaunchFragment mCallback;
 
     // implementacja wzorca ViewHolder
     // każdy obiekt tej klasy przechowuje odniesienie do layoutu elementu listy
@@ -37,9 +39,10 @@ public class PopularMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public PopularMoviesRecyclerViewAdapter(ArrayList <PopularMoviesDTO> nowPlayingDTOList, RecyclerView _recyclerView) {
+    public PopularMoviesRecyclerViewAdapter(ArrayList <PopularMoviesDTO> nowPlayingDTOList, RecyclerView _recyclerView, DiscoverFragment.SendArgumentsAndLaunchFragment callback) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
+        this.mCallback = callback;
     }
 
     @Override
@@ -56,9 +59,7 @@ public class PopularMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
                 PopularMoviesDTO data = nowPlayingDTOS.get(position);
-                if (!data.getId().equals("")) {
-
-                }
+                mCallback.passMovieData(data.getId(), data.getTitle());
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder

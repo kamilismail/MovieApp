@@ -1,5 +1,6 @@
 package com.kamilismail.movieappandroid.connection;
 
+import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.DTO.search_movies.SearchMovieDTO;
 import com.kamilismail.movieappandroid.DTO.search_person.PersonResult;
@@ -24,7 +25,7 @@ public interface ApiSearch {
     Call<SearchMovieDTO> getProductions(@Header("Cookie") String cookie, @Query("name") String name);
 
     @GET("search/movie")
-    Call<Result> getMovie(@Header("Cookie") String cookie, @Query("id") String id);
+    Call<GetMovieDTO> getMovie(@Header("Cookie") String cookie, @Query("id") String id);
 
     @GET("search/tvshow")
     Call<SeriesResult> getTVShow(@Header("Cookie") String cookie, @Query("id") String id);

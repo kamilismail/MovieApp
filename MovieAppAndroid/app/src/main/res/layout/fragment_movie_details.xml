@@ -6,7 +6,7 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginTop="15dp"
-    android:layout_marginBottom="40dp"
+    android:layout_marginBottom="60dp"
     tools:context=".fragments.MovieDetailsFragment">
 
     <ScrollView
@@ -24,43 +24,61 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:text="Harry Potter"
+                    android:textSize="35dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    android:layout_centerHorizontal="true"
+                    android:padding="5dp"/>
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:id="@+id/poster"
-                    android:src="@drawable/ic_discover"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"/>
+                    android:layout_below="@+id/title"
+                    android:padding="5dp"
+                    android:layout_centerHorizontal="true"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/avarageRating"
-                    android:layout_below="@+id/poster"
-                    android:text="Avarage rating: 5.8/10"
+                    android:text="Rating:"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
-                    android:padding="5dp"/>
+                    android:layout_below="@+id/poster" />
 
-                <Button style = "@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Rate it"
-                    android:id="@+id/rating"
-                    android:backgroundTint="@color/DeepRed"
-                    android:textColor="@android:color/white"
-                    android:layout_below="@+id/avarageRating"
-                    android:padding="5dp"
-                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userRating"
+                    android:text="Your rating:"
+                    android:layout_below="@+id/avarageRating"/>
+
+                <RatingBar
+                    android:stepSize="1"
+                    android:theme="@style/RatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rating="0"
+                    android:numStars="5"
+                    android:id="@+id/ratingBar"
+                    android:layout_below="@+id/userRating"
+                    android:layout_centerHorizontal="true"/>
 
                 <Button style = "@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Want to watch"
-                    android:id="@+id/addFav"
+                    android:id="@+id/addWantToWatch"
                     android:backgroundTint="@color/DeepRed"
                     android:textColor="@android:color/white"
-                    android:layout_below="@+id/rating"
+                    android:layout_below="@+id/ratingBar"
                     android:padding="5dp"
                     />
 
@@ -68,19 +86,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Add to favourites"
-                    android:id="@+id/addWantToWatch"
+                    android:id="@+id/addFav"
                     android:backgroundTint="@color/DeepRed"
                     android:textColor="@android:color/white"
-                    android:layout_below="@+id/addFav"
+                    android:layout_below="@+id/addWantToWatch"
                     android:padding="5dp"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/onTV"
+                    android:layout_below="@+id/addFav"
+                    android:text="On TV:"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/tvDate"
-                    android:layout_below="@+id/addWantToWatch"
-                    android:text="On TV: 20.12.2018 at 20:30"
+                    android:layout_below="@+id/onTV"
+                    android:text=""
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
@@ -89,9 +115,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvChanel"
+                    android:id="@+id/chanelInfo"
                     android:layout_below="@+id/tvDate"
-                    android:text="Chanel: TVP1"
+                    android:text="Chanel:"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvChanel"
+                    android:layout_below="@+id/chanelInfo"
+                    android:text=""
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
@@ -100,10 +134,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:id="@+id/tvlogo"
-                    android:src="@drawable/ic_discover"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_below="@id/tvDate"
+                    android:layout_below="@id/tvChanel"
                     android:layout_alignRight="@+id/tvChanel"/>
 
                 <TextView
@@ -111,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/release"
                     android:layout_below="@+id/tvlogo"
-                    android:text="Release date: 20.08.2001"
+                    android:text="Release date:"
                     android:textSize="12dp"
                     android:padding="5dp"/>
 
@@ -120,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
                     android:layout_below="@+id/release"
-                    android:text="Description:\nLorem ipsum..."
+                    android:text="Description:\n"
                     android:textSize="12dp"
                     android:padding="5dp"/>
 
