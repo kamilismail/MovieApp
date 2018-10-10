@@ -25,7 +25,7 @@
         />
     <item
         android:id = "@+id/action_notification"
-        android:title = "Notifications"
+        android:title = "Reminders"
         android:icon="@drawable/ic_notification"
         android:iconTint="@color/Black"
         app:showAsAction="ifRoom"

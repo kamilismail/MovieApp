@@ -156,7 +156,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
             @Override
             public void onResponse(Call<SearchMovieDTO> call, Response<SearchMovieDTO> response) {
                 SearchMovieDTO movieDetailDTO = response.body();
-                if (movieDetailDTO == null) {
+                if (movieDetailDTO.getResults() == null) {
                     mCallback.logoutUser();
                 }
                 if (movieDetailDTO.getResults().size() < 1)

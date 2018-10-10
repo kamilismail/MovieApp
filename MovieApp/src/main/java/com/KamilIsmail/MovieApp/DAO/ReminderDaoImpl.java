@@ -81,7 +81,7 @@ public class ReminderDaoImpl implements ReminderDao {
             movieEntity.setMovieName(tmdbResult.getTitle());
             movieEntity.setTmdbId(tmdbResult.getId());
             movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
+            movieEntity.setPosterPath(tmdbResult.getBackdropPath());
             movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
             movieRepository.save(movieEntity);
         } else {
@@ -110,7 +110,9 @@ public class ReminderDaoImpl implements ReminderDao {
             }
         }
         TvstationsEntity tvstationsEntity = null;
-        List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
+        List<TvstationsEntity> stationsList = null;
+        if (stationName.isEmpty())
+            stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
         if (stationsList.size() < 1) {
             tvstationsEntity = new TvstationsEntity();

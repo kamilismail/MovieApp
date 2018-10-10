@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
+import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
 import com.kamilismail.movieappandroid.fragments.MovieDetailsFragment;
 import com.kamilismail.movieappandroid.fragments.NotificationFragment;
 import com.kamilismail.movieappandroid.fragments.ProfileFragment;
 import com.kamilismail.movieappandroid.fragments.SearchFragment;
 import com.kamilismail.movieappandroid.fragments.TVFragment;
+import com.kamilismail.movieappandroid.fragments.WantToWatchFragment;
 import com.kamilismail.movieappandroid.helpers.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -25,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
         DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
-        SearchFragment.SendArgumentsAndLaunchFragment {
+        SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment {
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;
@@ -144,6 +146,51 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void logoutUser() {
         sessionController.logoutUser();
+    }
+
+    @Override
+    public void startFavouritesFragment() {
+        FavouritesFragment favouritesFragment = new FavouritesFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, favouritesFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void startWantToWatchFragment() {
+        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, wantToWatchFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void startRatingsFragment() {
+//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.frame, wantToWatchFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+    }
+
+    @Override
+    public void startChangePswFragment() {
+//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.frame, wantToWatchFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+    }
+
+    @Override
+    public void deleteAccountFragment() {
+//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.frame, wantToWatchFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
     }
 
     @Override

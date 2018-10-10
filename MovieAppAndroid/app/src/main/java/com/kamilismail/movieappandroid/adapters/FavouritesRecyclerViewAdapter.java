@@ -7,17 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kamilismail.movieappandroid.DTO.search_movies.Result;
+import com.kamilismail.movieappandroid.DTO.FavouritesDTO;
 import com.kamilismail.movieappandroid.R;
-import com.kamilismail.movieappandroid.fragments.SearchFragment;
+import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
-    private List<Result> nowPlayingDTOS;
-    private SearchFragment.SendArgumentsAndLaunchFragment mCallback;
+public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter {
+
+    private ArrayList<FavouritesDTO> favList;
+
     private RecyclerView mRecyclerView;
+    private FavouritesFragment.SendArgumentsAndLaunchFragment mCallback;
 
     // implementacja wzorca ViewHolder
     // każdy obiekt tej klasy przechowuje odniesienie do layoutu elementu listy
@@ -38,8 +40,8 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public SearchMoviesRecyclerViewAdapter(List <Result> nowPlayingDTOList, RecyclerView _recyclerView, SearchFragment.SendArgumentsAndLaunchFragment callback) {
-        this.nowPlayingDTOS = nowPlayingDTOList;
+    public FavouritesRecyclerViewAdapter(ArrayList <FavouritesDTO> nowPlayingDTOList, RecyclerView _recyclerView, FavouritesFragment.SendArgumentsAndLaunchFragment callback) {
+        this.favList = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
     }
@@ -57,8 +59,8 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 // odnajdujemy indeks klikniętego elementu
                 int position = mRecyclerView.getChildAdapterPosition(v);
-                Result data = nowPlayingDTOS.get(position);
-                mCallback.passMovieData(data.getId().toString(), data.getTitle());
+                FavouritesDTO data = favList.get(position);
+                mCallback.passMovieData(data.getId(), data.getTitle());
             }
         });
         // tworzymy i zwracamy obiekt ViewHolder
@@ -68,17 +70,16 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
-        Result data = nowPlayingDTOS.get(i);
-        if (data.getPosterPath() != null)
-            Picasso.get().load("https://image.tmdb.org/t/p/w500/" + data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        FavouritesDTO data = favList.get(i);
+        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
-        ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getVoteAverage());
+        ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
         ((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
     }
 
     @Override
     public int getItemCount() {
-        return nowPlayingDTOS.size();
+        return favList.size();
     }
 }

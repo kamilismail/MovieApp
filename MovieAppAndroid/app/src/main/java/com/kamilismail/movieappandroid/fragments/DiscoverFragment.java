@@ -31,9 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DiscoverFragment extends Fragment {
 
     private SendArgumentsAndLaunchFragment mCallback;
@@ -81,7 +78,7 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
-                if (discoverDTO == null) {
+                if (discoverDTO.getNowplaying() == null) {
                     mCallback.logoutUser();
                 }
                 onSuccess(discoverDTO, view);
@@ -95,53 +92,36 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void onSuccess(DiscoverDTO discoverDTO, final View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.nowplayingList);
+        RecyclerView recyclerView = setAdapters(R.id.nowplayingList, view);
+        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView, mCallback));
+        ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
+        recyclerIndicator.attachToRecyclerView(recyclerView);
+
+        RecyclerView recyclerView2 = setAdapters(R.id.popularMoviesList, view);
+        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2, mCallback));
+        ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
+        recyclerIndicator2.attachToRecyclerView(recyclerView2);
+
+        RecyclerView recyclerView3 = setAdapters(R.id.popularSeriesList, view);
+        recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
+        ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
+        recyclerIndicator3.attachToRecyclerView(recyclerView3);
+
+        RecyclerView recyclerView4 = setAdapters(R.id.upcomingMoviesList, view);
+        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4, mCallback));
+        ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
+        recyclerIndicator4.attachToRecyclerView(recyclerView4);
+    }
+
+    private RecyclerView setAdapters(Integer recyclerId, final View view) {
+        RecyclerView recyclerView = view.findViewById(recyclerId);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView, mCallback));
-        ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
-        recyclerIndicator.attachToRecyclerView(recyclerView);
-
-        RecyclerView recyclerView2 = view.findViewById(R.id.popularMoviesList);
-        recyclerView2.setHasFixedSize(true);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        PagerSnapHelper snapHelper2 = new PagerSnapHelper();
-        recyclerView2.setOnFlingListener(null);
-        snapHelper2.attachToRecyclerView(recyclerView2);
-        recyclerView2.setItemAnimator(new DefaultItemAnimator());
-        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2, mCallback));
-        ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
-        recyclerIndicator2.attachToRecyclerView(recyclerView2);
-
-        RecyclerView recyclerView3 = view.findViewById(R.id.popularSeriesList);
-        recyclerView3.setHasFixedSize(true);
-        recyclerView3.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        PagerSnapHelper snapHelper3 = new PagerSnapHelper();
-        recyclerView3.setOnFlingListener(null);
-        snapHelper3.attachToRecyclerView(recyclerView3);
-        recyclerView3.setItemAnimator(new DefaultItemAnimator());
-        recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
-        ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
-        recyclerIndicator3.attachToRecyclerView(recyclerView3);
-
-        RecyclerView recyclerView4 = view.findViewById(R.id.upcomingMoviesList);
-        recyclerView4.setHasFixedSize(true);
-        recyclerView4.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        PagerSnapHelper snapHelper4 = new PagerSnapHelper();
-        recyclerView4.setOnFlingListener(null);
-        snapHelper4.attachToRecyclerView(recyclerView4);
-        recyclerView4.setItemAnimator(new DefaultItemAnimator());
-        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4, mCallback));
-        ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
-        recyclerIndicator4.attachToRecyclerView(recyclerView4);
-    }
-
-    private void setAdapters(Integer recyclerId, Integer indicatorId, DiscoverDTO discoverDTO, final View view) {
-
+        return recyclerView;
     }
 
     private void onFailed() {

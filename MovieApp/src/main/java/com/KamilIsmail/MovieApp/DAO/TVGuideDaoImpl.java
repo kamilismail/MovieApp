@@ -65,7 +65,7 @@ public class TVGuideDaoImpl implements TVGuideDao {
             movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
             movieEntity.setTmdbId(movieBean.getMovieDb().getId());
             movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(movieBean.getMovieDb().getPosterPath());
+            movieEntity.setPosterPath(movieBean.getMovieDb().getBackdropPath());
             movieEntity.setReleaseDate(movieBean.getMovieDb().getReleaseDate());
             movieRepository.save(movieEntity);
         } else {

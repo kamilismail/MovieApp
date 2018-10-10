@@ -45,7 +45,7 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
             movieEntity.setMovieName(tmdbResult.getTitle());
             movieEntity.setTmdbId(tmdbResult.getId());
             movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
+            movieEntity.setPosterPath(tmdbResult.getBackdropPath());
             movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
             movieRepository.save(movieEntity);
         }

@@ -44,7 +44,7 @@ public class TVGuideServiceImpl implements TVGuideService {
             }
 
             getMovieDTOList.add(new TVGuideMovieDTO("MOVIE", moviesEntity.getTmdbId().toString(), tmdbResult.getTitle(),
-                     Constants.getPosterPath() + tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),
+                     Constants.getPosterPath() + tmdbResult.getBackdropPath(), tmdbResult.getReleaseDate(),
                     String.valueOf(tmdbResult.getVoteAverage()), tvstationsEntity.getName(), logoPath,
                     tvGuideEntity.getDate().toString()));
         }
