@@ -48,7 +48,7 @@ public class ReminderDaoImpl implements ReminderDao {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
         UserEntity userEntity = userRepository.findByUserId(userId);
 
-        String stationName = "";
+        String stationName = "to_remind";
         String logoPath = "";
         String date = "";
         String time = "";
@@ -111,29 +111,48 @@ public class ReminderDaoImpl implements ReminderDao {
         }
         TvstationsEntity tvstationsEntity = null;
         List<TvstationsEntity> stationsList = null;
-        if (stationName.isEmpty())
+        if (!stationName.equals("to_remind"))
             stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
-        if (stationsList.size() < 1) {
+        if (stationsList != null) {
+            if (stationsList.size() < 1) {
+                tvstationsEntity = new TvstationsEntity();
+                tvstationsEntity.setName(stationName);
+                tvstationsEntity.setLogoPath(logoPath);
+                tvSatationRepository.save(tvstationsEntity);
+            } else {
+                tvstationsEntity = stationsList.get(0);
+            }
+        } else {
             tvstationsEntity = new TvstationsEntity();
             tvstationsEntity.setName(stationName);
             tvstationsEntity.setLogoPath(logoPath);
             tvSatationRepository.save(tvstationsEntity);
-        } else {
-            tvstationsEntity = stationsList.get(0);
         }
         RemindersEntity remindersEntity = new RemindersEntity();
         remindersEntity.setMovieId(movieEntity.getMovieId());
         remindersEntity.setUserId(userEntity.getUserId());
         Timestamp sqlDate;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            Date parsedDate = dateFormat.parse(date + ' ' + time);
-            sqlDate = new java.sql.Timestamp(parsedDate.getTime());
-        } catch (Exception e) {
-            return (new BooleanDTO(false));
+        if (!date.isEmpty() && !time.isEmpty()) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Date parsedDate = dateFormat.parse(date + ' ' + time);
+                sqlDate = new java.sql.Timestamp(parsedDate.getTime());
+                remindersEntity.setData(sqlDate);
+            } catch (Exception e) {
+                return (new BooleanDTO(false));
+            }
+        } else {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Date parsedDate = dateFormat.parse("9999-12-31" + ' ' + "00:00");
+                sqlDate = new java.sql.Timestamp(parsedDate.getTime());
+                remindersEntity.setData(sqlDate);
+            } catch (Exception e) {
+                return (new BooleanDTO(false));
+            }
         }
-        remindersEntity.setData(sqlDate);
+        remindersEntity.setReminded(false);
         remindersEntity.setTvstationId(tvstationsEntity.getTvstationId());
         remindersEntity.setMoviesByMovieId(movieEntity);
         remindersEntity.setTvstationsByTvstationId(tvstationsEntity);

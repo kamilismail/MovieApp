@@ -40,7 +40,7 @@ public class TVGuideScheduler {
         List<TvstationsEntity> tvstationsEntities = tvSatationRepository.findAll();
 
         for (TvstationsEntity tvstationsEntity : tvstationsEntities) {
-            if (tvstationsEntity.getName().equals("")) {
+            if (tvstationsEntity.getName().equals("to_remind")) {
                 RemindersEntity remindersEntity = reminderRepository.findRemindersEntitiesByTvstationId(tvstationsEntity.getTvstationId()).get(0);
                 MoviesEntity moviesEntity = remindersEntity.getMoviesByMovieId();
                 FilmwebApi fa = new FilmwebApi();

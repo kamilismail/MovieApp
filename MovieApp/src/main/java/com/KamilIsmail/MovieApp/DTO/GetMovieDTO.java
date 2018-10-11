@@ -22,13 +22,22 @@ public class GetMovieDTO {
     @JsonProperty("user_rating")
     private String userRating;
 
-    public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID, String userRating) {
+    @JsonProperty("user_want_to_watch")
+    private String wantToWatch;
+
+    @JsonProperty("user_fav")
+    private String fav;
+
+    public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID, String userRating,
+                       boolean wantToWatch, boolean userFav) {
         this.result = result;
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
         this.filmID = filmID;
         this.userRating = userRating;
+        this.wantToWatch = String.valueOf(wantToWatch);
+        this.fav = String.valueOf(userFav);
     }
 
     public GetMovieDTO(MovieDb result, String userRating) {
@@ -38,6 +47,17 @@ public class GetMovieDTO {
         this.chanel = "";
         this.filmID = "";
         this.userRating = userRating;
+    }
+
+    public GetMovieDTO(MovieDb result, String userRating, boolean wantToWatch, boolean userFav) {
+        this.result = result;
+        this.date = "";
+        this.hour = "";
+        this.chanel = "";
+        this.filmID = "";
+        this.userRating = userRating;
+        this.wantToWatch = String.valueOf(wantToWatch);
+        this.fav = String.valueOf(userFav);
     }
 
     public MovieDb getResult() {
@@ -86,5 +106,21 @@ public class GetMovieDTO {
 
     public void setUserRating(String userRating) {
         this.userRating = userRating;
+    }
+
+    public String getWantToWatch() {
+        return wantToWatch;
+    }
+
+    public void setWantToWatch(String wantToWatch) {
+        this.wantToWatch = wantToWatch;
+    }
+
+    public String getFav() {
+        return fav;
+    }
+
+    public void setFav(String fav) {
+        this.fav = fav;
     }
 }

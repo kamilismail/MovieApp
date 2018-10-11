@@ -9,4 +9,6 @@ public interface WantToWatchRepository extends JpaRepository<WanttowatchEntity, 
     List<WanttowatchEntity> findWanttowatchEntityByUserId(int userid);
 
     List<WanttowatchEntity> findByMovieId(int movieId);
+
+    WanttowatchEntity findWanttowatchEntityByMovieIdAndUserId(int movieId, int userId);
 }

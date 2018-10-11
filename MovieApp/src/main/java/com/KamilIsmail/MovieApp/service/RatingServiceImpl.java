@@ -35,7 +35,7 @@ public class RatingServiceImpl implements RatingService {
         for (RatingsEntity rateList : favsEntitiesList) {
             DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(rateList.getMoviesByMovieId().getTmdbId()),
                     rateList.getMoviesByMovieId().getMovieName(), rateList.getMoviesByMovieId().getPosterPath(),
-                    rateList.getMoviesByMovieId().getReleaseDate());
+                    rateList.getMoviesByMovieId().getReleaseDate(), rateList.getRating());
 
             ratingResults.add(result);
         }
