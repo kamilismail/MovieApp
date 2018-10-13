@@ -35,7 +35,7 @@ public class FavouritesServiceImpl implements FavouritesService {
         for (FavouritesEntity favList : favsEntitiesList) {
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(favList.getMoviesByMovieId().getTmdbId()), "pl");
             DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(favList.getMoviesByMovieId().getTmdbId()),
-                    favList.getMoviesByMovieId().getMovieName(), favList.getMoviesByMovieId().getPosterPath(),
+                    favList.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + favList.getMoviesByMovieId().getPosterPath(),
                     favList.getMoviesByMovieId().getReleaseDate(), String.valueOf(tmdbResult.getVoteAverage()));
             favResults.add(result);
         }

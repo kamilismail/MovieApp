@@ -35,7 +35,7 @@ public class WantToWatchServiceImpl implements WantToWatchService {
         for (WanttowatchEntity wantList : wantEntitiesList) {
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(wantList.getMoviesByMovieId().getTmdbId()), "pl");
             DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(wantList.getMoviesByMovieId().getTmdbId()),
-                    wantList.getMoviesByMovieId().getMovieName(), wantList.getMoviesByMovieId().getPosterPath(),
+                    wantList.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + wantList.getMoviesByMovieId().getPosterPath(),
                     wantList.getMoviesByMovieId().getReleaseDate(), String.valueOf(tmdbResult.getVoteAverage()));
             wantResults.add(result);
         }

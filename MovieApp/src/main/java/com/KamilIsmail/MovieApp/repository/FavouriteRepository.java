@@ -11,5 +11,5 @@ public interface FavouriteRepository extends JpaRepository<FavouritesEntity, Lon
 
     List<FavouritesEntity> findByMovieId(int movieId);
 
-    FavouritesEntity findFavouritesEntityByUserIdAndAndMovieId(int userid, int movieid);
+    FavouritesEntity findFavouritesEntityByUserIdAndMovieId(int userid, int movieid);
 }

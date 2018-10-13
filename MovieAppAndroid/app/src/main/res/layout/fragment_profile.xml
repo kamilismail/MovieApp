@@ -66,6 +66,7 @@
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
             android:layout_marginBottom="140dp"
+            android:clickable="true"
             android:text="@string/Sign_out"
             android:id="@+id/bSignout"
             android:backgroundTint="@color/DeepRed"

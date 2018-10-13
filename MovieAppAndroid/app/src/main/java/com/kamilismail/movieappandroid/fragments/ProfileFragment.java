@@ -1,7 +1,9 @@
 package com.kamilismail.movieappandroid.fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,8 +58,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
-        String str = sessionController.getUsername();
-        _username.setText(str);
+        _username.setText(sessionController.getUsername());
 
         bWantToWatch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +84,20 @@ public class ProfileFragment extends Fragment {
         bSignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.logoutUser();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want to sign out?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mCallback.logoutUser();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
@@ -97,11 +111,28 @@ public class ProfileFragment extends Fragment {
         bDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.deleteAccountFragment();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want to sign out?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteAccount();
+                                mCallback.logoutUser();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
         return view;
+    }
+
+    private void deleteAccount() {
     }
 
     public static ProfileFragment newInstance() {

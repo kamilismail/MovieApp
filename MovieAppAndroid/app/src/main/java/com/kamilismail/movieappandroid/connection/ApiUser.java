@@ -7,6 +7,7 @@ import com.kamilismail.movieappandroid.R;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -21,4 +22,7 @@ public interface ApiUser {
 
     @POST("user/")
     Call<BooleanDTO> createNewUser(@Body JsonObject bean);
+
+    @DELETE("user/")
+    Call<BooleanDTO> deleteUser(@Body JsonObject bean);
 }

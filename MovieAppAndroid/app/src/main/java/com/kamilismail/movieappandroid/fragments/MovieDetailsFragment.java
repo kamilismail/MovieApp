@@ -1,6 +1,8 @@
 package com.kamilismail.movieappandroid.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.Result;
@@ -25,7 +28,10 @@ import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
+import com.kamilismail.movieappandroid.connection.ApiFavourites;
+import com.kamilismail.movieappandroid.connection.ApiReminders;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
+import com.kamilismail.movieappandroid.connection.ApiWantToWatch;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -38,6 +44,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class MovieDetailsFragment extends Fragment {
+
+    public interface SendArgumentsAndLaunchFragment {
+        void logoutUser();
+    }
+    private SendArgumentsAndLaunchFragment mCallback;
 
     public static String TAG = "MovieDetailsFragment";
     private SessionController sessionController;
@@ -54,6 +65,8 @@ public class MovieDetailsFragment extends Fragment {
     TextView mAvarageRating;
     @BindView(R.id.ratingBar)
     RatingBar mRatingBar;
+    @BindView(R.id.addReminder)
+    Button mReminder;
     @BindView(R.id.addFav)
     Button mAddFav;
     @BindView(R.id.addWantToWatch)
@@ -78,7 +91,7 @@ public class MovieDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
         this.sessionController = new SessionController(getContext());
         Bundle args = this.getArguments();
         this.id = args.getString("id");
@@ -86,6 +99,65 @@ public class MovieDetailsFragment extends Fragment {
         ButterKnife.bind(this, view);
         mTitle.setText(this.title);
         getData(view);
+
+        mAddFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Add this title to favourites?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                favClicked(view);
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+        mWantToWatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Add this title to want to watch?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                wantsClicked(view);
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+        mReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Set up reminder for this title?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                reminderClicked(view);
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+
         return view;
     }
 
@@ -109,11 +181,9 @@ public class MovieDetailsFragment extends Fragment {
             public void onResponse(Call<GetMovieDTO> call, Response<GetMovieDTO> response) {
                 GetMovieDTO result = response.body();
                 if (result == null) {
-                    sessionController.logoutUser();
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                onSuccess(result, view);
+                    mCallback.logoutUser();
+                } else
+                    onSuccess(result, view);
             }
 
             @Override
@@ -125,16 +195,33 @@ public class MovieDetailsFragment extends Fragment {
 
     private void onSuccess(GetMovieDTO result, final View view) {
         Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getResults().
-                getPosterPath()).resize(350,550).into(mPoster);
+                getPosterPath()).resize(550,870).into(mPoster);
         mAvarageRating.setText("Rating: " + result.getResults().getVoteAverage());
-        //mRatingBar.setRating(result.getRating());
+        if (!result.getUserRating().isEmpty())
+            mRatingBar.setRating(Float.valueOf(result.getUserRating()));
+        if (result.getUserFav())
+            mAddFav.setText("Delete from favourites");
+        else
+            mAddFav.setText("Add to favourites");
+        if (result.getUserWantToWatch())
+            mWantToWatch.setText("Delete from want to watch");
+        else
+            mWantToWatch.setText("want to watch");
+
+        if(result.getUserReminder())
+            mReminder.setText("Delete reminder");
+        else
+            mReminder.setText("Add reminder");
+
         mRelease.setText("Release date: " + result.getResults().getReleaseDate());
         mDescription.setText("Description:\n\t" + result.getResults().getOverview());
         mTVChanel.setText(result.getChanel());
         if (!result.getHour().isEmpty())
             mTVDate.setText(result.getHour());
-        else
-            mTVDate.setText("No tv emission info. You can set a reminder.");
+        else {
+            mTVDate.setText("No tv emission info");
+            mTVChanel.setText("No tv emission info");
+        }
     }
 
     private void onFailed() {
@@ -144,7 +231,114 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mCallback = (SendArgumentsAndLaunchFragment) context;
+        } catch (ClassCastException e) {
+        }
+    }
 
-        Toast.makeText(getContext(), "Zaladowano Movie details", Toast.LENGTH_SHORT);
+    private void favClicked(final View view) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiFavourites.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiFavourites apiFavourites = retrofit.create(ApiFavourites.class);
+
+        String cookie = sessionController.getCookie();
+        Call<BooleanDTO> call;
+        if (this.mAddFav.getText().toString().toLowerCase().equals("add to favourites"))
+            call = apiFavourites.addFavourite(cookie, this.id);
+        else
+            call = apiFavourites.deleteFavourite(cookie, this.id);
+
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO result = response.body();
+                if (result == null) {
+                    mCallback.logoutUser();
+                } else {
+                    if (mAddFav.getText().toString().toLowerCase().equals("Add to favourites"))
+                        mAddFav.setText("Delete from favourites");
+                    else
+                        mAddFav.setText("Add to favourites");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void wantsClicked(final View view) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiWantToWatch.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiWantToWatch apiWantToWatch = retrofit.create(ApiWantToWatch.class);
+
+        String cookie = sessionController.getCookie();
+        Call<BooleanDTO> call;
+        if (this.mWantToWatch.getText().toString().toLowerCase().equals("want to watch"))
+            call = apiWantToWatch.addWant(cookie, this.id);
+        else
+            call = apiWantToWatch.deleteWant(cookie, this.id);
+
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO result = response.body();
+                if (result == null) {
+                    mCallback.logoutUser();
+                } else {
+                    if (mWantToWatch.getText().toString().toLowerCase().equals("want to watch"))
+                        mWantToWatch.setText("Delete from want to watch");
+                    else
+                        mWantToWatch.setText("want to watch");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void reminderClicked(final View view) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiReminders.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiReminders apiReminders = retrofit.create(ApiReminders.class);
+
+        String cookie = sessionController.getCookie();
+        Call<BooleanDTO> call;
+        if (this.mReminder.getText().toString().toLowerCase().equals("Add reminder"))
+            call = apiReminders.addReminder(cookie, this.id);
+        else
+            call = apiReminders.deleteReminder(cookie, this.id);
+
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO result = response.body();
+                if (result == null) {
+                    mCallback.logoutUser();
+                } else {
+                    if (mReminder.getText().toString().toLowerCase().equals("want to watch"))
+                        mReminder.setText("Delete reminder");
+                    else
+                        mReminder.setText("Add reminder");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
     }
 }

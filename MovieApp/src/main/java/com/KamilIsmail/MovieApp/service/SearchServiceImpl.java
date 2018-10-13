@@ -3,12 +3,10 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
+import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
 import com.KamilIsmail.MovieApp.entities.WanttowatchEntity;
-import com.KamilIsmail.MovieApp.repository.FavouriteRepository;
-import com.KamilIsmail.MovieApp.repository.MovieRepository;
-import com.KamilIsmail.MovieApp.repository.RatingRepository;
-import com.KamilIsmail.MovieApp.repository.WantToWatchRepository;
+import com.KamilIsmail.MovieApp.repository.*;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TvResultsPage;
@@ -43,6 +41,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     FavouriteRepository favouriteRepository;
+
+    @Autowired
+    ReminderRepository reminderRepository;
 
     @Override
     public MovieResultsPage getMovies(String production) throws IOException {
@@ -94,24 +95,30 @@ public class SearchServiceImpl implements SearchService {
             }
         }
 
-        boolean wantToWatch, fav;
-        int movieID = movieRepository.findByTmdbId(id.intValue()).getMovieId();
-        if (wantToWatchRepository.findWanttowatchEntityByMovieIdAndUserId(movieID, userID.intValue()) != null)
-            wantToWatch = true;
-        else
-            wantToWatch = false;
+        boolean wantToWatch = false, fav = false, reminder = false;
+        Integer movieID = null;
+        MoviesEntity moviesEntity = movieRepository.findByTmdbId(id.intValue());
+        if (moviesEntity != null)
+            movieID = movieRepository.findByTmdbId(id.intValue()).getMovieId();
 
-        if (favouriteRepository.findFavouritesEntityByUserIdAndAndMovieId(movieID, id.intValue()) != null)
-            fav = true;
-        else
-            fav = false;
+        if (movieID != null) {
+            if (wantToWatchRepository.findWanttowatchEntityByMovieIdAndUserId(movieID, userID.intValue()) != null)
+                wantToWatch = true;
+
+            if (favouriteRepository.findFavouritesEntityByUserIdAndMovieId(userID.intValue(), movieID) != null)
+                fav = true;
+
+            if(reminderRepository.findRemindersEntityByUserIdAndMovieId(userID.intValue(), movieID) != null)
+                reminder = true;
+
+        }
 
         if (broadcasts.isEmpty()) {
-            return (new GetMovieDTO(tmdbResult, ratingResult, wantToWatch, fav));
+            return (new GetMovieDTO(tmdbResult, ratingResult, wantToWatch, fav, reminder));
         }
 
         return (new GetMovieDTO(tmdbResult, broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
-                chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav));
+                chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
     }
 
     @Override

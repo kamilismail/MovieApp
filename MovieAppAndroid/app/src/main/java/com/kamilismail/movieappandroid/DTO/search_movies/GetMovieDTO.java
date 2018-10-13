@@ -3,8 +3,6 @@ package com.kamilismail.movieappandroid.DTO.search_movies;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class GetMovieDTO {
 
     @SerializedName("result")
@@ -25,6 +23,15 @@ public class GetMovieDTO {
     @SerializedName("user_rating")
     @Expose
     private String userRating;
+    @SerializedName("user_want_to_watch")
+    @Expose
+    private Boolean userWantToWatch;
+    @SerializedName("user_fav")
+    @Expose
+    private Boolean userFav;
+    @SerializedName("user_reminder")
+    @Expose
+    private Boolean userReminder;
 
     /**
      * No args constructor for use in serialization
@@ -33,13 +40,17 @@ public class GetMovieDTO {
     public GetMovieDTO() {
     }
 
-    public GetMovieDTO(Result results, String date, String hour, String chanel, String filmID, String userRating) {
+    public GetMovieDTO(Result results, String date, String hour, String chanel, String filmID,
+                       String userRating, Boolean userWantToWatch, Boolean userFav, Boolean userReminder) {
         this.results = results;
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
         this.filmID = filmID;
         this.userRating = userRating;
+        this.userWantToWatch = userWantToWatch;
+        this.userFav = userFav;
+        this.userReminder = userReminder;
     }
 
     public Result getResults() {
@@ -88,5 +99,29 @@ public class GetMovieDTO {
 
     public void setUserRating(String userRating) {
         this.userRating = userRating;
+    }
+
+    public Boolean getUserWantToWatch() {
+        return userWantToWatch;
+    }
+
+    public void setUserWantToWatch(Boolean userWantToWatch) {
+        this.userWantToWatch = userWantToWatch;
+    }
+
+    public Boolean getUserFav() {
+        return userFav;
+    }
+
+    public void setUserFav(Boolean userFav) {
+        this.userFav = userFav;
+    }
+
+    public Boolean getUserReminder() {
+        return userReminder;
+    }
+
+    public void setUserReminder(Boolean userReminder) {
+        this.userReminder = userReminder;
     }
 }

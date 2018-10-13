@@ -37,7 +37,7 @@ public class ReminderServiceImpl implements ReminderService {
             ReminderDTO result = new ReminderDTO("MOVIE",
                     Integer.toString(reminderList.getMoviesByMovieId().getTmdbId()), reminderList.getMoviesByMovieId().getMovieName(),
                     reminderList.getMoviesByMovieId().getPosterPath(), reminderList.getData().toString(), tvstationsEntity.getName(),
-                    tvstationsEntity.getLogoPath());
+                    tvstationsEntity.getLogoPath(), reminderList.getMoviesByMovieId().getReleaseDate());
 
             reminderResults.add(result);
         }

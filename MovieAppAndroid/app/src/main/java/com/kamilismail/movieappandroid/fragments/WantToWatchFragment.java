@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kamilismail.movieappandroid.DTO.FavouritesDTO;
@@ -43,6 +44,7 @@ public class WantToWatchFragment extends Fragment {
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     private ProgressBar progressBar;
+    private TextView nothingFound;
 
     public WantToWatchFragment() {
         // Required empty public constructor
@@ -57,6 +59,8 @@ public class WantToWatchFragment extends Fragment {
         this.sessionController = new SessionController(getContext());
         progressBar = view.findViewById(R.id.mProgressBarProfile);
         progressBar.setVisibility(View.GONE);
+        nothingFound = view.findViewById(R.id.info);
+        nothingFound.setVisibility(View.GONE);
         getData(view);
         return view;
     }
@@ -67,13 +71,8 @@ public class WantToWatchFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30,TimeUnit.SECONDS).build();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiWantToWatch.BASE_URL)
-                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -101,14 +100,19 @@ public class WantToWatchFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList <FavouritesDTO> favouritesDTOS, final View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.favList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new WantToWatchRecyclerViewAdapter(favouritesDTOS, recyclerView, mCallback));
-        progressBar.setVisibility(View.GONE);
+        if (favouritesDTOS.size() > 0) {
+            RecyclerView recyclerView = view.findViewById(R.id.favList);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+            PagerSnapHelper snapHelper = new PagerSnapHelper();
+            snapHelper.attachToRecyclerView(recyclerView);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(new WantToWatchRecyclerViewAdapter(favouritesDTOS, recyclerView, mCallback));
+            progressBar.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            nothingFound.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onFailed(View view) {
@@ -121,7 +125,6 @@ public class WantToWatchFragment extends Fragment {
         try {
             mCallback = (SendArgumentsAndLaunchFragment) context;
         } catch (ClassCastException e) {
-
         }
     }
 }

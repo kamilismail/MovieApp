@@ -28,8 +28,11 @@ public class GetMovieDTO {
     @JsonProperty("user_fav")
     private String fav;
 
+    @JsonProperty("user_reminder")
+    private String reminder;
+
     public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID, String userRating,
-                       boolean wantToWatch, boolean userFav) {
+                       boolean wantToWatch, boolean userFav, boolean reminder) {
         this.result = result;
         this.date = date;
         this.hour = hour;
@@ -38,6 +41,7 @@ public class GetMovieDTO {
         this.userRating = userRating;
         this.wantToWatch = String.valueOf(wantToWatch);
         this.fav = String.valueOf(userFav);
+        this.reminder = String.valueOf(reminder);
     }
 
     public GetMovieDTO(MovieDb result, String userRating) {
@@ -49,7 +53,7 @@ public class GetMovieDTO {
         this.userRating = userRating;
     }
 
-    public GetMovieDTO(MovieDb result, String userRating, boolean wantToWatch, boolean userFav) {
+    public GetMovieDTO(MovieDb result, String userRating, boolean wantToWatch, boolean userFav, boolean reminder) {
         this.result = result;
         this.date = "";
         this.hour = "";
@@ -58,6 +62,7 @@ public class GetMovieDTO {
         this.userRating = userRating;
         this.wantToWatch = String.valueOf(wantToWatch);
         this.fav = String.valueOf(userFav);
+        this.reminder = String.valueOf(reminder);
     }
 
     public MovieDb getResult() {
@@ -122,5 +127,13 @@ public class GetMovieDTO {
 
     public void setFav(String fav) {
         this.fav = fav;
+    }
+
+    public String getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
     }
 }

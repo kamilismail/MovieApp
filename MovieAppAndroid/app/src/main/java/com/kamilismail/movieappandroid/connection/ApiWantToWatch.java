@@ -21,8 +21,8 @@ public interface ApiWantToWatch {
     Call<ArrayList<FavouritesDTO>> getWants(@Header("Cookie") String cookie);
 
     @POST("want/addWant/")
-    Call<BooleanDTO> addFavourite(@Header("Cookie") String cookie, @Query("movieID") String movieID);
+    Call<BooleanDTO> addWant(@Header("Cookie") String cookie, @Query("movieID") String movieID);
 
     @DELETE("want/deleteWant/")
-    Call<BooleanDTO> deleteFavourite(@Header("Cookie") String cookie, @Query("movieID") String movieID);
+    Call<BooleanDTO> deleteWant(@Header("Cookie") String cookie, @Query("movieID") String movieID);
 }

@@ -40,10 +40,11 @@ public class TVGuideDaoImpl implements TVGuideDao {
         String date = "";
         String time = "";
         if (movieEntity == null) {
-            FilmwebApi fa = new FilmwebApi();
-            FilmSearchResult filmResult = fa.findFilm(movieBean.getMovieDb().getTitle(), Integer.parseInt(movieBean.getMovieDb().getReleaseDate().substring(0, 4))).get(0);
-            List<Broadcast> broadcasts = null;
+            FilmSearchResult filmResult = null;
             try {
+                FilmwebApi fa = new FilmwebApi();
+                filmResult = fa.findFilm(movieBean.getMovieDb().getTitle(), Integer.parseInt(movieBean.getMovieDb().getReleaseDate().substring(0, 4))).get(0);
+                List<Broadcast> broadcasts = null;
                 broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
                 if (!broadcasts.isEmpty()) {
                     Long chanelID = broadcasts.get(0).getChannelId();
@@ -58,8 +59,8 @@ public class TVGuideDaoImpl implements TVGuideDao {
                         }
                     }
                 }
-            } catch (FilmwebException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                return new BooleanDTO(false);
             }
             movieEntity = new MoviesEntity();
             movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
@@ -88,7 +89,7 @@ public class TVGuideDaoImpl implements TVGuideDao {
                     }
                 }
             } catch (FilmwebException e) {
-                e.printStackTrace();
+                return new BooleanDTO(false);
             }
         }
         if (stationName.equals(""))

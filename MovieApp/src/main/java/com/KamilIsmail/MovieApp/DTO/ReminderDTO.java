@@ -25,7 +25,10 @@ public class ReminderDTO {
     @JsonProperty("logo_path")
     private String logoPath;
 
-    public ReminderDTO(String mediaType, String id, String title, String poster_path, String onTvDate, String station, String logoPath) {
+    @JsonProperty("release_date")
+    private String release_date;
+
+    public ReminderDTO(String mediaType, String id, String title, String poster_path, String onTvDate, String station, String logoPath, String release_date) {
         this.mediaType = mediaType;
         this.id = id;
         this.title = title;
@@ -33,6 +36,7 @@ public class ReminderDTO {
         this.onTVDate = onTvDate;
         this.station = station;
         this.logoPath = logoPath;
+        this.release_date = release_date;
     }
 
     public String getMediaType() {
@@ -89,5 +93,13 @@ public class ReminderDTO {
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
+    }
+
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
     }
 }

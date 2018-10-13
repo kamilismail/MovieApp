@@ -78,7 +78,11 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
-                if (discoverDTO.getNowplaying() == null) {
+                try {
+                    if (discoverDTO == null) {
+                        mCallback.logoutUser();
+                    }
+                } catch(Exception e) {
                     mCallback.logoutUser();
                 }
                 onSuccess(discoverDTO, view);
@@ -92,25 +96,29 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void onSuccess(DiscoverDTO discoverDTO, final View view) {
-        RecyclerView recyclerView = setAdapters(R.id.nowplayingList, view);
-        recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView, mCallback));
-        ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
-        recyclerIndicator.attachToRecyclerView(recyclerView);
+        try {
+            RecyclerView recyclerView = setAdapters(R.id.nowplayingList, view);
+            recyclerView.setAdapter(new NowPlayingRecyclerViewAdapter(discoverDTO.getNowplaying(), recyclerView, mCallback));
+            ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator4);
+            recyclerIndicator.attachToRecyclerView(recyclerView);
 
-        RecyclerView recyclerView2 = setAdapters(R.id.popularMoviesList, view);
-        recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2, mCallback));
-        ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
-        recyclerIndicator2.attachToRecyclerView(recyclerView2);
+            RecyclerView recyclerView2 = setAdapters(R.id.popularMoviesList, view);
+            recyclerView2.setAdapter(new PopularMoviesRecyclerViewAdapter(discoverDTO.getPopularMovies(), recyclerView2, mCallback));
+            ScrollingPagerIndicator recyclerIndicator2 = view.findViewById(R.id.indicator);
+            recyclerIndicator2.attachToRecyclerView(recyclerView2);
 
-        RecyclerView recyclerView3 = setAdapters(R.id.popularSeriesList, view);
-        recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
-        ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
-        recyclerIndicator3.attachToRecyclerView(recyclerView3);
+            RecyclerView recyclerView3 = setAdapters(R.id.popularSeriesList, view);
+            recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
+            ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
+            recyclerIndicator3.attachToRecyclerView(recyclerView3);
 
-        RecyclerView recyclerView4 = setAdapters(R.id.upcomingMoviesList, view);
-        recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4, mCallback));
-        ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
-        recyclerIndicator4.attachToRecyclerView(recyclerView4);
+            RecyclerView recyclerView4 = setAdapters(R.id.upcomingMoviesList, view);
+            recyclerView4.setAdapter(new UpcomingMoviesRecyclerViewAdapter(discoverDTO.getUpcomingMovies(), recyclerView4, mCallback));
+            ScrollingPagerIndicator recyclerIndicator4 = view.findViewById(R.id.indicator3);
+            recyclerIndicator4.attachToRecyclerView(recyclerView4);
+        } catch (Exception e) {
+            mCallback.logoutUser();
+        }
     }
 
     private RecyclerView setAdapters(Integer recyclerId, final View view) {

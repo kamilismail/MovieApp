@@ -17,6 +17,7 @@ import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
 import com.kamilismail.movieappandroid.fragments.MovieDetailsFragment;
 import com.kamilismail.movieappandroid.fragments.NotificationFragment;
 import com.kamilismail.movieappandroid.fragments.ProfileFragment;
+import com.kamilismail.movieappandroid.fragments.RatingsFragment;
 import com.kamilismail.movieappandroid.fragments.SearchFragment;
 import com.kamilismail.movieappandroid.fragments.TVFragment;
 import com.kamilismail.movieappandroid.fragments.WantToWatchFragment;
@@ -27,7 +28,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
         DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
-        SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment {
+        SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment,
+        WantToWatchFragment.SendArgumentsAndLaunchFragment, FavouritesFragment.SendArgumentsAndLaunchFragment,
+        RatingsFragment.SendArgumentsAndLaunchFragment{
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;
@@ -168,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void startRatingsFragment() {
-//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.frame, wantToWatchFragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
+        RatingsFragment ratingsFragment = new RatingsFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, ratingsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
