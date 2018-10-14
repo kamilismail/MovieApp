@@ -194,9 +194,8 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void onSuccess(GetMovieDTO result, final View view) {
-        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getResults().
-                getPosterPath()).resize(550,870).into(mPoster);
-        mAvarageRating.setText("Rating: " + result.getResults().getVoteAverage());
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath()).resize(550,870).into(mPoster);
+        mAvarageRating.setText("Rating: " + result.getAvarageRating());
         if (!result.getUserRating().isEmpty())
             mRatingBar.setRating(Float.valueOf(result.getUserRating()));
         if (result.getUserFav())
@@ -213,8 +212,8 @@ public class MovieDetailsFragment extends Fragment {
         else
             mReminder.setText("Add reminder");
 
-        mRelease.setText("Release date: " + result.getResults().getReleaseDate());
-        mDescription.setText("Description:\n\t" + result.getResults().getOverview());
+        mRelease.setText("Release date: " + result.getReleaseDate());
+        mDescription.setText("Description:\n\t" + result.getOverview());
         mTVChanel.setText(result.getChanel());
         if (!result.getHour().isEmpty())
             mTVDate.setText(result.getHour());

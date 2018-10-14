@@ -39,13 +39,13 @@ public class ChangePswFragment extends Fragment {
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     @BindView(R.id.mProgressBarProfile)
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
     @BindView(R.id.ePassword)
-    private EditText ePassword;
+    EditText ePassword;
     @BindView(R.id.bDelete)
-    private Button bDelete;
+    Button bDelete;
     @BindView(R.id.tCancel)
-    private Button bCancel;
+    Button bCancel;
 
     public ChangePswFragment() {
         // Required empty public constructor

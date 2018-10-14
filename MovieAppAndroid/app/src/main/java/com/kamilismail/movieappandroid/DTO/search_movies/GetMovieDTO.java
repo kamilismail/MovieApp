@@ -5,9 +5,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetMovieDTO {
 
-    @SerializedName("result")
+    @SerializedName("media_type")
     @Expose
-    private Result results = null;
+    private String mediaType;
+    @SerializedName("avarage_rating")
+    @Expose
+    private String avarageRating;
+    @SerializedName("overview")
+    @Expose
+    private String overview;
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("release_date")
+    @Expose
+    private String releaseDate;
     @SerializedName("date")
     @Expose
     private String date;
@@ -40,9 +58,17 @@ public class GetMovieDTO {
     public GetMovieDTO() {
     }
 
-    public GetMovieDTO(Result results, String date, String hour, String chanel, String filmID,
-                       String userRating, Boolean userWantToWatch, Boolean userFav, Boolean userReminder) {
-        this.results = results;
+    public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath,
+                       String posterPath, String title, String releaseDate, String date, String hour,
+                       String chanel, String filmID, String userRating, Boolean userWantToWatch,
+                       Boolean userFav, Boolean userReminder) {
+        this.mediaType = mediaType;
+        this.avarageRating = avarageRating;
+        this.overview = overview;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.title = title;
+        this.releaseDate = releaseDate;
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
@@ -53,12 +79,60 @@ public class GetMovieDTO {
         this.userReminder = userReminder;
     }
 
-    public Result getResults() {
-        return results;
+    public String getMediaType() {
+        return mediaType;
     }
 
-    public void setResults(Result results) {
-        this.results = results;
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public String getAvarageRating() {
+        return avarageRating;
+    }
+
+    public void setAvarageRating(String avarageRating) {
+        this.avarageRating = avarageRating;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getDate() {
