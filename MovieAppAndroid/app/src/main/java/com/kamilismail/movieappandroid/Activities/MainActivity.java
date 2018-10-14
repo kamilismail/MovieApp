@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
+import com.kamilismail.movieappandroid.fragments.ChangePswFragment;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
 import com.kamilismail.movieappandroid.fragments.MovieDetailsFragment;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements
         DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
         SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment,
         WantToWatchFragment.SendArgumentsAndLaunchFragment, FavouritesFragment.SendArgumentsAndLaunchFragment,
-        RatingsFragment.SendArgumentsAndLaunchFragment{
+        RatingsFragment.SendArgumentsAndLaunchFragment, ChangePswFragment.SendArgumentsAndLaunchFragment{
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void logoutUser() {
         sessionController.logoutUser();
+        finish();
     }
 
     @Override
@@ -180,11 +182,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void startChangePswFragment() {
-//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.frame, wantToWatchFragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
+        ChangePswFragment changePswFragment = new ChangePswFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, changePswFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.KamilIsmail.MovieApp.DAO;
 
-import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
@@ -66,8 +65,12 @@ public class TVGuideDaoImpl implements TVGuideDao {
             movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
             movieEntity.setTmdbId(movieBean.getMovieDb().getId());
             movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(movieBean.getMovieDb().getBackdropPath());
+            movieEntity.setPosterPath(movieBean.getMovieDb().getPosterPath());
             movieEntity.setReleaseDate(movieBean.getMovieDb().getReleaseDate());
+            movieEntity.setBackdropPath(movieBean.getMovieDb().getBackdropPath());
+            movieEntity.setMediaType(movieBean.getMovieDb().getMediaType().toString());
+            movieEntity.setAvarageRating(String.valueOf(movieBean.getMovieDb().getVoteAverage()));
+            movieEntity.setOverview(movieBean.getMovieDb().getOverview());
             movieRepository.save(movieEntity);
         } else {
             FilmwebApi fa = new FilmwebApi();

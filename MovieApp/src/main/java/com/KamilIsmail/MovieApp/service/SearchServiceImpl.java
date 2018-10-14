@@ -62,15 +62,30 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public GetMovieDTO getMovie(Long id, Long userID) throws IOException {
         Constants constants = new Constants();
-        TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id), "pl");
-        FilmwebApi fa = new FilmwebApi();
+        TmdbApi tmdbApi = null;
+        MovieDb tmdbResult = null;
         List<Broadcast> broadcasts = null;
         String chanel = "";
         FilmSearchResult filmResult = null;
+        FilmwebApi fa = new FilmwebApi();
+        MoviesEntity moviesEntity = movieRepository.findMoviesEntityByTmdbId(id.intValue());
+        if (moviesEntity != null) {
+            try {
+                broadcasts = fa.getBroadcasts(Long.valueOf(moviesEntity.getFilmwebId()), 0, 20);
+            } catch (FilmwebException e) {
+                e.printStackTrace();
+            }
+        } else {
+            tmdbApi = new TmdbApi(constants.getTmdbAPI());
+            tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id), "pl");
+            try {
+                filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
+                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
+            } catch (FilmwebException e) {
+                e.printStackTrace();
+            }
+        }
         try {
-            filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
             if (!broadcasts.isEmpty()) {
                 Long chanelID = broadcasts.get(0).getChannelId();
                 List<TVChannel> tvChannels = fa.getTvChannels();
@@ -97,9 +112,8 @@ public class SearchServiceImpl implements SearchService {
 
         boolean wantToWatch = false, fav = false, reminder = false;
         Integer movieID = null;
-        MoviesEntity moviesEntity = movieRepository.findByTmdbId(id.intValue());
         if (moviesEntity != null)
-            movieID = movieRepository.findByTmdbId(id.intValue()).getMovieId();
+            movieID = moviesEntity.getMovieId();
 
         if (movieID != null) {
             if (wantToWatchRepository.findWanttowatchEntityByMovieIdAndUserId(movieID, userID.intValue()) != null)
@@ -113,12 +127,31 @@ public class SearchServiceImpl implements SearchService {
 
         }
 
-        if (broadcasts.isEmpty()) {
-            return (new GetMovieDTO(tmdbResult, ratingResult, wantToWatch, fav, reminder));
+        if (moviesEntity == null) {
+            if (broadcasts.isEmpty()) {
+                return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
+                        tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
+                        tmdbResult.getReleaseDate(), ratingResult, wantToWatch, fav, reminder));
+            }
+        } else {
+            if (broadcasts.isEmpty()) {
+                return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
+                        moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
+                        moviesEntity.getReleaseDate(), ratingResult, wantToWatch, fav, reminder));
+            }
         }
 
-        return (new GetMovieDTO(tmdbResult, broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
-                chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
+        if (moviesEntity == null) {
+            return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
+                    tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
+                    tmdbResult.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
+                    chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
+        } else {
+            return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
+                    moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
+                    moviesEntity.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
+                    chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
+        }
     }
 
     @Override

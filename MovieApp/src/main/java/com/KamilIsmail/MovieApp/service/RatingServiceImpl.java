@@ -3,6 +3,7 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.DAO.RatingDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.DiscoverMovieDTO;
+import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
 import com.KamilIsmail.MovieApp.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class RatingServiceImpl implements RatingService {
         List<DiscoverMovieDTO> ratingResults = new ArrayList<>();
 
         for (RatingsEntity rateList : favsEntitiesList) {
-            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(rateList.getMoviesByMovieId().getTmdbId()),
-                    rateList.getMoviesByMovieId().getMovieName(), rateList.getMoviesByMovieId().getPosterPath(),
-                    rateList.getMoviesByMovieId().getReleaseDate(), rateList.getRating());
+            MoviesEntity moviesEntity = rateList.getMoviesByMovieId();
+            DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
+                    moviesEntity.getMovieName(), moviesEntity.getBackdropPath(), moviesEntity.getReleaseDate(), rateList.getRating());
 
             ratingResults.add(result);
         }

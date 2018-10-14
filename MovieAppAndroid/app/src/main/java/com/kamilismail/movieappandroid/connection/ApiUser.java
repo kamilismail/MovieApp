@@ -24,5 +24,5 @@ public interface ApiUser {
     Call<BooleanDTO> createNewUser(@Body JsonObject bean);
 
     @DELETE("user/")
-    Call<BooleanDTO> deleteUser(@Body JsonObject bean);
+    Call<BooleanDTO> deleteUser(@Header("Cookie") String cookie, @Body JsonObject bean);
 }

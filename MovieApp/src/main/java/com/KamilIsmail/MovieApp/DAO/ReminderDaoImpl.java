@@ -81,8 +81,12 @@ public class ReminderDaoImpl implements ReminderDao {
             movieEntity.setMovieName(tmdbResult.getTitle());
             movieEntity.setTmdbId(tmdbResult.getId());
             movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getBackdropPath());
+            movieEntity.setPosterPath(tmdbResult.getPosterPath());
             movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
+            movieEntity.setBackdropPath(tmdbResult.getBackdropPath());
+            movieEntity.setMediaType(tmdbResult.getMediaType().toString());
+            movieEntity.setAvarageRating(String.valueOf(tmdbResult.getVoteAverage()));
+            movieEntity.setOverview(tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         } else {
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());

@@ -3,6 +3,7 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.DAO.ReminderDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.ReminderDTO;
+import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RemindersEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
@@ -33,11 +34,11 @@ public class ReminderServiceImpl implements ReminderService {
         List<ReminderDTO> reminderResults = new ArrayList<>();
 
         for (RemindersEntity reminderList : reminderEntitiesList) {
-            TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(reminderList.getTvstationId());
-            ReminderDTO result = new ReminderDTO("MOVIE",
-                    Integer.toString(reminderList.getMoviesByMovieId().getTmdbId()), reminderList.getMoviesByMovieId().getMovieName(),
-                    reminderList.getMoviesByMovieId().getPosterPath(), reminderList.getData().toString(), tvstationsEntity.getName(),
-                    tvstationsEntity.getLogoPath(), reminderList.getMoviesByMovieId().getReleaseDate());
+            TvstationsEntity tvstationsEntity = reminderList.getTvstationsByTvstationId();
+            MoviesEntity moviesEntity = reminderList.getMoviesByMovieId();
+            ReminderDTO result = new ReminderDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
+                    moviesEntity.getMovieName(), moviesEntity.getBackdropPath(), reminderList.getData().toString(),
+                    tvstationsEntity.getName(), tvstationsEntity.getLogoPath(), moviesEntity.getReleaseDate());
 
             reminderResults.add(result);
         }

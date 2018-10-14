@@ -14,8 +14,12 @@ public class MoviesEntity {
     private String movieName;
     private Integer filmwebId;
     private Integer tmdbId;
-    private String poster_path;
-    private String release_date;
+    private String posterPath;
+    private String releaseDate;
+    private String backdropPath;
+    private String mediaType;
+    private String avarageRating;
+    private String overview;
     private Collection<FavouritesEntity> favouritesByMovieId;
     private Collection<RemindersEntity> remindersByMovieId;
     private Collection<WanttowatchEntity> wanttowatchesByMovieId;
@@ -63,24 +67,63 @@ public class MoviesEntity {
     }
 
     @Basic
-    @Column(name = "poster_path")
+    @Column(name = "posterPath")
     public String getPosterPath() {
-        return poster_path;
+        return posterPath;
     }
 
     public void setPosterPath(String poster_path) {
-        this.poster_path = poster_path;
+        this.posterPath = poster_path;
     }
 
     @Basic
-    @Column(name = "release_date")
+    @Column(name = "releaseDate")
     public String getReleaseDate() {
-        return release_date;
+        return releaseDate;
     }
 
     public void setReleaseDate(String release_date) {
-        this.release_date = release_date;
+        this.releaseDate = release_date;
     }
+
+    @Basic
+    @Column(name="backdropPath")
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    @Basic
+    @Column(name="mediaType")
+    public String getMediaType() {
+        return mediaType;
+    }
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    @Basic
+    @Column(name="avarageRating")
+    public String getAvarageRating() {
+        return avarageRating;
+    }
+
+    public void setAvarageRating(String avarageRating) {
+        this.avarageRating = avarageRating;
+    }
+
+    @Basic
+    @Column(name="overview")
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -90,8 +133,8 @@ public class MoviesEntity {
         return movieId == that.movieId &&
                 Objects.equals(movieName, that.movieName) &&
                 Objects.equals(filmwebId, that.filmwebId) &&
-                Objects.equals(poster_path, that.poster_path) &&
-                Objects.equals(release_date, that.release_date) &&
+                Objects.equals(posterPath, that.posterPath) &&
+                Objects.equals(releaseDate, that.releaseDate) &&
                 Objects.equals(tmdbId, that.tmdbId);
     }
 

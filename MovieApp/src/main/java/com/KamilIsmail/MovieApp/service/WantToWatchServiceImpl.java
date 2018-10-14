@@ -4,10 +4,10 @@ import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.WantToWatchDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.DiscoverMovieDTO;
+import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.WanttowatchEntity;
+import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.WantToWatchRepository;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.model.MovieDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.toIntExact;
-
 @Service
 public class WantToWatchServiceImpl implements WantToWatchService {
     @Autowired
     WantToWatchRepository wantRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
 
     @Autowired
     @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -30,13 +31,11 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     public List<DiscoverMovieDTO> getWants(int userid) throws IOException {
         List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
         List<DiscoverMovieDTO> wantResults = new ArrayList<>();
-        Constants constants = new Constants();
-        TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         for (WanttowatchEntity wantList : wantEntitiesList) {
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(wantList.getMoviesByMovieId().getTmdbId()), "pl");
-            DiscoverMovieDTO result = new DiscoverMovieDTO("MOVIE", Integer.toString(wantList.getMoviesByMovieId().getTmdbId()),
-                    wantList.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + wantList.getMoviesByMovieId().getPosterPath(),
-                    wantList.getMoviesByMovieId().getReleaseDate(), String.valueOf(tmdbResult.getVoteAverage()));
+            MoviesEntity moviesEntity = wantList.getMoviesByMovieId();
+            DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
+                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(),
+                    moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating());
             wantResults.add(result);
         }
         return wantResults;

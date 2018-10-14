@@ -21,31 +21,23 @@ import static java.lang.Math.toIntExact;
 public class TVGuideServiceImpl implements TVGuideService {
 
     @Autowired
-    MovieRepository movieRepository;
-    @Autowired
     TVGuideRepository tvGuideRepository;
-    @Autowired
-    TvSatationRepository tvSatationRepository;
 
     @Override
     public ArrayList <TVGuideMovieDTO> getTVGuide() {
         ArrayList <TVGuideMovieDTO> getMovieDTOList = new ArrayList<>();
         List<TVGuideEntity> tvGuideEntitiesList = tvGuideRepository.findAll();
-        Constants constants = new Constants();
-        TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         for (TVGuideEntity tvGuideEntity : tvGuideEntitiesList) {
-            MoviesEntity moviesEntity = movieRepository.findMovieEntityByMovieId(tvGuideEntity.getMovieId());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(moviesEntity.getTmdbId()), "pl");
-            TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(tvGuideEntity.getTvstationId());
-
+            MoviesEntity moviesEntity = tvGuideEntity.getMoviesByMovieId();
+            TvstationsEntity tvstationsEntity = tvGuideEntity.getTvstationsByTvstationId();
             String logoPath = "";
             if(!tvstationsEntity.getLogoPath().isEmpty()) {
                 logoPath = Constants.getLogoPath() + tvstationsEntity.getLogoPath();
             }
 
-            getMovieDTOList.add(new TVGuideMovieDTO("MOVIE", moviesEntity.getTmdbId().toString(), tmdbResult.getTitle(),
-                     Constants.getPosterPath() + tmdbResult.getBackdropPath(), tmdbResult.getReleaseDate(),
-                    String.valueOf(tmdbResult.getVoteAverage()), tvstationsEntity.getName(), logoPath,
+            getMovieDTOList.add(new TVGuideMovieDTO(moviesEntity.getMediaType(), moviesEntity.getTmdbId().toString(),
+                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(),
+                    moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating(), tvstationsEntity.getName(), logoPath,
                     tvGuideEntity.getDate().toString()));
         }
         return getMovieDTOList;

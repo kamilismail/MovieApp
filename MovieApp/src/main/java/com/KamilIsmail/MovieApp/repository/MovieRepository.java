@@ -8,5 +8,7 @@ public interface MovieRepository extends JpaRepository<MoviesEntity, Integer> {
 
     MoviesEntity findByTmdbId(int movieID);
 
-    MoviesEntity findMovieEntityByMovieId(int pmovieIDubId);
+    MoviesEntity findMovieEntityByMovieId(int movieID);
+
+    MoviesEntity findMoviesEntityByTmdbId(int tmdbID);
 }

@@ -5,7 +5,26 @@ import info.movito.themoviedbapi.model.MovieDb;
 
 public class GetMovieDTO {
 
-    private MovieDb result;
+    @JsonProperty("media_type")
+    private String mediaType;
+
+    @JsonProperty("avarage_rating")
+    private String avarageRating;
+
+    @JsonProperty("overview")
+    private String overview;
+
+    @JsonProperty("backdrop_path")
+    private String backdropPath;
+
+    @JsonProperty("poster_path")
+    private String posterPath;
+
+    @JsonProperty("title")
+    private String title;
+
+    @JsonProperty("release_date")
+    private String releaseDate;
 
     @JsonProperty("date")
     private String date;
@@ -31,9 +50,16 @@ public class GetMovieDTO {
     @JsonProperty("user_reminder")
     private String reminder;
 
-    public GetMovieDTO(MovieDb result, String date, String hour, String chanel, String filmID, String userRating,
-                       boolean wantToWatch, boolean userFav, boolean reminder) {
-        this.result = result;
+    public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
+                       String title, String releaseDate, String date, String hour, String chanel, String filmID,
+                       String userRating, boolean wantToWatch, boolean userFav, boolean reminder) {
+        this.mediaType = mediaType;
+        this.avarageRating = avarageRating;
+        this.overview = overview;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.title = title;
+        this.releaseDate = releaseDate;
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
@@ -44,8 +70,15 @@ public class GetMovieDTO {
         this.reminder = String.valueOf(reminder);
     }
 
-    public GetMovieDTO(MovieDb result, String userRating) {
-        this.result = result;
+    public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
+                       String title, String releaseDate, String userRating) {
+        this.mediaType = mediaType;
+        this.avarageRating = avarageRating;
+        this.overview = overview;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.title = title;
+        this.releaseDate = releaseDate;
         this.date = "";
         this.hour = "";
         this.chanel = "";
@@ -53,8 +86,16 @@ public class GetMovieDTO {
         this.userRating = userRating;
     }
 
-    public GetMovieDTO(MovieDb result, String userRating, boolean wantToWatch, boolean userFav, boolean reminder) {
-        this.result = result;
+    public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
+                       String title, String releaseDate, String userRating, boolean wantToWatch, boolean userFav,
+                       boolean reminder) {
+        this.mediaType = mediaType;
+        this.avarageRating = avarageRating;
+        this.overview = overview;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.title = title;
+        this.releaseDate = releaseDate;
         this.date = "";
         this.hour = "";
         this.chanel = "";
@@ -65,12 +106,60 @@ public class GetMovieDTO {
         this.reminder = String.valueOf(reminder);
     }
 
-    public MovieDb getResult() {
-        return result;
+    public String getMediaType() {
+        return mediaType;
     }
 
-    public void setResult(MovieDb result) {
-        this.result = result;
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public String getAvarageRating() {
+        return avarageRating;
+    }
+
+    public void setAvarageRating(String avarageRating) {
+        this.avarageRating = avarageRating;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getDate() {
