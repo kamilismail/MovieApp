@@ -26,13 +26,6 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Override
-    public UserDTO getUser(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).get(0);
-        ModelMapper mapper = new ModelMapper();
-        return mapper.map(userEntity, UserDTO.class);
-    }
-
-    @Override
     public List<UserDTO> getAllUser() {
         List<UserEntity> userEntityList = userRepository.findAll();
         List<UserDTO> userList = new ArrayList<>();

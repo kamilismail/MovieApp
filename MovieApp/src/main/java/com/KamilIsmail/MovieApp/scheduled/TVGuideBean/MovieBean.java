@@ -88,6 +88,8 @@ public class MovieBean {
             }
             this.movieDb = movieResultsPage.get(0);
             setWeightedRating(movieDb.getVoteAverage(), movieDb.getPopularity(), movieDb.getVoteCount());
+            if (this.rating == 0.0f)
+                return false;
         } catch (Exception e) {
             this.rating = -1;
             return false;

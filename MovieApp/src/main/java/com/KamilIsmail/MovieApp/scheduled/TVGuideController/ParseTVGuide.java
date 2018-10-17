@@ -42,7 +42,7 @@ public class ParseTVGuide {
     public ArrayList<MovieBean> run() {
         ArrayList<MovieBean> movieBeanList = null;
         try {
-            URL url = new URL(Constants.getTvGuideUrl());
+            URL url = new URL(Constants.getTvGuideUrlAlternative()); //wykorzystanie alternatywnego lacza
             URLConnection connection = url.openConnection();
             InputStream stream = connection.getInputStream();
             stream = new GZIPInputStream(stream);
@@ -94,22 +94,6 @@ public class ParseTVGuide {
     }
 
     /**
-     * Wybranei z listy najlepszych filmów.
-     * @param list
-     * @return
-     */
-    private ArrayList<MovieBean> getWorstMovies(ArrayList<MovieBean> list) {
-        Collections.sort(list, new Comparator<MovieBean>() {
-            public int compare(MovieBean movie1, MovieBean movie2) {
-                Float rate1 = movie1.getRating();
-                Float rate2 = movie2.getRating();
-                return rate1.compareTo(rate2);
-            }
-        });
-        return list;
-    }
-
-    /**
      * Wybranie z listy najgorszych filmów.
      * @param list
      * @return
@@ -141,7 +125,7 @@ public class ParseTVGuide {
             Element element = (Element) node;
             try {
                 channel = getAttribute("channel", element);
-                if (tvChanels.ifContains(channel)) {
+                if (tvChanels.ifContainsAlternative(channel)) { //alternatywne
                     date = getAttribute("start", element);
                     Date parsedDate = parseStringToDate(date);
                     parsedDate = DateUtils.addHours(parsedDate, 2);
@@ -150,7 +134,9 @@ public class ParseTVGuide {
                     title = getTagValue("title", element);
                     if (getTagValue("desc", element) != null)
                         description = getTagValue("desc", element);
-                    movieBean = new MovieBean(parsedDate, channel, title, description);
+                    String productionYear = getTagValue("date", element); //alternatywne
+                    movieBean = new MovieBean(parsedDate, channel.substring(0,channel.indexOf(".")), title, description);
+                    movieBean.setProductionYear(Integer.parseInt(productionYear));
                     if (tvChanels.excludeProductions(movieBean.getDescription()))
                         return null;
                 } else
@@ -159,7 +145,7 @@ public class ParseTVGuide {
                 return null;
             }
         }
-        movieBean.parseYear();
+        //movieBean.parseYear();
         if (movieBean.setFilmwebRating())
             return movieBean;
         else return null;

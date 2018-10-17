@@ -26,12 +26,6 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("")
-    public UserDTO getUser(Principal principal) {
-        User user = (User) ((Authentication) principal).getPrincipal();
-        return userService.getUser(user.getUsername());
-    }
-
     @GetMapping("all")
     public List<UserDTO> getAllUser(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
