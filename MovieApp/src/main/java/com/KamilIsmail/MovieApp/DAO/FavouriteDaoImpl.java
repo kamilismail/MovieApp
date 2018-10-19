@@ -42,24 +42,14 @@ public class FavouriteDaoImpl implements FavouriteDao {
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            movieEntity = new MoviesEntity();
-            movieEntity.setMovieName(tmdbResult.getTitle());
-            movieEntity.setTmdbId(tmdbResult.getId());
-            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
-            movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
-            movieEntity.setBackdropPath(tmdbResult.getBackdropPath());
-            movieEntity.setMediaType(tmdbResult.getMediaType().toString());
-            movieEntity.setAvarageRating(String.valueOf(tmdbResult.getVoteAverage()));
+            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
+                    tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),tmdbResult.getBackdropPath(),
+                    tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),tmdbResult.getOverview());
             movieEntity.setOverview(tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         }
 
-        FavouritesEntity favEntity = new FavouritesEntity();
-        favEntity.setMovieId(movieEntity.getMovieId());
-        favEntity.setUserId(userEntity.getUserId());
-        favEntity.setMoviesByMovieId(movieEntity);
-        favEntity.setUserByUserId(userEntity);
+        FavouritesEntity favEntity = new FavouritesEntity(userEntity.getUserId(), movieEntity.getMovieId(), userEntity, movieEntity);
         favRepository.save(favEntity);
 
         movieEntity.setFavouritesByMovieId(favRepository.findFavouritesEntityByUserId(userId));

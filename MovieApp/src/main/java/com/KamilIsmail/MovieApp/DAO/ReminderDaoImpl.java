@@ -77,16 +77,9 @@ public class ReminderDaoImpl implements ReminderDao {
             } catch (FilmwebException e) {
                 e.printStackTrace();
             }
-            movieEntity = new MoviesEntity();
-            movieEntity.setMovieName(tmdbResult.getTitle());
-            movieEntity.setTmdbId(tmdbResult.getId());
-            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
-            movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
-            movieEntity.setBackdropPath(tmdbResult.getBackdropPath());
-            movieEntity.setMediaType(tmdbResult.getMediaType().toString());
-            movieEntity.setAvarageRating(String.valueOf(tmdbResult.getVoteAverage()));
-            movieEntity.setOverview(tmdbResult.getOverview());
+            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
+                    tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),tmdbResult.getBackdropPath(),
+                    tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         } else {
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
@@ -120,29 +113,22 @@ public class ReminderDaoImpl implements ReminderDao {
 
         if (stationsList != null) {
             if (stationsList.size() < 1) {
-                tvstationsEntity = new TvstationsEntity();
-                tvstationsEntity.setName(stationName);
-                tvstationsEntity.setLogoPath(logoPath);
+                tvstationsEntity = new TvstationsEntity(stationName, logoPath);
                 tvSatationRepository.save(tvstationsEntity);
             } else {
                 tvstationsEntity = stationsList.get(0);
             }
         } else {
-            tvstationsEntity = new TvstationsEntity();
-            tvstationsEntity.setName(stationName);
-            tvstationsEntity.setLogoPath(logoPath);
+            tvstationsEntity = new TvstationsEntity(stationName, logoPath);
             tvSatationRepository.save(tvstationsEntity);
         }
-        RemindersEntity remindersEntity = new RemindersEntity();
-        remindersEntity.setMovieId(movieEntity.getMovieId());
-        remindersEntity.setUserId(userEntity.getUserId());
+
         Timestamp sqlDate;
         if (!date.isEmpty() && !time.isEmpty()) {
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date parsedDate = dateFormat.parse(date + ' ' + time);
                 sqlDate = new java.sql.Timestamp(parsedDate.getTime());
-                remindersEntity.setData(sqlDate);
             } catch (Exception e) {
                 return (new BooleanDTO(false));
             }
@@ -151,16 +137,12 @@ public class ReminderDaoImpl implements ReminderDao {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date parsedDate = dateFormat.parse("9999-12-31" + ' ' + "00:00");
                 sqlDate = new java.sql.Timestamp(parsedDate.getTime());
-                remindersEntity.setData(sqlDate);
             } catch (Exception e) {
                 return (new BooleanDTO(false));
             }
         }
-        remindersEntity.setReminded(false);
-        remindersEntity.setTvstationId(tvstationsEntity.getTvstationId());
-        remindersEntity.setMoviesByMovieId(movieEntity);
-        remindersEntity.setTvstationsByTvstationId(tvstationsEntity);
-        remindersEntity.setUserByUserId(userEntity);
+        RemindersEntity remindersEntity = new RemindersEntity(userEntity.getUserId(), movieEntity.getMovieId(),
+                tvstationsEntity.getTvstationId(), false, sqlDate, userEntity, movieEntity, tvstationsEntity);
         reminderRepository.save(remindersEntity);
 
         movieEntity.setRemindersByMovieId(reminderRepository.findRemindersEntitiesByUserId(userId));

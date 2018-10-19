@@ -41,24 +41,15 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            movieEntity = new MoviesEntity();
+            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
+                    tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),tmdbResult.getBackdropPath(),
+                    tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),tmdbResult.getOverview());
             movieEntity.setMovieName(tmdbResult.getTitle());
-            movieEntity.setTmdbId(tmdbResult.getId());
-            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
-            movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
-            movieEntity.setBackdropPath(tmdbResult.getBackdropPath());
-            movieEntity.setMediaType(tmdbResult.getMediaType().toString());
-            movieEntity.setAvarageRating(String.valueOf(tmdbResult.getVoteAverage()));
-            movieEntity.setOverview(tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         }
 
-        WanttowatchEntity wantEntity = new WanttowatchEntity();
-        wantEntity.setMovieId(movieEntity.getMovieId());
-        wantEntity.setUserId(userEntity.getUserId());
-        wantEntity.setMoviesByMovieId(movieEntity);
-        wantEntity.setUserByUserId(userEntity);
+        WanttowatchEntity wantEntity = new WanttowatchEntity(userEntity.getUserId(),movieEntity.getMovieId(),
+                userEntity, movieEntity);
         wantRepository.save(wantEntity);
 
         movieEntity.setWanttowatchesByMovieId(wantRepository.findWanttowatchEntityByUserId(userId));

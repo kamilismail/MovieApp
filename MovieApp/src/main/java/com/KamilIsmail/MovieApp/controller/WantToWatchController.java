@@ -26,20 +26,20 @@ public class WantToWatchController {
     public List<DiscoverMovieDTO> getWants(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.getWants((int) userEntity.getUserId());
+        return wantService.getWants(userEntity.getUserId());
     }
 
     @PostMapping("addWant")
     public BooleanDTO addWant(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.addWant((int) userEntity.getUserId(), movieId);
+        return wantService.addWant(userEntity.getUserId(), movieId);
     }
 
     @DeleteMapping("deleteWant")
     public BooleanDTO deleteWant(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return wantService.deleteWant((int) userEntity.getUserId(), movieID);
+        return wantService.deleteWant(userEntity.getUserId(), movieID);
     }
 }

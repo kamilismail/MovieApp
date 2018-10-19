@@ -44,16 +44,9 @@ public class RatingDaoImpl implements RatingDao {
             MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            movieEntity = new MoviesEntity();
-            movieEntity.setMovieName(tmdbResult.getTitle());
-            movieEntity.setTmdbId(tmdbResult.getId());
-            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
-            movieEntity.setPosterPath(tmdbResult.getPosterPath());
-            movieEntity.setReleaseDate(tmdbResult.getReleaseDate());
-            movieEntity.setBackdropPath(tmdbResult.getBackdropPath());
-            movieEntity.setMediaType(tmdbResult.getMediaType().toString());
-            movieEntity.setAvarageRating(String.valueOf(tmdbResult.getVoteAverage()));
-            movieEntity.setOverview(tmdbResult.getOverview());
+            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
+                    tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),tmdbResult.getBackdropPath(),
+                    tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         }
 
@@ -66,12 +59,7 @@ public class RatingDaoImpl implements RatingDao {
         }
 
         if (ratingEntity == null) { //utworzenie nowej encji
-            RatingsEntity newRating = new RatingsEntity();
-            newRating.setRating(Integer.toString(rating));
-            newRating.setMovieId(movieId);
-            newRating.setUserId(userId);
-            newRating.setMoviesByMovieId(movieEntity);
-            newRating.setUserByUserId(userEntity);
+            RatingsEntity newRating = new RatingsEntity(userId, movieId, Integer.toString(rating), userEntity, movieEntity);
             ratingRepository.save(newRating);
 
             movieEntity.setRatingsByMovieId(ratingRepository.findRatingsEntityByUserId(userId));

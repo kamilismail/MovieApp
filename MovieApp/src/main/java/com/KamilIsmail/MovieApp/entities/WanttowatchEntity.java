@@ -46,6 +46,16 @@ public class WanttowatchEntity {
         this.movieId = movieId;
     }
 
+    public WanttowatchEntity() {
+    }
+
+    public WanttowatchEntity(Integer userId, Integer movieId, UserEntity userByUserId, MoviesEntity moviesByMovieId) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.userByUserId = userByUserId;
+        this.moviesByMovieId = moviesByMovieId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

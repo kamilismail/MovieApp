@@ -81,6 +81,21 @@ public class RemindersEntity {
         this.reminded = reminded;
     }
 
+    public RemindersEntity() {
+    }
+
+    public RemindersEntity(Integer userId, Integer movieId, Integer tvstationId, Boolean reminded,
+                           Timestamp data, UserEntity userByUserId, MoviesEntity moviesByMovieId, TvstationsEntity tvstationsByTvstationId) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.tvstationId = tvstationId;
+        this.reminded = reminded;
+        this.data = data;
+        this.userByUserId = userByUserId;
+        this.moviesByMovieId = moviesByMovieId;
+        this.tvstationsByTvstationId = tvstationsByTvstationId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

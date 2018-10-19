@@ -124,6 +124,21 @@ public class MoviesEntity {
         this.overview = overview;
     }
 
+    public MoviesEntity() {
+    }
+
+    public MoviesEntity(String movieName, Integer filmwebId, Integer tmdbId, String posterPath,
+                        String releaseDate, String backdropPath, String mediaType, String avarageRating, String overview) {
+        this.movieName = movieName;
+        this.filmwebId = filmwebId;
+        this.tmdbId = tmdbId;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.backdropPath = backdropPath;
+        this.mediaType = mediaType;
+        this.avarageRating = avarageRating;
+        this.overview = overview;
+    }
 
     @Override
     public boolean equals(Object o) {

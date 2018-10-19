@@ -9,6 +9,7 @@ import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
 import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,8 +29,9 @@ public class ReminderServiceImpl implements ReminderService {
     @Autowired
     TvSatationRepository tvSatationRepository;
 
+    @Cacheable(value = "reminders", key = "#userId")
     @Override
-    public List<ReminderDTO> getReminders(int userId) throws IOException {
+    public List<ReminderDTO> getReminders(int userId) {
         List<RemindersEntity> reminderEntitiesList = reminderRepository.findRemindersEntitiesByUserId(userId);
         List<ReminderDTO> reminderResults = new ArrayList<>();
 

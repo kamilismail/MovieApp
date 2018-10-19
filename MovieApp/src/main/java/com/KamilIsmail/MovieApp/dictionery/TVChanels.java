@@ -1,6 +1,7 @@
 package com.KamilIsmail.MovieApp.dictionery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TVChanels {
     private ArrayList<String> list;
@@ -12,66 +13,16 @@ public class TVChanels {
         showType = new ArrayList<>();
         listAlternative = new ArrayList<>();
 
-        list.add("TVP 1 HD");
-        list.add("TVP 2 HD");
-        list.add("TVN HD");
-        list.add("POLSAT HD");
-        list.add("TV Puls HD");
-        list.add("TV 4 HD");
-        //list.add("TVN Fabula HD");
-        //list.add("HBO HD");
-        //list.add("HBO2 HD");
-        //list.add("HBO3 HD");
-        //list.add("CANAL+ HD");
-        //list.add("CANAL+ 1 HD");
-        list.add("Kino TV");
-        list.add("Comedy Central HD");
-        list.add("Comedy Central Family");
-        list.add("Paramount Channel HD");
-        list.add("AXN HD");
-        list.add("Stopklatka TV HD");
-        //list.add("Stopklatka TV");
-        list.add("Polsat Film HD");
-        list.add("TVN FABUŁA HD");
-        list.add("TVN 7 HD");
-        list.add("FOX HD");
-        list.add("Ale Kino+ HD");
-        list.add("CBS Europa");
-        list.add("Metro TV HD");
+        list.addAll(Arrays.asList("TVP 1 HD", "TVP 2 HD", "TVN HD", "POLSAT HD", "TV Puls HD", "TV 4 HD", "Kino TV",
+                "Comedy Central HD", "Comedy Central Family", "Paramount Channel HD", "AXN HD", "Stopklatka TV HD",
+                "Polsat Film HD", "TVN FABUŁA HD", "TVN 7 HD", "FOX HD", "Ale Kino+ HD", "CBS Europa", "Metro TV HD"));
 
-        listAlternative.add("13Ulica");
-        listAlternative.add("AleKino");
-        listAlternative.add("AXN");
-        listAlternative.add("CBSAction");
-        listAlternative.add("CBSEuropa");
-        listAlternative.add("ComedyCentral");
-        listAlternative.add("FoxComedy");
-        listAlternative.add("FOX");
-        listAlternative.add("KinoPolska");
-        listAlternative.add("PolsatFilm");
-        listAlternative.add("Polsat");
-        listAlternative.add("Stopklatka TV");
-        listAlternative.add("TV4");
-        listAlternative.add("TVPuls");
-        listAlternative.add("TVN7");
-        listAlternative.add("TVNFabula");
-        listAlternative.add("TVN");
-        listAlternative.add("TVN");
-        listAlternative.add("TVP1");
-        listAlternative.add("TVP2");
-        listAlternative.add("ParamountChannel");
-        listAlternative.add("UniversalChannel");
+        listAlternative.addAll(Arrays.asList("13Ulica", "AleKino", "AXN", "CBSAction", "CBSEuropa", "ComedyCentral",
+                "FoxComedy", "FOX", "KinoPolska", "PolsatFilm", "Polsat", "Stopklatka TV", "TV4", "TVPuls", "TVN7",
+                "TVNFabula", "TVN", "TVP1", "TVP2", "ParamountChannel", "UniversalChannel"));
 
-        showType.add("serial");
-        showType.add("reality show");
-        showType.add("program");
-        showType.add("teleturniej");
-        showType.add("magazyn");
-        showType.add("widowisko");
-        showType.add("telenowela");
-        showType.add("sport");
-        showType.add("felieton");
-        showType.add("koncert");
+        showType.addAll(Arrays.asList("serial", "reality show", "program", "teleturniej", "magazyn", "widowisko",
+                "telenowela", "sport", "felieton", "koncert"));
     }
 
     public Boolean ifContains(String channel) {
@@ -83,9 +34,9 @@ public class TVChanels {
     }
 
     public Boolean excludeProductions(String str) {
+        str = str.toLowerCase();
         if (str.length() >= 20)
             str = str.substring(0,20);
-        str = str.toLowerCase();
         for (String show : showType) {
             if (str.contains(show)) {
                 return true;

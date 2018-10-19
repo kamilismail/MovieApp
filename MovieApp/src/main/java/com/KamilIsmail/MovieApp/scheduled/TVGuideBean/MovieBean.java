@@ -6,6 +6,8 @@ import info.movito.themoviedbapi.model.MovieDb;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MovieBean {
 
@@ -31,19 +33,10 @@ public class MovieBean {
         this.chanel = chanel;
         this.description = description;
 
-        if (title.contains(PREMIERA))
-            this.title = title.substring(PREMIERA.length(),title.length());
-        else if(title.contains(MOCNEKINO))
-            this.title = title.substring(MOCNEKINO.length(),title.length());
-        else if(title.contains(GWIAZDY))
-            this.title = title.substring(GWIAZDY.length(),title.length());
-        else if(title.contains(MEGAHIT))
-            this.title = title.substring(MEGAHIT.length(),title.length());
-        else if(title.contains(STRASZNY_PIATEK))
-            this.title = title.substring(STRASZNY_PIATEK.length(),title.length());
-        else
-            this.title = title;
+        Optional<String> result = Stream.of(PREMIERA, MOCNEKINO, GWIAZDY, MEGAHIT, STRASZNY_PIATEK).
+                filter(title::contains).findFirst().map(p -> title.substring(p.length()));
 
+        this.title = result.orElse(title);
     }
 
     public MovieBean(){}
@@ -74,17 +67,9 @@ public class MovieBean {
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
             List<MovieDb> movieResultsPage = tmdbApi.getSearch().searchMovie(this.title, this.productionYear, "pl", false, 0).getResults();
             if (movieResultsPage.size() > 1) {
-                Collections.sort(movieResultsPage, new Comparator<MovieDb>() {
-                    public int compare(MovieDb movie1, MovieDb movie2) {
-                        Integer popularity1 = movie1.getVoteCount();
-                        Integer popularity2 = movie2.getVoteCount();
-                        return popularity2.compareTo(popularity1);
-                    }
-                });
-                for (MovieDb movieDb : movieResultsPage) {
-                    if (!movieDb.getReleaseDate().contains(Integer.toString(productionYear)))
-                        movieResultsPage.remove(movieDb);
-                }
+                movieResultsPage.sort((movie1, movie2) -> Integer.compare(movie2.getVoteCount(), movie1.getVoteCount()));
+                movieResultsPage.stream().filter(p -> !movieDb.getReleaseDate().contains(Integer.toString(productionYear)))
+                        .forEach(movieResultsPage::remove);
             }
             this.movieDb = movieResultsPage.get(0);
             setWeightedRating(movieDb.getVoteAverage(), movieDb.getPopularity(), movieDb.getVoteCount());
@@ -111,8 +96,8 @@ public class MovieBean {
 
     @Override
     public String toString() {
-        return "Movie: " + this.title + " date: " + Integer.toString(this.productionYear) + " at: " + this.date.toString() + " on: " + this.chanel + " rating: "
-                + this.rating +"\n description: " + this.description;
+        return "Movie: " + this.title + " date: " + Integer.toString(this.productionYear) + " at: " + this.date.toString()
+                + " on: " + this.chanel + " rating: " + this.rating +"\n description: " + this.description;
     }
 
     public MovieDb getMovieDb() {

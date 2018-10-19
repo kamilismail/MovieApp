@@ -7,6 +7,7 @@ import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
 import com.KamilIsmail.MovieApp.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,12 +24,13 @@ public class RatingServiceImpl implements RatingService {
     RatingRepository ratingRepository;
 
     @Override
-    public BooleanDTO setRating(int userID, int movieID, int rating) throws IOException {
+    public BooleanDTO setRating(int userID, int movieID, int rating) {
         return ratingDao.setRating(userID, movieID, rating);
     }
 
+    @Cacheable(value = "ratings", key = "#userID")
     @Override
-    public List<DiscoverMovieDTO> getRatings(int userID) throws IOException {
+    public List<DiscoverMovieDTO> getRatings(int userID) {
 
         List<RatingsEntity> favsEntitiesList = ratingRepository.findRatingsEntityByUserId(userID);
         List<DiscoverMovieDTO> ratingResults = new ArrayList<>();

@@ -57,6 +57,17 @@ public class RatingsEntity {
         this.movieId = movieId;
     }
 
+    public RatingsEntity(long userId, Integer movieId, String rating, UserEntity userByUserId, MoviesEntity moviesByMovieId) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.rating = rating;
+        this.userByUserId = userByUserId;
+        this.moviesByMovieId = moviesByMovieId;
+    }
+
+    public RatingsEntity() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

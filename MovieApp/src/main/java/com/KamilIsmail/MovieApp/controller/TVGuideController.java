@@ -1,6 +1,5 @@
 package com.KamilIsmail.MovieApp.controller;
 
-import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.TVGuideMovieDTO;
 import com.KamilIsmail.MovieApp.service.TVGuideService;
 import org.springframework.beans.factory.annotation.Autowired;

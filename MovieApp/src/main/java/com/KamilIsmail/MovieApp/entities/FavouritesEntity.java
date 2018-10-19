@@ -46,6 +46,16 @@ public class FavouritesEntity {
         this.movieId = movieId;
     }
 
+    public FavouritesEntity(Integer userId, Integer movieId, UserEntity userByUserId, MoviesEntity moviesByMovieId) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.userByUserId = userByUserId;
+        this.moviesByMovieId = moviesByMovieId;
+    }
+
+    public FavouritesEntity() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

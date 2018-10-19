@@ -34,13 +34,13 @@ public class FavouriteController {
     public BooleanDTO addFavourite(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return favService.addFavourite((int) userEntity.getUserId(), movieId);
+        return favService.addFavourite(userEntity.getUserId(), movieId);
     }
 
     @DeleteMapping("deleteFavourite")
     public BooleanDTO deleteFavourite(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
-        return favService.deleteFavourite((int) userEntity.getUserId(), movieID);
+        return favService.deleteFavourite(userEntity.getUserId(), movieID);
     }
 }

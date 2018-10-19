@@ -9,6 +9,7 @@ import com.KamilIsmail.MovieApp.entities.WanttowatchEntity;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.WantToWatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     WantToWatchDao wantDao;
 
+    @Cacheable(value = "wants")
     @Override
     public List<DiscoverMovieDTO> getWants(int userid) throws IOException {
         List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);

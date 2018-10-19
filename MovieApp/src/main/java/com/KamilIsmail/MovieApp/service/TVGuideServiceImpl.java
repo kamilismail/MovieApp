@@ -11,6 +11,7 @@ import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TVGuideServiceImpl implements TVGuideService {
     @Autowired
     TVGuideRepository tvGuideRepository;
 
+    @Cacheable(value = "tvGuide")
     @Override
     public ArrayList <TVGuideMovieDTO> getTVGuide() {
         ArrayList <TVGuideMovieDTO> getMovieDTOList = new ArrayList<>();

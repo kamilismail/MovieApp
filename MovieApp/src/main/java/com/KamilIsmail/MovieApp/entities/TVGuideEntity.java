@@ -78,7 +78,20 @@ public class TVGuideEntity {
     public void setTvstationsByTvstationId(TvstationsEntity tvstationsByTvstationId) {
         this.tvstationsByTvstationId = tvstationsByTvstationId;
     }
-/*
+
+    public TVGuideEntity() {
+    }
+
+    public TVGuideEntity(Integer movieId, Integer tvstationId, Timestamp date, MoviesEntity moviesByMovieId,
+                         TvstationsEntity tvstationsByTvstationId) {
+        this.movieId = movieId;
+        this.tvstationId = tvstationId;
+        this.date = date;
+        this.moviesByMovieId = moviesByMovieId;
+        this.tvstationsByTvstationId = tvstationsByTvstationId;
+    }
+
+    /*
     @Basic
     @Column(name = "tmdbid")
     public Integer getTmdbId() {

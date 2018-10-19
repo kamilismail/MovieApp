@@ -46,6 +46,14 @@ public class TvstationsEntity {
         this.logoPath = logoPath;
     }
 
+    public TvstationsEntity() {
+    }
+
+    public TvstationsEntity(String name, String logoPath) {
+        this.name = name;
+        this.logoPath = logoPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

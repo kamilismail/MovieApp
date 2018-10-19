@@ -20,6 +20,7 @@ import info.talacha.filmweb.models.Broadcast;
 import info.talacha.filmweb.models.TVChannel;
 import info.talacha.filmweb.search.models.FilmSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -45,22 +46,25 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     ReminderRepository reminderRepository;
 
+    @Cacheable(value = "getMovies")
     @Override
-    public MovieResultsPage getMovies(String production) throws IOException {
+    public MovieResultsPage getMovies(String production) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         return tmdbApi.getSearch().searchMovie(production, 0, "pl", false, 0);
     }
 
+    @Cacheable(value = "tvShows")
     @Override
-    public TvResultsPage getTVShows(String production) throws IOException {
+    public TvResultsPage getTVShows(String production) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         return tmdbApi.getSearch().searchTv(production, "pl", 0);
     }
 
+    @Cacheable(value = "movie")
     @Override
-    public GetMovieDTO getMovie(Long id, Long userID) throws IOException {
+    public GetMovieDTO getMovie(Long id, Long userID) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = null;
         MovieDb tmdbResult = null;
@@ -154,8 +158,9 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
+    @Cacheable(value = "tvShow")
     @Override
-    public GetSeriesDTO getTVShow(Long id) throws IOException {
+    public GetSeriesDTO getTVShow(Long id) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         TvSeries tmdbResult = tmdbApi.getTvSeries().getSeries(toIntExact(id), "pl");

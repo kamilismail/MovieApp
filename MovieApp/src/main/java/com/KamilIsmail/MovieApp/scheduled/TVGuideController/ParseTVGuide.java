@@ -40,7 +40,7 @@ public class ParseTVGuide {
      * Przetworzenie pobranego pliku xml zawierającego program telewizyjny.
      */
     public ArrayList<MovieBean> run() {
-        ArrayList<MovieBean> movieBeanList = null;
+        ArrayList<MovieBean> movieBeanList;
         try {
             URL url = new URL(Constants.getTvGuideUrlAlternative()); //wykorzystanie alternatywnego lacza
             URLConnection connection = url.openConnection();
@@ -57,7 +57,6 @@ public class ParseTVGuide {
                 total += count;
                 output.write(data, 0, count);
             }
-
             output.flush();
             output.close();
             input.close();
@@ -84,28 +83,18 @@ public class ParseTVGuide {
                 }
             }
             return getBestMovies(movieBeanList);
-        } catch (ParserConfigurationException e) {
-            return null;
-        } catch (SAXException e) {
-            return null;
-        } catch (IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             return null;
         }
     }
 
     /**
-     * Wybranie z listy najgorszych filmów.
+     * Wybranie z listy najlepszych filmów.
      * @param list
      * @return
      */
     private ArrayList<MovieBean> getBestMovies(ArrayList<MovieBean> list) {
-        Collections.sort(list, new Comparator<MovieBean>() {
-            public int compare(MovieBean movie1, MovieBean movie2) {
-                Float rate1 = movie1.getRating();
-                Float rate2 = movie2.getRating();
-                return rate2.compareTo(rate1);
-            }
-        });
+        list.sort((movie1, movie2) -> Float.compare(movie2.getRating(), movie1.getRating()));
         return list;
     }
 
@@ -128,7 +117,7 @@ public class ParseTVGuide {
                 if (tvChanels.ifContainsAlternative(channel)) { //alternatywne
                     date = getAttribute("start", element);
                     Date parsedDate = parseStringToDate(date);
-                    parsedDate = DateUtils.addHours(parsedDate, 2);
+                    //parsedDate = DateUtils.addHours(parsedDate, 2);
                     if (!checkEmissionTime(parsedDate))
                         return null;
                     title = getTagValue("title", element);
@@ -178,8 +167,7 @@ public class ParseTVGuide {
      */
     private Date parseStringToDate(String date) {
         try {
-            Date parsedDate = dateFormat.parse(date);
-            return parsedDate;
+            return dateFormat.parse(date);
         } catch (ParseException e) {
             return null;
         }
@@ -192,8 +180,7 @@ public class ParseTVGuide {
      * @return
      */
     private String getAttribute(String tag, Element element) {
-        String attribute = element.getAttribute(tag);
-        return attribute;
+        return element.getAttribute(tag);
     }
 
     /**
@@ -204,10 +191,7 @@ public class ParseTVGuide {
      */
     private String getTagValue(String tag, Element element) {
         try {
-            NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-            Node node = (Node) nodeList.item(0);
-            String value = node.getNodeValue();
-            return value;
+            return element.getElementsByTagName(tag).item(0).getChildNodes().item(0).getNodeValue();
         } catch (NullPointerException e) {
             return null;
         }

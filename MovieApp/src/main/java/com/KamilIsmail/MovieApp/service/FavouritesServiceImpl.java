@@ -10,6 +10,7 @@ import com.KamilIsmail.MovieApp.repository.FavouriteRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,8 +28,9 @@ public class FavouritesServiceImpl implements FavouritesService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     FavouriteDao favsDao;
 
+    @Cacheable(value = "favourites", key = "#userid")
     @Override
-    public List<DiscoverMovieDTO> getFavourites(int userid) throws IOException {
+    public List<DiscoverMovieDTO> getFavourites(int userid) {
         List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
         List<DiscoverMovieDTO> favResults = new ArrayList<>();
         for (FavouritesEntity favList : favsEntitiesList) {
