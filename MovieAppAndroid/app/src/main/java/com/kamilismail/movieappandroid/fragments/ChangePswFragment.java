@@ -1,7 +1,6 @@
 package com.kamilismail.movieappandroid.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ChangePswFragment extends Fragment {
@@ -70,15 +69,9 @@ public class ChangePswFragment extends Fragment {
     }
 
     private void deleteAccount(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUser.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
         ApiUser apiUser = retrofit.create(ApiUser.class);
-
         String cookie = sessionController.getCookie();
-
         JsonObject obj = new JsonObject();
         obj.addProperty("password", ePassword.getText().toString());
 

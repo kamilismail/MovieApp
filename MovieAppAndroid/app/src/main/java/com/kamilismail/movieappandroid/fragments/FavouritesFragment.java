@@ -21,10 +21,14 @@ import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.adapters.FavouritesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.TVGuideRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiFavourites;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,11 @@ public class FavouritesFragment extends Fragment {
 
     private SendArgumentsAndLaunchFragment mCallback;
 
+    @BindView(R.id.mProgressBarProfile)
+    ProgressBar progressBar;
+    @BindView(R.id.info)
+    TextView nothingFound;
+
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
         void passMovieData(String id, String title);
@@ -44,8 +53,6 @@ public class FavouritesFragment extends Fragment {
     public static String TAG = "FavouritesFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
-    private ProgressBar progressBar;
-    private TextView nothingFound;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -58,9 +65,8 @@ public class FavouritesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
         this.sessionController = new SessionController(getContext());
-        progressBar = view.findViewById(R.id.mProgressBarProfile);
+        ButterKnife.bind(this, view);
         progressBar.setVisibility(View.GONE);
-        nothingFound = view.findViewById(R.id.info);
         nothingFound.setVisibility(View.GONE);
         getData(view);
         return view;
@@ -72,10 +78,7 @@ public class FavouritesFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiFavourites.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiFavourites apiFavourites = retrofit.create(ApiFavourites.class);
 

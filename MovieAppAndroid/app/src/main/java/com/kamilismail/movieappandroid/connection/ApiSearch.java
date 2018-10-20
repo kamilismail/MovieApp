@@ -12,8 +12,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 public interface ApiSearch {
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
 
     @GET("search/movies")
     Call<SearchMovieDTO> getMovies(@Header("Cookie") String cookie, @Query("name") String name);

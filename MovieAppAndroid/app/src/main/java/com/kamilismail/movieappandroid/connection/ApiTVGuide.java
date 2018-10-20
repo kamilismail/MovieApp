@@ -9,8 +9,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 
 public interface ApiTVGuide {
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
 
     @GET("tvguide/")
     Call<ArrayList<TVGuideDTO>> getTVGuide(@Header("Cookie") String cookie);

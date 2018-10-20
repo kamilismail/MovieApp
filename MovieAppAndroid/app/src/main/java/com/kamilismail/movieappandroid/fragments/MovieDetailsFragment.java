@@ -32,6 +32,8 @@ import com.kamilismail.movieappandroid.connection.ApiFavourites;
 import com.kamilismail.movieappandroid.connection.ApiReminders;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
 import com.kamilismail.movieappandroid.connection.ApiWantToWatch;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -92,11 +94,11 @@ public class MovieDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
+        ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
         Bundle args = this.getArguments();
         this.id = args.getString("id");
         this.title = args.getString("title");
-        ButterKnife.bind(this, view);
         mTitle.setText(this.title);
         getData(view);
 
@@ -167,10 +169,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiSearch.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiSearch apiSearch = retrofit.create(ApiSearch.class);
 
@@ -237,10 +236,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void favClicked(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiFavourites.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiFavourites apiFavourites = retrofit.create(ApiFavourites.class);
 
@@ -272,10 +268,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void wantsClicked(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiWantToWatch.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiWantToWatch apiWantToWatch = retrofit.create(ApiWantToWatch.class);
 
@@ -307,10 +300,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void reminderClicked(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiReminders.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiReminders apiReminders = retrofit.create(ApiReminders.class);
 

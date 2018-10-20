@@ -13,9 +13,6 @@ import retrofit2.http.Query;
 
 public interface ApiRatings {
 
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
-
     @GET("rating/")
     Call<ArrayList<FavouritesDTO>> getRatings(@Header("Cookie") String cookie);
 

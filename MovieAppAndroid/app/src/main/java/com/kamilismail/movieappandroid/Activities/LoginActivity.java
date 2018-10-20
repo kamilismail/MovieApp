@@ -24,6 +24,9 @@ import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
+import com.kamilismail.movieappandroid.helpers.SelfSigningClientBuilder;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -62,19 +65,12 @@ public class LoginActivity extends AppCompatActivity {
             ActionBar actionBar = getSupportActionBar();
             actionBar.hide();
             progressBar.setVisibility(View.GONE);
-
-            /*TranslateAnimation animation = new TranslateAnimation(0.0f, 400.0f, 0.0f, 0.0f);
-            animation.setDuration(10000);
-            animation.setRepeatCount(100);
-            _imageView.startAnimation(animation);*/
-
             _loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     login();
                 }
             });
-
             _signupText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,10 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final String credentials = "Basic " + Base64.encodeToString((login + ":" + password).getBytes(), Base64.NO_WRAP);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUser.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
 
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call <UserDTO> call = apiUser.getUser(credentials);

@@ -13,8 +13,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiReminders {
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
 
     @GET("reminder/getReminders/")
     Call<ArrayList<RemindersDTO>> getReminders(@Header("Cookie") String cookie);

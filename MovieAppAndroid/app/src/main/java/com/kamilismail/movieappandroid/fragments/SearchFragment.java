@@ -27,10 +27,14 @@ import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.adapters.SearchMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,11 +57,15 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     private List<String> lastSearches;
-    private MaterialSearchBar searchBar;
-    private TextView mChoice;
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
+    @BindView(R.id.choice)
+    TextView mChoice;
     private View view;
-    private ProgressBar mProgressBar;
-    private TextView mInfo;
+    @BindView(R.id.mProgressBarProfile)
+    ProgressBar mProgressBar;
+    @BindView(R.id.info)
+    TextView mInfo;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -69,13 +77,10 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_search, container, false);
         this.sessionController = new SessionController(getContext());
-        mChoice = view.findViewById(R.id.choice);
-        mProgressBar = view.findViewById(R.id.mProgressBarProfile);
-        mInfo = view.findViewById(R.id.info);
+        ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.GONE);
         mChoice.setText("for movies");
-        searchBar = (MaterialSearchBar) view.findViewById(R.id.searchBar);
         searchBar.setHint("Search for movies");
         searchBar.setSpeechMode(true);
         //enable searchbar callbacks
@@ -130,10 +135,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
         mProgressBar.setVisibility(View.VISIBLE);
         mInfo.setVisibility(View.GONE);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiSearch.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiSearch apiSearch = retrofit.create(ApiSearch.class);
 

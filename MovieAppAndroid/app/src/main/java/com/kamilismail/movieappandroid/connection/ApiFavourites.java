@@ -14,9 +14,6 @@ import retrofit2.http.Query;
 
 public interface ApiFavourites {
 
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
-
     @GET("favourite/getFavourites/")
     Call<ArrayList<FavouritesDTO>> getFavoutites(@Header("Cookie") String cookie);
 

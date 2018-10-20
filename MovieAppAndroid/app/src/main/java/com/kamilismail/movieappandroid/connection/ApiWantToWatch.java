@@ -14,9 +14,6 @@ import retrofit2.http.Query;
 
 public interface ApiWantToWatch {
 
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
-
     @GET("want/getWants/")
     Call<ArrayList<FavouritesDTO>> getWants(@Header("Cookie") String cookie);
 

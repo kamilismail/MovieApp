@@ -19,10 +19,14 @@ import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.adapters.RemindersRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiReminders;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +46,8 @@ public class NotificationFragment extends Fragment {
     public static String TAG = "TVFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
-    private ProgressBar progressBar;
+    @BindView(R.id.mProgressBarProfile)
+    ProgressBar progressBar;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -54,8 +59,8 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
-        progressBar = view.findViewById(R.id.mProgressBarProfile);
         progressBar.setVisibility(View.GONE);
         getData(view);
         return view;
@@ -67,15 +72,7 @@ public class NotificationFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30,TimeUnit.SECONDS).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiReminders.BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiReminders apiReminders = retrofit.create(ApiReminders.class);
 

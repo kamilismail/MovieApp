@@ -23,6 +23,8 @@ import com.kamilismail.movieappandroid.adapters.PopularMoviesRecyclerViewAdapter
 import com.kamilismail.movieappandroid.adapters.PopularSeriesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.UpcomingMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,10 +67,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiDiscover.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
         ApiDiscover apiDiscover = retrofit.create(ApiDiscover.class);
 

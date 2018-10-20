@@ -14,9 +14,6 @@ import retrofit2.http.POST;
 
 public interface ApiUser {
 
-    //serverName
-    String BASE_URL = "http://192.168.0.16:8080/";
-
     @GET("user/getUsername")
     Call<UserDTO> getUser(@Header("Authorization") String credentials);
 

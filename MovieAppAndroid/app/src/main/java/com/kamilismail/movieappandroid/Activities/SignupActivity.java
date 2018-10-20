@@ -18,6 +18,9 @@ import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
+import com.kamilismail.movieappandroid.dictionery.Constants;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
+import com.kamilismail.movieappandroid.helpers.SelfSigningClientBuilder;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -105,10 +108,7 @@ public class SignupActivity extends AppCompatActivity {
         obj.addProperty("password", password);
         obj.addProperty("role", "user");
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUser.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
 
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call<BooleanDTO> call = apiUser.createNewUser(obj);
