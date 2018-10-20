@@ -154,7 +154,7 @@ public class SearchServiceImpl implements SearchService {
             return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
                     moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
                     moviesEntity.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
-                    chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
+                    chanel, moviesEntity.getFilmwebId().toString(), ratingResult, wantToWatch, fav, reminder));
         }
     }
 

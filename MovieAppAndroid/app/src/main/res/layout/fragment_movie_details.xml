@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:padding="5dp"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_alignParentLeft="true"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,14 +51,27 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
-                    android:layout_below="@+id/poster" />
+                    android:layout_below="@+id/title"
+                    android:padding="5dp"
+                    android:paddingTop="20dp"
+                    android:layout_toRightOf="@+id/poster"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release"
+                    android:layout_below="@+id/avarageRating"
+                    android:text="Release date:"
+                    android:textSize="12dp"
+                    android:padding="5dp"
+                    android:layout_toRightOf="@+id/poster"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userRating"
                     android:text="Your rating:"
-                    android:layout_below="@+id/avarageRating"/>
+                    android:layout_below="@+id/poster"/>
 
                 <RatingBar
                     android:stepSize="1"
@@ -71,44 +84,11 @@
                     android:layout_below="@+id/userRating"
                     android:layout_centerHorizontal="true"/>
 
-                <Button style = "@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Set reminder"
-                    android:id="@+id/addReminder"
-                    android:backgroundTint="@color/DeepRed"
-                    android:textColor="@android:color/white"
-                    android:layout_below="@+id/ratingBar"
-                    android:padding="5dp"
-                    />
-
-                <Button style = "@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Want to watch"
-                    android:id="@+id/addWantToWatch"
-                    android:backgroundTint="@color/DeepRed"
-                    android:textColor="@android:color/white"
-                    android:layout_below="@+id/addReminder"
-                    android:padding="5dp"
-                    />
-
-                <Button style = "@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Add to favourites"
-                    android:id="@+id/addFav"
-                    android:backgroundTint="@color/DeepRed"
-                    android:textColor="@android:color/white"
-                    android:layout_below="@+id/addWantToWatch"
-                    android:padding="5dp"
-                    />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/onTV"
-                    android:layout_below="@+id/addFav"
+                    android:layout_below="@+id/ratingBar"
                     android:text="On TV:"
                     android:padding="5dp"/>
 
@@ -153,20 +133,44 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/release"
-                    android:layout_below="@+id/tvlogo"
-                    android:text="Release date:"
-                    android:textSize="12dp"
-                    android:padding="5dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:layout_below="@+id/release"
+                    android:layout_below="@+id/tvlogo"
                     android:text="Description:\n"
                     android:textSize="12dp"
                     android:padding="5dp"/>
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Set reminder"
+                    android:id="@+id/addReminder"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/description"
+                    android:padding="5dp"
+                    />
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Want to watch"
+                    android:id="@+id/addWantToWatch"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/addReminder"
+                    android:padding="5dp"
+                    />
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Add to favourites"
+                    android:id="@+id/addFav"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/addWantToWatch"
+                    android:padding="5dp"
+                    />
 
             </RelativeLayout>
 

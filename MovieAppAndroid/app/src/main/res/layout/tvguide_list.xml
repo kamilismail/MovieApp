@@ -23,6 +23,7 @@
                 android:layout_height="200dp"
                 android:id="@+id/poster"
                 android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
                 />
 
             <TextView
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logo"
                 android:layout_toRightOf="@+id/channel"
-                android:layout_below="@+id/hour"
+                android:layout_below="@+id/release"
                 />
 
 

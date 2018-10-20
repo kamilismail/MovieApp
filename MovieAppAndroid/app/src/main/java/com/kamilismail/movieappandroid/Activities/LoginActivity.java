@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             _loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    login();
+                    login(v);
                 }
             });
             _signupText.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void login() {
+    private void login(View view) {
 
         if (!validate()) {
             onLoginFailed();
@@ -92,11 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         String login = _loginText.getText().toString();
         String password = _passwordText.getText().toString();
-
         final String credentials = "Basic " + Base64.encodeToString((login + ":" + password).getBytes(), Base64.NO_WRAP);
-
         Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
-
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call <UserDTO> call = apiUser.getUser(credentials);
 

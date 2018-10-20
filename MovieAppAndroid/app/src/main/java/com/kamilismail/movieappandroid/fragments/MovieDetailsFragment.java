@@ -193,7 +193,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void onSuccess(GetMovieDTO result, final View view) {
-        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath()).resize(550,870).into(mPoster);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath()).resize(400,640).into(mPoster);
         mAvarageRating.setText("Rating: " + result.getAvarageRating());
         if (!result.getUserRating().isEmpty())
             mRatingBar.setRating(Float.valueOf(result.getUserRating()));

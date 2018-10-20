@@ -55,7 +55,7 @@ public class RemindersScheduler {
             }
         }
         remindersEntityList = reminderRepository.findAll();
-        Date parsedDate = null;
+        Date parsedDate;
         try {
             Date data = new Date();
             parsedDate = dateFormat.parse(dateFormat.format(data));
@@ -69,10 +69,9 @@ public class RemindersScheduler {
                     //TODO - wysyłanie powiadomień do użytkowników
                     UserEntity userEntity = userRepository.findByUserId(remindersEntity.getUserId());
                     try {
-                        Constants constants = new Constants();
                         RestTemplate restTemplate = new RestTemplate();
                         HttpHeaders httpHeaders = new HttpHeaders();
-                        httpHeaders.set("Authorization", "key=" + constants.getFcmKey());
+                        httpHeaders.set("Authorization", "key=" + Constants.getFcmKey());
                         httpHeaders.set("Content-Type", "application/json");
                         JSONObject msg = new JSONObject();
                         JSONObject json = new JSONObject();
@@ -85,8 +84,8 @@ public class RemindersScheduler {
                         json.put("data", msg);
                         json.put("to", userEntity.getNotificationId());
 
-                        HttpEntity<String> httpEntity = new HttpEntity<String>(json.toString(), httpHeaders);
-                        String response = restTemplate.postForObject(constants.getFcmURL(), httpEntity, String.class);
+                        HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), httpHeaders);
+                        String response = restTemplate.postForObject(Constants.getFcmURL(), httpEntity, String.class);
                         log.info("Notification sent: " + json.toString() + "\n Response: " + response, dateFormat.format(new Date()));
                     } catch (JSONException e) {
                         e.printStackTrace();

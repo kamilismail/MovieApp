@@ -61,10 +61,16 @@ public class TVGuideDaoImpl implements TVGuideDao {
             } catch (Exception e) {
                 return new BooleanDTO(false);
             }
-            movieEntity = new MoviesEntity(movieBean.getMovieDb().getTitle(),toIntExact(filmResult.getId()),movieBean.getMovieDb().getId(),
-                    movieBean.getMovieDb().getPosterPath(), movieBean.getMovieDb().getReleaseDate(),movieBean.getMovieDb().getBackdropPath(),
-                    movieBean.getMovieDb().getMediaType().toString(), String.valueOf(movieBean.getMovieDb().getVoteAverage()),
-                    movieBean.getMovieDb().getOverview());
+            movieEntity = new MoviesEntity();
+            movieEntity.setMovieName(movieBean.getMovieDb().getTitle());
+            movieEntity.setTmdbId(movieBean.getMovieDb().getId());
+            movieEntity.setFilmwebId(toIntExact(filmResult.getId()));
+            movieEntity.setPosterPath(movieBean.getMovieDb().getPosterPath());
+            movieEntity.setReleaseDate(movieBean.getMovieDb().getReleaseDate());
+            movieEntity.setBackdropPath(movieBean.getMovieDb().getBackdropPath());
+            movieEntity.setMediaType(movieBean.getMovieDb().getMediaType().toString());
+            movieEntity.setAvarageRating(String.valueOf(movieBean.getMovieDb().getVoteAverage()));
+            movieEntity.setOverview(movieBean.getMovieDb().getOverview());
             movieRepository.save(movieEntity);
         } else {
             FilmwebApi fa = new FilmwebApi();
@@ -91,7 +97,7 @@ public class TVGuideDaoImpl implements TVGuideDao {
         }
         if (stationName.equals(""))
             stationName = movieBean.getChanel();
-        TvstationsEntity tvstationsEntity;
+        TvstationsEntity tvstationsEntity = null;
         List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
 
         if (stationsList.size() < 1) {
@@ -102,16 +108,22 @@ public class TVGuideDaoImpl implements TVGuideDao {
         } else {
             tvstationsEntity = stationsList.get(0);
         }
-        TVGuideEntity tvGuideEntity = new TVGuideEntity(movieEntity.getMovieId(), tvstationsEntity.getTvstationId(),
-                movieBean.parseDateToTimestamp(), movieEntity, tvstationsEntity);
+        TVGuideEntity tvGuideEntity = new TVGuideEntity();
+        tvGuideEntity.setMovieId(movieEntity.getMovieId());
+        tvGuideEntity.setDate(movieBean.parseDateToTimestamp());
+        tvGuideEntity.setTvstationId(tvstationsEntity.getTvstationId());
+        tvGuideEntity.setMoviesByMovieId(movieEntity);
+        tvGuideEntity.setTvstationsByTvstationId(tvstationsEntity);
         tvGuideRepository.save(tvGuideEntity);
+
         return (new BooleanDTO(true));
     }
 
     @Override
     public boolean deleteTVGuide() {
         List<TVGuideEntity> tvGuideEntityList = tvGuideRepository.findAll();
-        tvGuideEntityList.forEach(p -> tvGuideRepository.delete(p));
+        for (TVGuideEntity tvGuideEntity : tvGuideEntityList)
+            tvGuideRepository.delete(tvGuideEntity);
         return true;
     }
 }

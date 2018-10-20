@@ -35,7 +35,6 @@ public class FavouriteDaoImpl implements FavouriteDao {
     public BooleanDTO addFavourite(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
         UserEntity userEntity = userRepository.findByUserId(userId);
-
         if (movieEntity == null) {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());

@@ -6,6 +6,7 @@ import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RemindersEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
+import com.KamilIsmail.MovieApp.helpers.BroadcastsHelper;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
 import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
@@ -53,58 +54,24 @@ public class ReminderDaoImpl implements ReminderDao {
         String date = "";
         String time = "";
         Constants constants = new Constants();
+        TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
+        MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+
+        BroadcastsHelper broadcastsHelper = new BroadcastsHelper(tmdbResult.getTitle(), tmdbResult.getReleaseDate());
+        if (broadcastsHelper.getBroadcast()) {
+            stationName = broadcastsHelper.getStationName();
+            logoPath = broadcastsHelper.getLogoPath();
+            date = broadcastsHelper.getDate();
+            time = broadcastsHelper.getTime();
+        } else {
+            return new BooleanDTO(false);
+        }
         if (movieEntity == null) {
-            TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
-            FilmwebApi fa = new FilmwebApi();
-            FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            List<Broadcast> broadcasts = null;
-            try {
-                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
-                if (!broadcasts.isEmpty()) {
-                    Long chanelID = broadcasts.get(0).getChannelId();
-                    List<TVChannel> tvChannels = fa.getTvChannels();
-                    for (TVChannel tvChannel : tvChannels) {
-                        if (tvChannel.getId() == chanelID) {
-                            stationName = tvChannel.getName();
-                            logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                            date = broadcasts.get(0).getDate().toString();
-                            time = broadcasts.get(0).getTime().toString();
-                            break;
-                        }
-                    }
-                }
-            } catch (FilmwebException e) {
-                e.printStackTrace();
-            }
-            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
+
+            movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(broadcastsHelper.getFilmwebID()),tmdbResult.getId(),
                     tmdbResult.getPosterPath(), tmdbResult.getReleaseDate(),tmdbResult.getBackdropPath(),
                     tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),tmdbResult.getOverview());
             movieRepository.save(movieEntity);
-        } else {
-            TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
-            FilmwebApi fa = new FilmwebApi();
-            FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
-            List<Broadcast> broadcasts = null;
-            try {
-                broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
-                if (!broadcasts.isEmpty()) {
-                    Long chanelID = broadcasts.get(0).getChannelId();
-                    List<TVChannel> tvChannels = fa.getTvChannels();
-                    for (TVChannel tvChannel : tvChannels) {
-                        if (tvChannel.getId() == chanelID) {
-                            stationName = tvChannel.getName();
-                            logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                            date = broadcasts.get(0).getDate().toString();
-                            time = broadcasts.get(0).getTime().toString();
-                            break;
-                        }
-                    }
-                }
-            } catch (FilmwebException e) {
-                e.printStackTrace();
-            }
         }
         TvstationsEntity tvstationsEntity = null;
         List<TvstationsEntity> stationsList = null;
@@ -170,27 +137,19 @@ public class ReminderDaoImpl implements ReminderDao {
         RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByReminderId(reminderId);
         TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(tvStationId);
         FilmwebApi fa = new FilmwebApi();
-        String stationName = "";
-        String logoPath = "";
-        String date = "";
-        String time = "";
-        try {
-            List<Broadcast> broadcasts = fa.getBroadcasts((long) movieId, 0, 20);
-            if (!broadcasts.isEmpty()) {
-                Long chanelID = broadcasts.get(0).getChannelId();
-                List<TVChannel> tvChannels = fa.getTvChannels();
-                for (TVChannel tvChannel : tvChannels) {
-                    if (tvChannel.getId() == chanelID) {
-                        stationName = tvChannel.getName();
-                        logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                        date = broadcasts.get(0).getDate().toString();
-                        time = broadcasts.get(0).getTime().toString();
-                        break;
-                    }
-                }
-            }
-        } catch (FilmwebException e) {
-            return (new BooleanDTO(false));
+        String stationName;
+        String logoPath;
+        String date;
+        String time;
+
+        BroadcastsHelper broadcastsHelper = new BroadcastsHelper(movieId);
+        if (broadcastsHelper.getBroadcastById()) {
+            stationName = broadcastsHelper.getStationName();
+            logoPath = broadcastsHelper.getLogoPath();
+            date = broadcastsHelper.getDate();
+            time = broadcastsHelper.getTime();
+        } else {
+            return new BooleanDTO(false);
         }
 
         Timestamp sqlDate;
