@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.service;
 
+import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.RatingDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.DiscoverMovieDTO;
@@ -37,7 +38,7 @@ public class RatingServiceImpl implements RatingService {
         for (RatingsEntity rateList : favsEntitiesList) {
             MoviesEntity moviesEntity = rateList.getMoviesByMovieId();
             DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), moviesEntity.getBackdropPath(), moviesEntity.getReleaseDate(), rateList.getRating());
+                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(), moviesEntity.getReleaseDate(), rateList.getRating());
 
             ratingResults.add(result);
         }

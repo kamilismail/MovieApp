@@ -22,4 +22,7 @@ public interface UserService {
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
     GetUsernameDTO getUsername(int id);
+
+    @PreAuthorize("hasAnyAuthority('admin','user')")
+    BooleanDTO setFirebaseID(int userID, String token);
 }

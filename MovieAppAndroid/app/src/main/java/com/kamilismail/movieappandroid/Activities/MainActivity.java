@@ -1,5 +1,6 @@
 package com.kamilismail.movieappandroid.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,10 +9,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
+import com.kamilismail.movieappandroid.connection.ApiUser;
 import com.kamilismail.movieappandroid.fragments.ChangePswFragment;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
@@ -23,9 +28,16 @@ import com.kamilismail.movieappandroid.fragments.SearchFragment;
 import com.kamilismail.movieappandroid.fragments.TVFragment;
 import com.kamilismail.movieappandroid.fragments.WantToWatchFragment;
 import com.kamilismail.movieappandroid.helpers.BottomNavigationViewHelper;
+import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements
         DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
@@ -150,8 +162,47 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void logoutUser() {
+        deleteFirebaseID();
         sessionController.logoutUser();
         finish();
+    }
+
+    private void deleteFirebaseID() {
+        new AsyncTask<Void,Void,Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try
+                {
+                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                    sessionController.saveFirebaseToken("");
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                // Call your Activity where you want to land after log out
+            }
+        }.execute();
+        //wysłanie do bazy id
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+        ApiUser apiUser = retrofit.create(ApiUser.class);
+        String cookie = sessionController.getCookie();
+        String token = sessionController.getFirebaseToken();
+        Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO favouritesDTOS = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
     }
 
     @Override

@@ -2,10 +2,12 @@ package com.kamilismail.movieappandroid.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -81,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void login(View view) {
+    private void login(final View view) {
 
         if (!validate()) {
             onLoginFailed();
@@ -109,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
                 sessionController.saveUsername(userDTO.getUsername());
-                onLoginSuccess();
+                onLoginSuccess(view);
             }
 
             @Override
@@ -134,11 +138,47 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void onLoginSuccess() {
+    private void onLoginSuccess(final View view) {
+        sendFirebaseID(view);
         progressBar.setVisibility(View.GONE);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void sendFirebaseID(final View view) {
+        new AsyncTask<Void,Void,Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                String token = FirebaseInstanceId.getInstance().getToken();
+                // Used to get firebase token until its null so it will save you from null pointer exeption
+                while(token == null) {
+                    token = FirebaseInstanceId.getInstance().getToken();
+                    sessionController.saveFirebaseToken(token);
+                    Log.d("New firebase token: ", token);
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void result) {
+            }
+        }.execute();
+
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
+        ApiUser apiUser = retrofit.create(ApiUser.class);
+        String cookie = sessionController.getCookie();
+        String token = sessionController.getFirebaseToken();
+        Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO favouritesDTOS = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
     }
 
     private void onLoginFailed() {

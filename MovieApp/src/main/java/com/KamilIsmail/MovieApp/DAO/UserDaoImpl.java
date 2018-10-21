@@ -94,4 +94,12 @@ public class UserDaoImpl implements UserDao {
     public GetUsernameDTO getUsername(int id) {
         return new GetUsernameDTO(userRepository.findByUserId(id).getUsername());
     }
+
+    @Override
+    public BooleanDTO setFirebaseID(int id, String token) {
+        final UserEntity userEntity = userRepository.findByUserId(id);
+        userEntity.setNotificationId(token);
+        userRepository.save(userEntity);
+        return new BooleanDTO(true);
+    }
 }

@@ -23,6 +23,7 @@ public class SessionController {
 
     public static final String KEY_COOKIE = "Cookie";
     private static final String USERNAME = "Username";
+    private static final String FIREBASE_TOKEN = "FirebaseToken";
 
     // Constructor
     @SuppressLint("CommitPrefEdits")
@@ -50,6 +51,15 @@ public class SessionController {
     public void saveUsername(String username) {
         editor.putString(USERNAME, username);
         editor.commit();
+    }
+
+    public void saveFirebaseToken(String token) {
+        editor.putString(FIREBASE_TOKEN, token);
+        editor.commit();
+    }
+
+    public String getFirebaseToken() {
+        return pref.getString(FIREBASE_TOKEN, null);
     }
 
     public String getUsername () {

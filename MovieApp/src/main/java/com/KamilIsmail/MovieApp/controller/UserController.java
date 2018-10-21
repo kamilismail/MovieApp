@@ -37,6 +37,13 @@ public class UserController {
         return userService.createUser(param.getUsername(), param.getPassword(), param.getRole());
     }
 
+    @PostMapping("setFirebaseID")
+    public BooleanDTO setFirebaseID(@RequestParam("firebaseID") String firebaseID, Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
+        UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
+        return userService.setFirebaseID(userEntity.getUserId(), firebaseID);
+    }
+
     @PutMapping("")
     public BooleanDTO changeUserPassword(@Valid @RequestParam(name = "password") String password, @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();

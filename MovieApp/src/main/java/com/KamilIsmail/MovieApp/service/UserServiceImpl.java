@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public GetUsernameDTO getUsername(int id) {
         return userDao.getUsername(id);
     }
+
+    @Override
+    public BooleanDTO setFirebaseID(int userID, String token) {
+        return userDao.setFirebaseID(userID, token);
+    }
 }

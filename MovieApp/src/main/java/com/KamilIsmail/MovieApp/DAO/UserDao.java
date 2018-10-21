@@ -14,4 +14,6 @@ public interface UserDao {
     BooleanDTO deleteUser(String username, String password);
 
     GetUsernameDTO getUsername(int id);
+
+    BooleanDTO setFirebaseID(int id, String token);
 }
