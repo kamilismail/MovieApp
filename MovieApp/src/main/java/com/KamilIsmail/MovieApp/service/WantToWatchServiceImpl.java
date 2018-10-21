@@ -28,7 +28,6 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     WantToWatchDao wantDao;
 
-    @Cacheable(value = "wants")
     @Override
     public List<DiscoverMovieDTO> getWants(int userid) throws IOException {
         List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);

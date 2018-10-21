@@ -29,6 +29,9 @@ public class RemindersDTO {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
 
     /**
      * No args constructor for use in serialization
@@ -47,7 +50,7 @@ public class RemindersDTO {
      * @param mediaType
      */
     public RemindersDTO(String mediaType, String id, String title, String posterPath, String onTvDate,
-                        String station, String logoPath, String releaseDate) {
+                        String station, String logoPath, String releaseDate, String rating) {
         super();
         this.mediaType = mediaType;
         this.id = id;
@@ -57,6 +60,7 @@ public class RemindersDTO {
         this.station = station;
         this.logoPath = logoPath;
         this.releaseDate = releaseDate;
+        this.rating = rating;
     }
 
     public String getMediaType() {
@@ -121,5 +125,13 @@ public class RemindersDTO {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

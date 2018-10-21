@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements
         DiscoverFragment.SendArgumentsAndLaunchFragment, TVFragment.SendArgumentsAndLaunchFragment,
         SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment,
         WantToWatchFragment.SendArgumentsAndLaunchFragment, FavouritesFragment.SendArgumentsAndLaunchFragment,
-        RatingsFragment.SendArgumentsAndLaunchFragment, ChangePswFragment.SendArgumentsAndLaunchFragment{
+        RatingsFragment.SendArgumentsAndLaunchFragment, ChangePswFragment.SendArgumentsAndLaunchFragment,
+        NotificationFragment.SendArgumentsAndLaunchFragment {
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;

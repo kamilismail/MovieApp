@@ -1,5 +1,6 @@
 package com.KamilIsmail.MovieApp.service;
 
+import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.ReminderDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.ReminderDTO;
@@ -29,7 +30,6 @@ public class ReminderServiceImpl implements ReminderService {
     @Autowired
     TvSatationRepository tvSatationRepository;
 
-    @Cacheable(value = "reminders", key = "#userId")
     @Override
     public List<ReminderDTO> getReminders(int userId) {
         List<RemindersEntity> reminderEntitiesList = reminderRepository.findRemindersEntitiesByUserId(userId);
@@ -39,8 +39,8 @@ public class ReminderServiceImpl implements ReminderService {
             TvstationsEntity tvstationsEntity = reminderList.getTvstationsByTvstationId();
             MoviesEntity moviesEntity = reminderList.getMoviesByMovieId();
             ReminderDTO result = new ReminderDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), moviesEntity.getBackdropPath(), reminderList.getData().toString(),
-                    tvstationsEntity.getName(), tvstationsEntity.getLogoPath(), moviesEntity.getReleaseDate());
+                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(), reminderList.getData().toString(),
+                    tvstationsEntity.getName(), tvstationsEntity.getLogoPath(), moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating());
 
             reminderResults.add(result);
         }

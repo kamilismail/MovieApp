@@ -35,6 +35,9 @@ public class GetMovieDTO {
     @SerializedName("chanel")
     @Expose
     private String chanel;
+    @SerializedName("logo_path")
+    @Expose
+    private String logoPath;
     @SerializedName("film_id")
     @Expose
     private String filmID;
@@ -60,7 +63,7 @@ public class GetMovieDTO {
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath,
                        String posterPath, String title, String releaseDate, String date, String hour,
-                       String chanel, String filmID, String userRating, Boolean userWantToWatch,
+                       String chanel, String logoPath, String filmID, String userRating, Boolean userWantToWatch,
                        Boolean userFav, Boolean userReminder) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
@@ -72,6 +75,7 @@ public class GetMovieDTO {
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
+        this.logoPath = logoPath;
         this.filmID = filmID;
         this.userRating = userRating;
         this.userWantToWatch = userWantToWatch;
@@ -197,5 +201,13 @@ public class GetMovieDTO {
 
     public void setUserReminder(Boolean userReminder) {
         this.userReminder = userReminder;
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
     }
 }

@@ -35,6 +35,9 @@ public class GetMovieDTO {
     @JsonProperty("chanel")
     private String chanel;
 
+    @JsonProperty("logo_path")
+    private String logoPath;
+
     @JsonProperty("film_id")
     private String filmID;
 
@@ -52,7 +55,7 @@ public class GetMovieDTO {
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
                        String title, String releaseDate, String date, String hour, String chanel, String filmID,
-                       String userRating, boolean wantToWatch, boolean userFav, boolean reminder) {
+                       String userRating, boolean wantToWatch, boolean userFav, boolean reminder, String logoPath) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -63,6 +66,7 @@ public class GetMovieDTO {
         this.date = date;
         this.hour = hour;
         this.chanel = chanel;
+        this.logoPath = logoPath;
         this.filmID = filmID;
         this.userRating = userRating;
         this.wantToWatch = String.valueOf(wantToWatch);
@@ -224,5 +228,13 @@ public class GetMovieDTO {
 
     public void setReminder(String reminder) {
         this.reminder = reminder;
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
     }
 }

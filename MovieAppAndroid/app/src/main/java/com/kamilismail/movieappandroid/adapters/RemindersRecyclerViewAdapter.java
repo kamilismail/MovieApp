@@ -79,7 +79,7 @@ public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter{
         Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
-        ((MyViewHolder) viewHolder).mRating.setText("Rating: unknown");
+        ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
         ((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
         if (!data.getOnTvDate().equals("9999-12-31 00:00:00.0")) {
             ((MyViewHolder) viewHolder).mHour.setText("When: " + data.getOnTvDate().substring(11, 16));

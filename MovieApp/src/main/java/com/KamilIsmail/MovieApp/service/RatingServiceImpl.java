@@ -28,7 +28,6 @@ public class RatingServiceImpl implements RatingService {
         return ratingDao.setRating(userID, movieID, rating);
     }
 
-    @Cacheable(value = "ratings", key = "#userID")
     @Override
     public List<DiscoverMovieDTO> getRatings(int userID) {
 

@@ -43,7 +43,7 @@ public class NotificationFragment extends Fragment {
         void passMovieData(String id, String title);
     }
 
-    public static String TAG = "TVFragment";
+    public static String TAG = "NotificationFragment";
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
@@ -66,9 +66,9 @@ public class NotificationFragment extends Fragment {
         return view;
     }
 
-    public static TVFragment newInstance() {
-        TVFragment tvFragment = new TVFragment();
-        return tvFragment;
+    public static NotificationFragment newInstance() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        return notificationFragment;
     }
 
     private void getData(final View view) {

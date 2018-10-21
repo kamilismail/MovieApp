@@ -17,6 +17,7 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 import info.talacha.filmweb.api.FilmwebApi;
 import info.talacha.filmweb.connection.FilmwebException;
 import info.talacha.filmweb.models.Broadcast;
+import info.talacha.filmweb.models.Size;
 import info.talacha.filmweb.models.TVChannel;
 import info.talacha.filmweb.search.models.FilmSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,6 @@ public class SearchServiceImpl implements SearchService {
         return tmdbApi.getSearch().searchTv(production, "pl", 0);
     }
 
-    @Cacheable(value = "movie")
     @Override
     public GetMovieDTO getMovie(Long id, Long userID) {
         Constants constants = new Constants();
@@ -70,6 +70,7 @@ public class SearchServiceImpl implements SearchService {
         MovieDb tmdbResult = null;
         List<Broadcast> broadcasts = null;
         String chanel = "";
+        String logoPath = "";
         FilmSearchResult filmResult = null;
         FilmwebApi fa = new FilmwebApi();
         MoviesEntity moviesEntity = movieRepository.findMoviesEntityByTmdbId(id.intValue());
@@ -96,6 +97,7 @@ public class SearchServiceImpl implements SearchService {
                 for (TVChannel tvChannel : tvChannels) {
                     if (tvChannel.getId() == chanelID) {
                         chanel = tvChannel.getName();
+                        logoPath = tvChannel.getLogo(Size.SMALL).getPath();
                         break;
                     }
                 }
@@ -149,16 +151,15 @@ public class SearchServiceImpl implements SearchService {
             return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
                     tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
                     tmdbResult.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
-                    chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder));
+                    chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
         } else {
             return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
                     moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
                     moviesEntity.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
-                    chanel, moviesEntity.getFilmwebId().toString(), ratingResult, wantToWatch, fav, reminder));
+                    chanel, moviesEntity.getFilmwebId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
         }
     }
 
-    @Cacheable(value = "tvShow")
     @Override
     public GetSeriesDTO getTVShow(Long id) {
         Constants constants = new Constants();

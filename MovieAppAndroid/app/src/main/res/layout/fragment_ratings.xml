@@ -6,7 +6,7 @@
     tools:context=".fragments.RatingsFragment"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="40dp">
+    android:layout_marginBottom="57dp">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

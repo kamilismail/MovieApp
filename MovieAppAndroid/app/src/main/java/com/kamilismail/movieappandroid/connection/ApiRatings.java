@@ -12,11 +12,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiRatings {
-
     @GET("rating/")
     Call<ArrayList<FavouritesDTO>> getRatings(@Header("Cookie") String cookie);
 
-    @POST("favourite/addFavourite/")
+    @POST("rating/")
     Call<BooleanDTO> setRating(@Header("Cookie") String cookie, @Query("movieID") String movieID,
                                @Query("rating") String rating);
 }

@@ -69,28 +69,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/userRating"
-                    android:text="Your rating:"
-                    android:layout_below="@+id/poster"/>
-
-                <RatingBar
-                    android:stepSize="1"
-                    android:theme="@style/RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rating="0"
-                    android:numStars="5"
-                    android:id="@+id/ratingBar"
-                    android:layout_below="@+id/userRating"
-                    android:layout_centerHorizontal="true"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/onTV"
-                    android:layout_below="@+id/ratingBar"
+                    android:layout_below="@+id/release"
                     android:text="On TV:"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:layout_toRightOf="@+id/poster"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -101,7 +84,8 @@
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:layout_toRightOf="@+id/poster"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +93,8 @@
                     android:id="@+id/chanelInfo"
                     android:layout_below="@+id/tvDate"
                     android:text="Chanel:"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:layout_toRightOf="@+id/poster"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,21 +105,70 @@
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:textColor="@color/Black"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:layout_toRightOf="@+id/poster"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:id="@+id/tvlogo"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_below="@id/tvChanel"
-                    android:layout_alignRight="@+id/tvChanel"/>
+                    android:layout_below="@id/chanelInfo"
+                    android:layout_toRightOf="@+id/tvChanel"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userRating"
+                    android:text="Your rating:"
+                    android:layout_below="@+id/poster"/>
+
+                <!--<RatingBar
+                    android:stepSize="1"
+                    android:theme="@style/RatingBar"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:rating="0"
+                    android:numStars="10"
+                    android:id="@+id/ratingBar"
+                    android:layout_below="@+id/userRating"
+                    android:layout_centerHorizontal="true"
+                    android:scaleY="0.5"
+                    android:scaleX="0.5"/-->
+
+                <com.willy.ratingbar.ScaleRatingBar
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userRating"
+                    app:srb_numStars="10"
+                    app:srb_starWidth="20dp"
+                    app:srb_starHeight="20dp"
+                    app:srb_starPadding="5dp"
+                    app:srb_stepSize="1"
+                    app:srb_isIndicator="false"
+                    app:srb_clickable="true"
+                    app:srb_scrollable="true"
+                    app:srb_clearRatingEnabled="true"
+                    android:layout_centerHorizontal="true">
+                </com.willy.ratingbar.ScaleRatingBar>
+
+                <Button style = "@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Send rating"
+                    android:id="@+id/sendRating"
+                    android:backgroundTint="@color/DeepRed"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_centerHorizontal="true"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:layout_below="@+id/tvlogo"
+                    android:layout_below="@+id/sendRating"
                     android:text="Description:\n"
                     android:textSize="12dp"
                     android:padding="5dp"/>

@@ -28,7 +28,6 @@ public class FavouritesServiceImpl implements FavouritesService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     FavouriteDao favsDao;
 
-    @Cacheable(value = "favourites", key = "#userid")
     @Override
     public List<DiscoverMovieDTO> getFavourites(int userid) {
         List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
