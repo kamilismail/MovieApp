@@ -162,12 +162,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void logoutUser() {
-        deleteFirebaseID();
+        deleteFirebaseID(sessionController.getCookie());
         sessionController.logoutUser();
         finish();
     }
 
-    private void deleteFirebaseID() {
+    private void deleteFirebaseID(final String cookie) {
         new AsyncTask<Void,Void,Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -184,25 +184,22 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             protected void onPostExecute(Void result) {
-                // Call your Activity where you want to land after log out
+                Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+                ApiUser apiUser = retrofit.create(ApiUser.class);
+                String token = sessionController.getFirebaseToken();
+                Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
+                call.enqueue(new Callback<BooleanDTO>() {
+                    @Override
+                    public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                        BooleanDTO favouritesDTOS = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BooleanDTO> call, Throwable t) {
+                    }
+                });
             }
         }.execute();
-        //wysłanie do bazy id
-        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
-        ApiUser apiUser = retrofit.create(ApiUser.class);
-        String cookie = sessionController.getCookie();
-        String token = sessionController.getFirebaseToken();
-        Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
-        call.enqueue(new Callback<BooleanDTO>() {
-            @Override
-            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
-                BooleanDTO favouritesDTOS = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<BooleanDTO> call, Throwable t) {
-            }
-        });
     }
 
     @Override

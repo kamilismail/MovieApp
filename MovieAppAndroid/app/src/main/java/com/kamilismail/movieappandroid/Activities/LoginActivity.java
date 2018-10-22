@@ -161,24 +161,23 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Void result) {
+                Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
+                ApiUser apiUser = retrofit.create(ApiUser.class);
+                String cookie = sessionController.getCookie();
+                String token = sessionController.getFirebaseToken();
+                Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
+                call.enqueue(new Callback<BooleanDTO>() {
+                    @Override
+                    public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                        BooleanDTO favouritesDTOS = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BooleanDTO> call, Throwable t) {
+                    }
+                });
             }
         }.execute();
-
-        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
-        ApiUser apiUser = retrofit.create(ApiUser.class);
-        String cookie = sessionController.getCookie();
-        String token = sessionController.getFirebaseToken();
-        Call<BooleanDTO> call = apiUser.setFirebaseID(cookie, token);
-        call.enqueue(new Callback<BooleanDTO>() {
-            @Override
-            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
-                BooleanDTO favouritesDTOS = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<BooleanDTO> call, Throwable t) {
-            }
-        });
     }
 
     private void onLoginFailed() {
