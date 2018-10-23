@@ -36,7 +36,6 @@ public class TVGuideServiceImpl implements TVGuideService {
             if(!tvstationsEntity.getLogoPath().isEmpty()) {
                 logoPath = Constants.getLogoPath() + tvstationsEntity.getLogoPath();
             }
-
             getMovieDTOList.add(new TVGuideMovieDTO(moviesEntity.getMediaType(), moviesEntity.getTmdbId().toString(),
                     moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(),
                     moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating(), tvstationsEntity.getName(), logoPath,

@@ -83,15 +83,10 @@ public class RemindersScheduler {
             parsedDate = dateFormat.parse(dateFormat.format(data));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             data = DateUtils.addHours(data, 1);
-            parsedDate = dateFormat.parse(dateFormat.format(data));
-            Timestamp timestamp2 = new java.sql.Timestamp(parsedDate.getTime()); //data zwiększona o godzinę
             for (RemindersEntity remindersEntity : remindersEntityList) {
-                Timestamp reminderDate = remindersEntity.getData();
-                Date date2 = dateFormat.parse(dateFormat.format(reminderDate));
                 if (dateFormat.parse(dateFormat.format(remindersEntity.getData())).after(dateFormat.parse(dateFormat.format(timestamp)))
                         && dateFormat.parse(dateFormat.format(remindersEntity.getData())).before(data) && !remindersEntity.getReminded()) {
                     log.info("Sending reminder: " + dateFormat.format(new Date()), dateFormat.format(new Date()));
-                    //TODO - wysyłanie powiadomień do użytkowników
                     UserEntity userEntity = userRepository.findByUserId(remindersEntity.getUserId());
 
                     String body = remindersEntity.getMoviesByMovieId().getMovieName() + " - "
@@ -110,6 +105,10 @@ public class RemindersScheduler {
                         @Override
                         public void onResponse(Call<FirebaseResult> call, Response<FirebaseResult> response) {
                             FirebaseResult resp = response.body();
+                            if (resp.getSuccess() == 1) {
+                                remindersEntity.setReminded(true);
+                                reminderRepository.save(remindersEntity);
+                            }
                         }
 
                         @Override

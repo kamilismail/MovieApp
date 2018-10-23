@@ -66,7 +66,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public GetMovieDTO getMovie(Long id, Long userID) {
         Constants constants = new Constants();
-        TmdbApi tmdbApi = null;
+        TmdbApi tmdbApi;
         MovieDb tmdbResult = null;
         List<Broadcast> broadcasts = null;
         String chanel = "";
@@ -130,7 +130,6 @@ public class SearchServiceImpl implements SearchService {
 
             if(reminderRepository.findRemindersEntityByUserIdAndMovieId(userID.intValue(), movieID) != null)
                 reminder = true;
-
         }
 
         if (moviesEntity == null) {

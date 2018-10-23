@@ -29,7 +29,7 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     WantToWatchDao wantDao;
 
     @Override
-    public List<DiscoverMovieDTO> getWants(int userid) throws IOException {
+    public List<DiscoverMovieDTO> getWants(int userid) {
         List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
         List<DiscoverMovieDTO> wantResults = new ArrayList<>();
         for (WanttowatchEntity wantList : wantEntitiesList) {
@@ -51,7 +51,6 @@ public class WantToWatchServiceImpl implements WantToWatchService {
                     return new BooleanDTO(false);
             }
             return wantDao.addFavourite(userid, movieId);
-
         } catch (Exception e) {
             return new BooleanDTO(false);
         }

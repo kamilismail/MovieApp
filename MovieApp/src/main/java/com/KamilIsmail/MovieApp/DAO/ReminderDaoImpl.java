@@ -104,7 +104,7 @@ public class ReminderDaoImpl implements ReminderDao {
         Timestamp sqlDate;
         if (!date.isEmpty() && !time.isEmpty()) {
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date parsedDate = dateFormat.parse(date + ' ' + time);
                 sqlDate = new java.sql.Timestamp(parsedDate.getTime());
             } catch (Exception e) {
@@ -112,7 +112,7 @@ public class ReminderDaoImpl implements ReminderDao {
             }
         } else {
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date parsedDate = dateFormat.parse("9999-12-31" + ' ' + "00:00");
                 sqlDate = new java.sql.Timestamp(parsedDate.getTime());
             } catch (Exception e) {
@@ -171,10 +171,9 @@ public class ReminderDaoImpl implements ReminderDao {
         } catch (FilmwebException e) {
             return (new BooleanDTO(false));
         }
-
         Timestamp sqlDate;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date parsedDate = dateFormat.parse(date + ' ' + time);
             sqlDate = new java.sql.Timestamp(parsedDate.getTime());
         } catch (Exception e) {
