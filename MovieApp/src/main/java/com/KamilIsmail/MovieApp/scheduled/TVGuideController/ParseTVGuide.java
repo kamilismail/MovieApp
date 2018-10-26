@@ -48,42 +48,27 @@ public class ParseTVGuide {
             stream = new GZIPInputStream(stream);
             InputSource is = new InputSource(stream);
             InputStream input = new BufferedInputStream(is.getByteStream());
-            OutputStream output = new FileOutputStream("/Users/kamilismail/Downloads/guide.xml");
-            byte data[] = new byte[2097152];
-            long total = 0;
-            int count;
-
-            while ((count = input.read(data)) != -1) {
-                total += count;
-                output.write(data, 0, count);
-            }
-            output.flush();
-            output.close();
-            input.close();
-        } catch (BufferOverflowException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        try {
-            File file = new File("/Users/kamilismail/Downloads/guide.xml");
-            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = documentBuilder.parse(file);
-            doc.getDocumentElement().normalize();
-            NodeList nodeList = doc.getElementsByTagName("programme");
-            movieBeanList = new ArrayList<>();
-            TVChanels tvChanels = new TVChanels();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                MovieBean temp = getMovie(nodeList.item(i), tvChanels);
-                if (temp != null) {
-                    movieBeanList.add(temp);
-                    log.info("\nADDED NEW MOVIE: " + temp.toString());
+            try {
+                DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                Document doc = documentBuilder.parse(input);
+                doc.getDocumentElement().normalize();
+                NodeList nodeList = doc.getElementsByTagName("programme");
+                movieBeanList = new ArrayList<>();
+                TVChanels tvChanels = new TVChanels();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    MovieBean temp = getMovie(nodeList.item(i), tvChanels);
+                    if (temp != null) {
+                        movieBeanList.add(temp);
+                        log.info("\nADDED NEW MOVIE: " + temp.toString());
+                    }
                 }
+                input.close();
+                return getBestMovies(movieBeanList);
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                return null;
             }
-            return getBestMovies(movieBeanList);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (BufferOverflowException | IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -117,7 +102,7 @@ public class ParseTVGuide {
                 if (tvChanels.ifContainsAlternative(channel)) { //alternatywne
                     date = getAttribute("start", element);
                     Date parsedDate = parseStringToDate(date);
-                    //parsedDate = DateUtils.addHours(parsedDate, 2);
+                    //parsedDate = DateUtils.addHours(parsedDate, 2); //alternatywa zakomentować
                     if (!checkEmissionTime(parsedDate))
                         return null;
                     title = getTagValue("title", element);
