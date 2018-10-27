@@ -20,20 +20,32 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
-import com.kamilismail.movieappandroid.helpers.SelfSigningClientBuilder;
 
 import java.net.HttpCookie;
+import java.util.Arrays;
 import java.util.List;
+
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,9 +61,13 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
     //@BindView(R.id.background)
     //ImageView _imageView;
+    @BindView(R.id.facebook_login)
+    LoginButton mFacebookLogin;
 
     private SessionController sessionController;
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
+    private CallbackManager callbackManager;
+    Bundle parameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
+            callbackManager = CallbackManager.Factory.create();
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
             ActionBar actionBar = getSupportActionBar();
@@ -82,10 +99,47 @@ public class LoginActivity extends AppCompatActivity {
                     startActivityForResult(intent, 0);
                 }
             });
+
+            mFacebookLogin.setReadPermissions(Arrays.asList("email", "public_profile"));
+
+            mFacebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    // Application code
+                                }
+                            });
+                    parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,picture.type(large)");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
+
+                @Override
+                public void onCancel() {
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                }
+            });
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void login(final View view) {
+
+        String data = parameters.get("fields").toString();
 
         if (!validate()) {
             onLoginFailed();

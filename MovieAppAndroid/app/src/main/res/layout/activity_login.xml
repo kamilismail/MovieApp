@@ -14,7 +14,7 @@
         android:src="@drawable/web_hi_res_512"
         android:scaleX="1"
         android:scaleY="1"
-        android:layout_marginBottom="420dp"
+        android:layout_marginBottom="450dp"
         />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="370dp"
+        android:layout_marginBottom="400dp"
         android:text="Movie Time!"
         android:textStyle="bold"
         android:textSize="30dp"
@@ -38,7 +38,7 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="320dp"
+        android:layout_marginBottom="370dp"
         android:text="Login"
         android:textStyle="bold"
         />
@@ -50,7 +50,7 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="270dp"
+        android:layout_marginBottom="320dp"
         />
 
     <EditText
@@ -61,7 +61,7 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="250dp"
         />
 
     <Button style = "@style/Widget.AppCompat.Button.Colored"
@@ -70,11 +70,19 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="130dp"
         android:layout_marginRight="130dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="180dp"
         android:text="@string/Log_in"
         android:id="@+id/bLogin"
         android:backgroundTint="@color/DeepRed"
         android:textColor="@android:color/white"
+        />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="130dp"
         />
 
     <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
@@ -83,7 +91,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:text="@string/Sign_up"
         android:clickable="true"
         android:id="@+id/tSignUp"
