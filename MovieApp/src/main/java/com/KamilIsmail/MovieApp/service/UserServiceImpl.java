@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(String username, String password, String role) {
-        ModelMapper mapper = new ModelMapper();
-        return mapper.map(userDao.createUser(username, password, role), UserDTO.class);
+        UserEntity userEntity = userDao.createUser(username, password, role);
+        return new UserDTO(userEntity.getUserId(), userEntity.getUsername(), userEntity.getRole());
     }
 
     @Override
@@ -54,5 +54,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public BooleanDTO setFirebaseID(int userID, String token) {
         return userDao.setFirebaseID(userID, token);
+    }
+
+    @Override
+    public GetUsernameDTO facebookLogin(String username, String facebookID, String mail, String role) {
+        UserEntity userEntity = userRepository.findUserEntityByUsernameAndRole(facebookID, role);
+        if (userEntity == null) {
+            return userDao.createFacebookUser(username, facebookID, mail, role);
+        } else if (userEntity.getUserSocialId() != -1)
+            return userDao.getFacebookUsername(userEntity.getUserSocialId());
+        return null;
     }
 }

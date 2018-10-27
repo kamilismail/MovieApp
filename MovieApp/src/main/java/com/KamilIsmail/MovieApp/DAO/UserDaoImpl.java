@@ -25,26 +25,26 @@ public class UserDaoImpl implements UserDao {
     FavouriteRepository favouriteRepository;
     @Autowired
     ReminderRepository reminderRepository;
+    @Autowired
+    UserSocialRepository userSocialRepository;
 
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(12);
-        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
-        return (hashed_password);
+        return (BCrypt.hashpw(password_plaintext, salt));
     }
 
     @Override
     public UserEntity createUser(String username, String password, String role) {
-
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
         userEntity.setPassword(hashPassword(password));
         userEntity.setRole(role);
+        userEntity.setUserSocialId(null);
         PhotosEntity photosEntity = new PhotosEntity();
         photosEntity.setPath("");
         photosEntity = photoRepository.save(photosEntity);
         userEntity.setPhotosByPhotoId(photosEntity);
         userEntity = userRepository.save(userEntity);
-
         return userEntity;
     }
 
@@ -101,5 +101,28 @@ public class UserDaoImpl implements UserDao {
         userEntity.setNotificationId(token);
         userRepository.save(userEntity);
         return new BooleanDTO(true);
+    }
+
+    @Override
+    public GetUsernameDTO getFacebookUsername(int id) {
+        return new GetUsernameDTO(userSocialRepository.findByUserSocialId(id).getUsername());
+    }
+
+    @Override
+    public GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(facebookID);
+        userEntity.setPassword(null);
+        userEntity.setRole(role);
+        UserSocialEntity userSocialEntity = new UserSocialEntity(username, mail, facebookID);
+        userSocialRepository.save(userSocialEntity);
+        PhotosEntity photosEntity = new PhotosEntity();
+        photosEntity.setPath("");
+        photoRepository.save(photosEntity);
+        userEntity.setPhotosByPhotoId(photosEntity);
+        userEntity.setUserSocialId(userSocialEntity.getUserSocialId());
+        userEntity.setUserSocialByUserSocialId(userSocialEntity);
+        userRepository.save(userEntity);
+        return new GetUsernameDTO(username);
     }
 }

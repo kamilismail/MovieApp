@@ -16,4 +16,8 @@ public interface UserDao {
     GetUsernameDTO getUsername(int id);
 
     BooleanDTO setFirebaseID(int id, String token);
+
+    GetUsernameDTO getFacebookUsername(int id);
+
+    GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role);
 }

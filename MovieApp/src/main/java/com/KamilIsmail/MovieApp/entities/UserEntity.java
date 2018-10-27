@@ -17,6 +17,8 @@ public class UserEntity {
     private int photoId;
     private String role;
     private PhotosEntity photosByPhotoId;
+    private Integer userSocialId;
+    private UserSocialEntity userSocialByUserSocialId;
     private Collection<FavouritesEntity> favouritesByUserId;
     private Collection<RatingsEntity> ratingsByUserId;
     private Collection<RemindersEntity> remindersByUserId;
@@ -73,6 +75,16 @@ public class UserEntity {
         this.notificationId = notificationId;
     }
 
+    @Basic
+    @Column(name = "user_social_id", insertable = false, updatable = false)
+    public Integer getUserSocialId() {
+        return userSocialId;
+    }
+
+    public void setUserSocialId(Integer userSocialId) {
+        this.userSocialId = userSocialId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,6 +139,16 @@ public class UserEntity {
 
     public void setPhotosByPhotoId(PhotosEntity photosByPhotoId) {
         this.photosByPhotoId = photosByPhotoId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_social_id", referencedColumnName = "user_social_id")
+    public UserSocialEntity getUserSocialByUserSocialId() {
+        return userSocialByUserSocialId;
+    }
+
+    public void setUserSocialByUserSocialId(UserSocialEntity userSocialByUserSocialId) {
+        this.userSocialByUserSocialId = userSocialByUserSocialId;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserId")

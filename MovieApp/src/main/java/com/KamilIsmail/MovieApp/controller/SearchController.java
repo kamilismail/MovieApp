@@ -31,12 +31,14 @@ public class SearchController {
     UserRepository userRepository;
 
     @GetMapping("movies")
-    public MovieResultsPage getMovies(@RequestParam("name") String production) throws IOException {
+    public MovieResultsPage getMovies(@RequestParam("name") String production, Principal principal) throws IOException {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return searchService.getMovies(production.replaceAll("_", " "));
     }
 
     @GetMapping("tvshows")
-    public TvResultsPage getTVShows(@RequestParam("name") String production) throws IOException {
+    public TvResultsPage getTVShows(@RequestParam("name") String production, Principal principal) throws IOException {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return searchService.getTVShows(production.replaceAll("_", " "));
     }
 
@@ -48,17 +50,20 @@ public class SearchController {
     }
 
     @GetMapping("tvshow")
-    public GetSeriesDTO getTVShow(@RequestParam("id") Long id) throws IOException {
+    public GetSeriesDTO getTVShow(@RequestParam("id") Long id, Principal principal) throws IOException {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return searchService.getTVShow(id);
     }
 
     @GetMapping("productions")
-    public TmdbSearch.MultiListResultsPage getProductions(@RequestParam("name") String production) throws IOException {
+    public TmdbSearch.MultiListResultsPage getProductions(@RequestParam("name") String production, Principal principal) throws IOException {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return searchService.getProductions(production.replaceAll("_", " "));
     }
 
     @GetMapping("person")
-    public PersonPeople getPerson(@RequestParam("id") Long id) throws IOException {
+    public PersonPeople getPerson(@RequestParam("id") Long id, Principal principal) throws IOException {
+        User user = (User) ((Authentication) principal).getPrincipal();
         return searchService.getPerson(id);
     }
 }
