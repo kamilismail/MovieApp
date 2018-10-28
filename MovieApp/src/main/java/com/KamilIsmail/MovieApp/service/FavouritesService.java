@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FavouritesService {
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     List<DiscoverMovieDTO> getFavourites(int userId) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO addFavourite(int userId, int movieID);
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO deleteFavourite(int userId, int movieID);
 }

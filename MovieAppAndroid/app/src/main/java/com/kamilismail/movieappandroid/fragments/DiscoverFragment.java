@@ -132,7 +132,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void onFailed() {
-        Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT);
+        Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 
     @Override

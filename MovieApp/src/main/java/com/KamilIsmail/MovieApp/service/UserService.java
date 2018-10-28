@@ -23,7 +23,7 @@ public interface UserService {
     @PreAuthorize("hasAnyAuthority('admin','user')")
     GetUsernameDTO getUsername(int id);
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO setFirebaseID(int userID, String token);
 
     GetUsernameDTO facebookLogin(String username, String facebookID, String mail, String role);

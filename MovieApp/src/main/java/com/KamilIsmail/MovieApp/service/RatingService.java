@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface RatingService {
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO setRating(int userID, int movieID, int rating) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     List<DiscoverMovieDTO> getRatings(int userID) throws IOException;
 }

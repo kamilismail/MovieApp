@@ -16,6 +16,9 @@ public class UserSocialEntity {
     private String socialID;
     private Collection<UserEntity> usersByUserSocialId;
 
+    public UserSocialEntity() {
+    }
+
     @Id
     @GeneratedValue(generator = "seq10")
     @Column(name = "user_social_id")

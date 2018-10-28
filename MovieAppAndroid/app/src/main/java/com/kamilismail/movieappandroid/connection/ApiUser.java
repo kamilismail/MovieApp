@@ -26,4 +26,7 @@ public interface ApiUser {
 
     @POST("user/setFirebaseID")
     Call<BooleanDTO> setFirebaseID(@Header("Cookie") String cookie, @Query("firebaseID") String firebaseID);
+
+    @POST("user/facebookLogin")
+    Call<UserDTO> facebookUserLogin(@Body JsonObject bean);
 }

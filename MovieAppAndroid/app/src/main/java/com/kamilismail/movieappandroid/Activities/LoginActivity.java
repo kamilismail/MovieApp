@@ -21,7 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -30,6 +29,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
@@ -41,10 +41,6 @@ import java.net.HttpCookie;
 import java.util.Arrays;
 import java.util.List;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -59,8 +55,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView _signupText;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
-    //@BindView(R.id.background)
-    //ImageView _imageView;
     @BindView(R.id.facebook_login)
     LoginButton mFacebookLogin;
 
@@ -104,19 +98,23 @@ public class LoginActivity extends AppCompatActivity {
 
             mFacebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
-                public void onSuccess(LoginResult loginResult) {
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            loginResult.getAccessToken(),
+                public void onSuccess(final LoginResult loginResult) {
+                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
-                                public void onCompleted(
-                                        JSONObject object,
-                                        GraphResponse response) {
+                                public void onCompleted(JSONObject object, GraphResponse response) {
                                     // Application code
+                                    String email = object.optString("email");
+                                    String name = object.optString("name");
+                                    String userId = loginResult.getAccessToken().getUserId();
+//                                    System.out.println(email);
+//                                    System.out.println(name);
+//                                    System.out.println(userId);
+                                    facebookLogin(email, name, userId);
                                 }
                             });
                     parameters = new Bundle();
-                    parameters.putString("fields", "id,name,email,picture.type(large)");
+                    parameters.putString("fields", "id,name,email");
                     request.setParameters(parameters);
                     request.executeAsync();
                 }
@@ -132,20 +130,50 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void facebookLogin(String email, String name, String userId) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("username", name);
+        obj.addProperty("facebookID", userId);
+        obj.addProperty("mail", email);
+        obj.addProperty("role", "facebook");
+
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+
+        ApiUser apiUser = retrofit.create(ApiUser.class);
+        Call<UserDTO> call = apiUser.facebookUserLogin(obj);
+
+        call.enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                String cookiesHeader = response.headers().get("Set-Cookie");
+                List<HttpCookie> cookies = HttpCookie.parse(cookiesHeader);
+                for (HttpCookie cookie : cookies) {
+                    msCookieManager.getCookieStore().add(null, cookie);
+                }
+                String sessionToken = cookies.get(0).toString();
+                sessionController.createLoginSession(sessionToken);
+                UserDTO userDTO = response.body();
+                sessionController.saveUsername(userDTO.getUsername());
+                onLoginSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+                onLoginFailed();
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void login(final View view) {
-
-        String data = parameters.get("fields").toString();
-
         if (!validate()) {
             onLoginFailed();
             return;
         }
-
         _loginButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         String login = _loginText.getText().toString();
@@ -167,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                 sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
                 sessionController.saveUsername(userDTO.getUsername());
-                onLoginSuccess(view);
+                onLoginSuccess();
             }
 
             @Override
@@ -192,15 +220,15 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void onLoginSuccess(final View view) {
-        sendFirebaseID(view);
+    private void onLoginSuccess() { //view
+        sendFirebaseID(); //view
         progressBar.setVisibility(View.GONE);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void sendFirebaseID(final View view) {
+    private void sendFirebaseID() {
         new AsyncTask<Void,Void,Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -215,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Void result) {
-                Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
+                Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext()); // albo view.getContext()
                 ApiUser apiUser = retrofit.create(ApiUser.class);
                 String cookie = sessionController.getCookie();
                 String token = sessionController.getFirebaseToken();
@@ -237,6 +265,6 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginFailed() {
         _loginButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 }

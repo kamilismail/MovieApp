@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.List;
 
 public interface WantToWatchService {
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     List<DiscoverMovieDTO> getWants(int userId) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO addWant(int userId, int movieID);
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO deleteWant(int userId, int movieID);
 }

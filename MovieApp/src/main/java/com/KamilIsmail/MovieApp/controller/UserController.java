@@ -48,7 +48,8 @@ public class UserController {
     }
 
     @PutMapping("")
-    public BooleanDTO changeUserPassword(@Valid @RequestParam(name = "password") String password, @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
+    public BooleanDTO changeUserPassword(@Valid @RequestParam(name = "password") String password,
+                                         @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.changeUserPassword(user.getUsername(), password, newPassword);
     }

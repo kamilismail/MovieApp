@@ -10,6 +10,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="com.KamilIsmail.MovieApp.entities.UserEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.UserSocialEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.MoviesEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.FavouritesEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.PersistentLoginsEntity"/>

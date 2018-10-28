@@ -24,6 +24,9 @@ public class UserEntity {
     private Collection<RemindersEntity> remindersByUserId;
     private Collection<WanttowatchEntity> wanttowatchesByUserId;
 
+    public UserEntity() {
+    }
+
     @Id
     @GeneratedValue(generator = "seq7")
     @Column(name = "userid")

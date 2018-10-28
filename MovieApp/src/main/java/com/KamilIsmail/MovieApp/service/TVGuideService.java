@@ -7,6 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface TVGuideService {
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     ArrayList<TVGuideMovieDTO> getTVGuide() throws IOException;
 }

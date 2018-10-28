@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface DiscoverService {
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     DiscoverDTO getJSON() throws IOException;
 }

@@ -61,8 +61,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findUserEntityByUsernameAndRole(facebookID, role);
         if (userEntity == null) {
             return userDao.createFacebookUser(username, facebookID, mail, role);
-        } else if (userEntity.getUserSocialId() != -1)
+        } else
             return userDao.getFacebookUsername(userEntity.getUserSocialId());
-        return null;
     }
 }

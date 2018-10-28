@@ -171,6 +171,6 @@ public class SignupActivity extends AppCompatActivity {
     private void onLoginFailed() {
         _loginButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 }

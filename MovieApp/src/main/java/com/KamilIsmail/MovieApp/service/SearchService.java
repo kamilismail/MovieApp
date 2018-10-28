@@ -11,21 +11,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.IOException;
 
 public interface SearchService {
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     MovieResultsPage getMovies(String production) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     TvResultsPage getTVShows(String production) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     GetMovieDTO getMovie(Long id, Long userID) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     GetSeriesDTO getTVShow(Long id) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     TmdbSearch.MultiListResultsPage getProductions(String production) throws IOException;
 
-    @PreAuthorize("hasAnyAuthority('admin','user')")
+    @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     PersonPeople getPerson(Long id) throws IOException;
 }

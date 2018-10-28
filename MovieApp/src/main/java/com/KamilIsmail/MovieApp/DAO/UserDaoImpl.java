@@ -117,7 +117,7 @@ public class UserDaoImpl implements UserDao {
         UserSocialEntity userSocialEntity = new UserSocialEntity(username, mail, facebookID);
         userSocialRepository.save(userSocialEntity);
         PhotosEntity photosEntity = new PhotosEntity();
-        photosEntity.setPath("");
+        photosEntity.setPath("https://graph.facebook.com/"+facebookID+"/picture?type=large");
         photoRepository.save(photosEntity);
         userEntity.setPhotosByPhotoId(photosEntity);
         userEntity.setUserSocialId(userSocialEntity.getUserSocialId());

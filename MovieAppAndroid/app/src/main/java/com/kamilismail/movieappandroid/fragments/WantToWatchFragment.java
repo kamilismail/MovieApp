@@ -118,7 +118,7 @@ public class WantToWatchFragment extends Fragment {
     }
 
     private void onFailed(View view) {
-        Toast.makeText(view.getContext(), "Server error", Toast.LENGTH_SHORT);
+        Toast.makeText(view.getContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 
     @Override
