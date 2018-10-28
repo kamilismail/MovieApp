@@ -6,15 +6,22 @@ import com.KamilIsmail.MovieApp.DTO.UserDTO;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.CreateUserParam;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.FacebookUserParam;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
+import com.KamilIsmail.MovieApp.helpers.GrantAuthHelper;
 import com.KamilIsmail.MovieApp.repository.UserRepository;
 import com.KamilIsmail.MovieApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -69,6 +76,12 @@ public class UserController {
 
     @PostMapping("facebookLogin")
     public GetUsernameDTO facebookLogin(@Valid @RequestBody FacebookUserParam param) {
-        return userService.facebookLogin(param.getUsername(), param.getFacebookID(), param.getMail(), param.getRole());
+        GetUsernameDTO getUsernameDTO = userService.facebookLogin(param.getUsername(), param.getFacebookID(), param.getMail(), param.getRole());
+        UserEntity user = userRepository.findByUsername(param.getFacebookID()).get(0);
+        GrantAuthHelper grantAuthHelper = new GrantAuthHelper(user.getUsername(), user.getRole());
+        UserDetails principal = grantAuthHelper.grantAuth();
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return getUsernameDTO;
     }
 }
