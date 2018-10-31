@@ -31,14 +31,14 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
     UserRepository userRepository;
 
     @Override
-    public BooleanDTO addFavourite(int userId, int movieId) {
+    public BooleanDTO addWantToWatch(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
         UserEntity userEntity = userRepository.findByUserId(userId);
 
         if (movieEntity == null) {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), Constants.getLanguage());
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
             movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
@@ -62,14 +62,12 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
     }
 
     @Override
-    public BooleanDTO deleteFavourite(int userId, int pubId) {
-        List<WanttowatchEntity> favsEntitiesList = wantRepository.findWanttowatchEntityByUserId(userId);
-        for (WanttowatchEntity favList : favsEntitiesList) {
-            if (favList.getMoviesByMovieId().getTmdbId() == pubId) {
-                wantRepository.delete(favList);
-                return new BooleanDTO(true);
-            }
-        }
-        return new BooleanDTO(false);
+    public BooleanDTO deleteWantToWatch(int userId, int movieId) {
+        WanttowatchEntity wanttowatchEntity = wantRepository.findWanttowatchEntityByMovieIdAndUserId(movieId, userId);
+        if (wanttowatchEntity != null) {
+            wantRepository.delete(wanttowatchEntity);
+            return new BooleanDTO(true);
+        } else
+            return new BooleanDTO(false);
     }
 }

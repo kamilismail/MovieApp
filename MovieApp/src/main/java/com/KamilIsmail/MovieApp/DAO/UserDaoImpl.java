@@ -35,15 +35,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserEntity createUser(String username, String password, String role) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(username);
-        userEntity.setPassword(hashPassword(password));
-        userEntity.setRole(role);
-        userEntity.setUserSocialId(null);
-        PhotosEntity photosEntity = new PhotosEntity();
-        photosEntity.setPath("");
+        PhotosEntity photosEntity = new PhotosEntity("");
         photosEntity = photoRepository.save(photosEntity);
-        userEntity.setPhotosByPhotoId(photosEntity);
+        UserEntity userEntity = new UserEntity(username, hashPassword(password), role, photosEntity, null);
         userEntity = userRepository.save(userEntity);
         return userEntity;
     }
@@ -65,25 +59,13 @@ public class UserDaoImpl implements UserDao {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         if (pwEncoder.matches(password, userEntity.getPassword())) {
-            PhotosEntity photosEntity = userEntity.getPhotosByPhotoId();
-            photoRepository.delete(photosEntity);
-
-            List<RatingsEntity> ratingsList = ratingRepository.findRatingsEntityByUserId(userEntity.getUserId());
-            for (RatingsEntity rating : ratingsList)
-                ratingRepository.delete(rating);
-
-            List<WanttowatchEntity> wanttowatchList = wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId());
-            for (WanttowatchEntity want : wanttowatchList)
-                wantToWatchRepository.delete(want);
-
-            List<FavouritesEntity> favList = favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId());
-            for (FavouritesEntity favouritesEntity : favList)
-                favouriteRepository.delete(favouritesEntity);
-
-            List<RemindersEntity> remindersEntityList = reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId());
-            for (RemindersEntity remindersEntity : remindersEntityList)
-                reminderRepository.delete(remindersEntity);
-
+            photoRepository.delete(userEntity.getPhotosByPhotoId());
+            ratingRepository.findRatingsEntityByUserId(userEntity.getUserId()).forEach(p -> ratingRepository.delete(p));
+            wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId()).forEach(p -> wantToWatchRepository.delete(p));
+            favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId()).forEach(p -> favouriteRepository.delete(p));
+            reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId()).forEach(p -> reminderRepository.delete(p));
+            if (userEntity.getUserSocialId() != null)
+                userSocialRepository.delete(userSocialRepository.findByUserSocialId(userEntity.getUserSocialId()));
             userRepository.deleteById(userEntity.getUserId());
             return new BooleanDTO(true);
         } else
@@ -110,18 +92,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(facebookID);
-        userEntity.setPassword(null);
-        userEntity.setRole(role);
+        PhotosEntity photosEntity = new PhotosEntity("https://graph.facebook.com/"+facebookID+"/picture?type=large");
+        photoRepository.save(photosEntity);
         UserSocialEntity userSocialEntity = new UserSocialEntity(username, mail, facebookID);
         userSocialRepository.save(userSocialEntity);
-        PhotosEntity photosEntity = new PhotosEntity();
-        photosEntity.setPath("https://graph.facebook.com/"+facebookID+"/picture?type=large");
-        photoRepository.save(photosEntity);
-        userEntity.setPhotosByPhotoId(photosEntity);
-        userEntity.setUserSocialId(userSocialEntity.getUserSocialId());
-        userEntity.setUserSocialByUserSocialId(userSocialEntity);
+        UserEntity userEntity = new UserEntity(facebookID, null, role, photosEntity, userSocialEntity.getUserSocialId(),
+                userSocialEntity);
         userRepository.save(userEntity);
         return new GetUsernameDTO(username);
     }

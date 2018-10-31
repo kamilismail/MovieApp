@@ -20,7 +20,7 @@ public class ParseTVGuideController {
     ParseService parseService;
 
     @PostMapping("")
-    public BooleanDTO getJSON(Principal principal) throws IOException {
+    public BooleanDTO getJSON(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return parseService.parseTVGuide();
     }

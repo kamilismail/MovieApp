@@ -9,4 +9,6 @@ public interface RatingRepository extends JpaRepository<RatingsEntity, Long> {
     List<RatingsEntity> findRatingsEntityByUserId(long userId);
 
     RatingsEntity findRatingsEntityByMovieId(int movieId);
+
+    RatingsEntity findRatingsEntityByUserByUserIdAndMovieId(long userId, int movieId);
 }

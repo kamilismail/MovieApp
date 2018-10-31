@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.toIntExact;
 
@@ -30,28 +31,20 @@ public class FavouritesServiceImpl implements FavouritesService {
 
     @Override
     public List<DiscoverMovieDTO> getFavourites(int userid) {
-        List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
-        List<DiscoverMovieDTO> favResults = new ArrayList<>();
-        for (FavouritesEntity favList : favsEntitiesList) {
-            MoviesEntity moviesEntity = favList.getMoviesByMovieId();
-            DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(),
-                    moviesEntity.getReleaseDate(), String.valueOf(moviesEntity.getAvarageRating()));
-            favResults.add(result);
-        }
-        return favResults;
+        return favsRepository.findFavouritesEntityByUserId(userid).stream()
+                .map(p -> new DiscoverMovieDTO(p.getMoviesByMovieId().getMediaType(), Integer.toString(p.getMoviesByMovieId().getTmdbId()),
+                        p.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + p.getMoviesByMovieId().getBackdropPath(),
+                        p.getMoviesByMovieId().getReleaseDate(), String.valueOf(p.getMoviesByMovieId().getAvarageRating())))
+                .collect(Collectors.toList());
     }
 
     @Override
     public BooleanDTO addFavourite(int userid, int movieId) {
         try {
-            List<FavouritesEntity> favsEntitiesList = favsRepository.findFavouritesEntityByUserId(userid);
-            for (FavouritesEntity favList : favsEntitiesList) {
-                if (favList.getMoviesByMovieId().getTmdbId() == movieId)
-                    return new BooleanDTO(false);
-            }
-            return favsDao.addFavourite(userid, movieId);
-
+            if (favsRepository.findFavouritesEntityByUserIdAndMovieId(userid, movieId) != null)
+                return new BooleanDTO(false);
+            else
+                return favsDao.addFavourite(userid, movieId);
         } catch (Exception e) {
             return new BooleanDTO(false);
         }

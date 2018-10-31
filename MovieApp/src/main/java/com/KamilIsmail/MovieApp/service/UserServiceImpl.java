@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,12 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUser() {
-        List<UserEntity> userEntityList = userRepository.findAll();
-        List<UserDTO> userList = new ArrayList<>();
-        for (UserEntity userEntity : userEntityList) {
-            userList.add(new UserDTO(userEntity.getUserId(), userEntity.getUsername(), userEntity.getRole()));
-        }
-        return userList;
+        return userRepository.findAll().stream().map(p -> new UserDTO(p.getUserId(), p.getUsername(), p.getRole())).collect(Collectors.toList());
     }
 
     @Override

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DiscoverServiceImpl implements DiscoverService {
@@ -29,34 +31,32 @@ public class DiscoverServiceImpl implements DiscoverService {
     public DiscoverDTO getJSON() {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        MovieResultsPage upcoming = tmdbApi.getMovies().getUpcoming("pl", 1, "");
-        MovieResultsPage nowPlaying = tmdbApi.getMovies().getNowPlayingMovies("pl", 1, "");
-        MovieResultsPage popularMovies = tmdbApi.getMovies().getPopularMovies("pl", 1);
-        TvResultsPage popularSeries = tmdbApi.getTvSeries().getPopular("pl", 1);
-        ArrayList<DiscoverMovieDTO> upcomingList = new ArrayList<>();
-        ArrayList<DiscoverMovieDTO> nowPlayingList = new ArrayList<>();
-        ArrayList<DiscoverMovieDTO> popularMoviesList = new ArrayList<>();
-        ArrayList<DiscoverSeriesDTO> popularSeriesList = new ArrayList<>();
-        for (MovieDb movie : upcoming.getResults()) {
-            upcomingList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), Constants.getPosterPath() + movie.getBackdropPath(), movie.getReleaseDate(),
-                    String.valueOf(movie.getVoteAverage())));
-        }
-        for (MovieDb movie : nowPlaying.getResults()) {
-            nowPlayingList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), Constants.getPosterPath() + movie.getBackdropPath(), movie.getReleaseDate(),
-                    String.valueOf(movie.getVoteAverage())));
-        }
-        for (MovieDb movie : popularMovies.getResults()) {
-            popularMoviesList.add(new DiscoverMovieDTO(movie.getMediaType().toString(), Integer.toString(movie.getId()),
-                    movie.getTitle(), Constants.getPosterPath() + movie.getBackdropPath(), movie.getReleaseDate(),
-                    String.valueOf(movie.getVoteAverage())));
-        }
-        for (TvSeries series : popularSeries.getResults()) {
-            popularSeriesList.add(new DiscoverSeriesDTO(Integer.toString(series.getId()), series.getName(),
-                    Constants.getPosterPath() + series.getBackdropPath(), String.valueOf(series.getVoteAverage()),
-                    series.getFirstAirDate()));
-        }
+
+        List<DiscoverMovieDTO> upcomingList = tmdbApi.getMovies().getUpcoming(Constants.getLanguage(), 1, "")
+                .getResults().stream().map(p -> new DiscoverMovieDTO(p.getMediaType().toString(), Integer.toString(p.getId()),
+                        p.getTitle(), Constants.getPosterPath() + p.getBackdropPath(), p.getReleaseDate(),
+                        String.valueOf(p.getVoteAverage())))
+                .collect(Collectors.toList());
+
+        List<DiscoverMovieDTO> nowPlayingList = tmdbApi.getMovies().getNowPlayingMovies(Constants.getLanguage(), 1, "")
+                .getResults().stream().map(p -> new DiscoverMovieDTO(p.getMediaType().toString(), Integer.toString(p.getId()),
+                        p.getTitle(), Constants.getPosterPath() + p.getBackdropPath(), p.getReleaseDate(),
+                        String.valueOf(p.getVoteAverage())))
+                .collect(Collectors.toList());
+
+        List<DiscoverMovieDTO> popularMoviesList = tmdbApi.getMovies().getPopularMovies(Constants.getLanguage(), 1)
+                .getResults().stream().map(p -> new DiscoverMovieDTO(p.getMediaType().toString(), Integer.toString(p.getId()),
+                        p.getTitle(), Constants.getPosterPath() + p.getBackdropPath(),
+                        p.getReleaseDate(), String.valueOf(p.getVoteAverage())))
+                .collect(Collectors.toList());
+
+
+        List<DiscoverSeriesDTO> popularSeriesList =  tmdbApi.getTvSeries().getPopular(Constants.getLanguage(), 1)
+                .getResults().stream().map(p -> new DiscoverSeriesDTO(Integer.toString(p.getId()), p.getName(),
+                        Constants.getPosterPath() + p.getBackdropPath(), String.valueOf(p.getVoteAverage()),
+                        p.getFirstAirDate()))
+                .collect(Collectors.toList());
+
         return (new DiscoverDTO(upcomingList, nowPlayingList, popularMoviesList, popularSeriesList));
     }
 }

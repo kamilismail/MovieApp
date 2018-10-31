@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
@@ -32,31 +33,21 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public List<ReminderDTO> getReminders(int userId) {
-        List<RemindersEntity> reminderEntitiesList = reminderRepository.findRemindersEntitiesByUserId(userId);
-        List<ReminderDTO> reminderResults = new ArrayList<>();
-
-        for (RemindersEntity reminderList : reminderEntitiesList) {
-            TvstationsEntity tvstationsEntity = reminderList.getTvstationsByTvstationId();
-            MoviesEntity moviesEntity = reminderList.getMoviesByMovieId();
-            ReminderDTO result = new ReminderDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(), reminderList.getData().toString(),
-                    tvstationsEntity.getName(), tvstationsEntity.getLogoPath(), moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating());
-
-            reminderResults.add(result);
-        }
-        return reminderResults;
+        return reminderRepository.findRemindersEntitiesByUserId(userId).stream()
+                .map(p -> new ReminderDTO(p.getMoviesByMovieId().getMediaType(), Integer.toString(p.getMoviesByMovieId().getTmdbId()),
+                        p.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + p.getMoviesByMovieId().getBackdropPath(),
+                        p.getData().toString(), p.getTvstationsByTvstationId().getName(), p.getTvstationsByTvstationId().getLogoPath(),
+                        p.getMoviesByMovieId().getReleaseDate(), p.getMoviesByMovieId().getAvarageRating()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public BooleanDTO addReminder(int userId, int movieID) {
         try {
-            List<RemindersEntity> reminderEntitiesList = reminderRepository.findRemindersEntitiesByUserId(userId);
-            for (RemindersEntity reminderList : reminderEntitiesList) {
-                if (reminderList.getMoviesByMovieId().getTmdbId() == movieID)
-                    return new BooleanDTO(false);
-            }
-            return reminderDao.addReminder(userId, movieID);
-
+            if (reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, movieID) != null)
+                return new BooleanDTO(false);
+            else
+                return reminderDao.addReminder(userId, movieID);
         } catch (Exception e) {
             return new BooleanDTO(false);
         }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -31,17 +32,11 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public List<DiscoverMovieDTO> getRatings(int userID) {
-
-        List<RatingsEntity> favsEntitiesList = ratingRepository.findRatingsEntityByUserId(userID);
-        List<DiscoverMovieDTO> ratingResults = new ArrayList<>();
-
-        for (RatingsEntity rateList : favsEntitiesList) {
-            MoviesEntity moviesEntity = rateList.getMoviesByMovieId();
-            DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(), moviesEntity.getReleaseDate(), rateList.getRating());
-
-            ratingResults.add(result);
-        }
-        return ratingResults;
+        return ratingRepository.findRatingsEntityByUserId(userID).stream()
+                .map(p -> new DiscoverMovieDTO(p.getMoviesByMovieId().getMediaType(),
+                    Integer.toString(p.getMoviesByMovieId().getTmdbId()), p.getMoviesByMovieId().getMovieName(),
+                    Constants.getPosterPath() + p.getMoviesByMovieId().getBackdropPath(), p.getMoviesByMovieId().getReleaseDate(),
+                    p.getRating()))
+                .collect(Collectors.toList());
     }
 }

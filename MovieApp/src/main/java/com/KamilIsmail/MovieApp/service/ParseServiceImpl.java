@@ -26,8 +26,8 @@ public class ParseServiceImpl implements ParseService{
 
         if (tvGuideDao.deleteTVGuide()) {
             movieBeanList.forEach(p-> tvGuideDao.addTVGuide(p));
+            return new BooleanDTO(true);
         } else
             return new BooleanDTO(false);
-        return new BooleanDTO(true);
     }
 }

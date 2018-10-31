@@ -33,10 +33,8 @@ public class MovieBean {
         this.chanel = chanel;
         this.description = description;
 
-        Optional<String> result = Stream.of(PREMIERA, MOCNEKINO, GWIAZDY, MEGAHIT, STRASZNY_PIATEK).
-                filter(title::contains).findFirst().map(p -> title.substring(p.length()));
-
-        this.title = result.orElse(title);
+        this.title = Stream.of(PREMIERA, MOCNEKINO, GWIAZDY, MEGAHIT, STRASZNY_PIATEK).
+                filter(title::contains).findFirst().map(p -> title.substring(p.length())).orElse(title);
     }
 
     public MovieBean(){}
@@ -65,7 +63,7 @@ public class MovieBean {
         try {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            List<MovieDb> movieResultsPage = tmdbApi.getSearch().searchMovie(this.title, this.productionYear, "pl", false, 0).getResults();
+            List<MovieDb> movieResultsPage = tmdbApi.getSearch().searchMovie(this.title, this.productionYear, Constants.getLanguage(), false, 0).getResults();
             if (movieResultsPage.size() > 1) {
                 movieResultsPage.sort((movie1, movie2) -> Integer.compare(movie2.getVoteCount(), movie1.getVoteCount()));
                 movieResultsPage.stream().filter(p -> !movieDb.getReleaseDate().contains(Integer.toString(productionYear)))

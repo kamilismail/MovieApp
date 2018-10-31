@@ -55,7 +55,7 @@ public class ReminderDaoImpl implements ReminderDao {
         String time = "";
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+        MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), Constants.getLanguage());
         FilmwebApi fa = new FilmwebApi();
         FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
         List<Broadcast> broadcasts = null;
@@ -133,14 +133,12 @@ public class ReminderDaoImpl implements ReminderDao {
 
     @Override
     public BooleanDTO deleteReminder(int userId, int movieId) {
-        List<RemindersEntity> reminderEntitiesList = reminderRepository.findRemindersEntitiesByUserId(userId);
-        for (RemindersEntity reminderList : reminderEntitiesList) {
-            if (reminderList.getMoviesByMovieId().getTmdbId() == movieId) {
-                reminderRepository.delete(reminderList);
-                return new BooleanDTO(true);
-            }
-        }
-        return new BooleanDTO(false);
+        RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, movieId);
+        if (remindersEntity != null) {
+            reminderRepository.delete(remindersEntity);
+            return new BooleanDTO(true);
+        } else
+            return new BooleanDTO(false);
     }
 
     @Override

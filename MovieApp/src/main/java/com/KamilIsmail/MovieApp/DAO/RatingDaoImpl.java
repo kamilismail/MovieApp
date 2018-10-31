@@ -41,7 +41,7 @@ public class RatingDaoImpl implements RatingDao {
         if (movieEntity == null) {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), Constants.getLanguage());
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
             movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
@@ -50,13 +50,7 @@ public class RatingDaoImpl implements RatingDao {
             movieRepository.save(movieEntity);
         }
 
-        List<RatingsEntity> ratingsEntityList = ratingRepository.findRatingsEntityByUserId(userId);
-        RatingsEntity ratingEntity = null;
-        for (RatingsEntity ratingList : ratingsEntityList) {
-            if (ratingList.getMoviesByMovieId().getTmdbId() == movieId) {
-                ratingEntity = ratingList;
-            }
-        }
+        RatingsEntity ratingEntity = ratingRepository.findRatingsEntityByUserByUserIdAndMovieId(userId, movieId);
 
         if (ratingEntity == null) { //utworzenie nowej encji
             RatingsEntity newRating = new RatingsEntity(userId, movieId, Integer.toString(rating), userEntity, movieEntity);

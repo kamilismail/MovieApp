@@ -37,11 +37,6 @@ public class TVChanels {
         str = str.toLowerCase();
         if (str.length() >= 20)
             str = str.substring(0,20);
-        for (String show : showType) {
-            if (str.contains(show)) {
-                return true;
-            }
-        }
-        return false;
+        return showType.stream().anyMatch(str::contains);
     }
 }

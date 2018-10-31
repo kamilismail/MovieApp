@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public class UserSecDao {
+
     @Autowired
     UserRepository userRepository;
 

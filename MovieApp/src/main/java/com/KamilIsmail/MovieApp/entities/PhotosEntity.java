@@ -50,6 +50,13 @@ public class PhotosEntity {
         return Objects.hash(photoId, path);
     }
 
+    public PhotosEntity(String path) {
+        this.path = path;
+    }
+
+    public PhotosEntity() {
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "photosByPhotoId")
     public Collection<UserEntity> getUsersByPhotoId() {
         return usersByPhotoId;

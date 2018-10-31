@@ -24,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserEntity user = userSecDao.getUserByUsername(username);
         if (user == null)
             throw new UsernameNotFoundException("User" + username + " was not found in the database");
-
         List<GrantedAuthority> grantedList = new ArrayList<>();
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         grantedList.add(authority);

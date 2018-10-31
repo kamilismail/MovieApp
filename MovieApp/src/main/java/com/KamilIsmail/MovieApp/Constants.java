@@ -9,6 +9,7 @@ public class Constants {
     private static String tvGuideUrl = "http://epg.koditvepg2.com/PL/guide.xml.gz";
     private static String tvGuideUrlAlternative = "http://epg.server.xdns.pro/poland.xml.gz";
     private static String logoPath = "http://1.fwcdn.pl/";
+    private static String language = "pl";
 
 
     public Constants(){}
@@ -31,6 +32,10 @@ public class Constants {
 
     public static String getTvGuideUrlAlternative() {
         return tvGuideUrlAlternative;
+    }
+
+    public static String getLanguage() {
+        return language;
     }
 
     public String getTmdbAPI() {

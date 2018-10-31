@@ -52,7 +52,7 @@ public class SearchServiceImpl implements SearchService {
     public MovieResultsPage getMovies(String production) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        return tmdbApi.getSearch().searchMovie(production, 0, "pl", false, 0);
+        return tmdbApi.getSearch().searchMovie(production, 0, Constants.getLanguage(), false, 0);
     }
 
     @Cacheable(value = "tvShows")
@@ -60,7 +60,7 @@ public class SearchServiceImpl implements SearchService {
     public TvResultsPage getTVShows(String production) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        return tmdbApi.getSearch().searchTv(production, "pl", 0);
+        return tmdbApi.getSearch().searchTv(production, Constants.getLanguage(), 0);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SearchServiceImpl implements SearchService {
             }
         } else {
             tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id), "pl");
+            tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(id), Constants.getLanguage());
             try {
                 filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
                 broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
@@ -163,7 +163,7 @@ public class SearchServiceImpl implements SearchService {
     public GetSeriesDTO getTVShow(Long id) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        TvSeries tmdbResult = tmdbApi.getTvSeries().getSeries(toIntExact(id), "pl");
+        TvSeries tmdbResult = tmdbApi.getTvSeries().getSeries(toIntExact(id), Constants.getLanguage());
         FilmwebApi fa = new FilmwebApi();
         List<Broadcast> broadcasts = null;
         String chanel = "";
@@ -195,7 +195,7 @@ public class SearchServiceImpl implements SearchService {
     public TmdbSearch.MultiListResultsPage getProductions(String production) throws IOException {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-        return tmdbApi.getSearch().searchMulti(production, "pl", 0);
+        return tmdbApi.getSearch().searchMulti(production, Constants.getLanguage(), 0);
     }
 
     @Override

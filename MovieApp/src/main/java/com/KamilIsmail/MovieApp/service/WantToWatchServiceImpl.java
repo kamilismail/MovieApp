@@ -9,12 +9,11 @@ import com.KamilIsmail.MovieApp.entities.WanttowatchEntity;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.WantToWatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WantToWatchServiceImpl implements WantToWatchService {
@@ -30,27 +29,20 @@ public class WantToWatchServiceImpl implements WantToWatchService {
 
     @Override
     public List<DiscoverMovieDTO> getWants(int userid) {
-        List<WanttowatchEntity> wantEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
-        List<DiscoverMovieDTO> wantResults = new ArrayList<>();
-        for (WanttowatchEntity wantList : wantEntitiesList) {
-            MoviesEntity moviesEntity = wantList.getMoviesByMovieId();
-            DiscoverMovieDTO result = new DiscoverMovieDTO(moviesEntity.getMediaType(), Integer.toString(moviesEntity.getTmdbId()),
-                    moviesEntity.getMovieName(), Constants.getPosterPath() + moviesEntity.getBackdropPath(),
-                    moviesEntity.getReleaseDate(), moviesEntity.getAvarageRating());
-            wantResults.add(result);
-        }
-        return wantResults;
+        return wantRepository.findWanttowatchEntityByUserId(userid).stream()
+                .map(p-> new DiscoverMovieDTO(p.getMoviesByMovieId().getMediaType(), Integer.toString(p.getMoviesByMovieId().getTmdbId()),
+                    p.getMoviesByMovieId().getMovieName(), Constants.getPosterPath() + p.getMoviesByMovieId().getBackdropPath(),
+                    p.getMoviesByMovieId().getReleaseDate(), p.getMoviesByMovieId().getAvarageRating()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public BooleanDTO addWant(int userid, int movieId) {
         try {
-            List<WanttowatchEntity> favsEntitiesList = wantRepository.findWanttowatchEntityByUserId(userid);
-            for (WanttowatchEntity favList : favsEntitiesList) {
-                if (favList.getMoviesByMovieId().getMovieId() == movieId)
-                    return new BooleanDTO(false);
-            }
-            return wantDao.addFavourite(userid, movieId);
+            if (wantRepository.findWanttowatchEntityByMovieIdAndUserId(movieId, userid) != null)
+                return new BooleanDTO(false);
+            else
+                return wantDao.addWantToWatch(userid, movieId);
         } catch (Exception e) {
             return new BooleanDTO(false);
         }
@@ -58,6 +50,6 @@ public class WantToWatchServiceImpl implements WantToWatchService {
 
     @Override
     public BooleanDTO deleteWant(int userid, int movieId) {
-        return wantDao.deleteFavourite(userid, movieId);
+        return wantDao.deleteWantToWatch(userid, movieId);
     }
 }

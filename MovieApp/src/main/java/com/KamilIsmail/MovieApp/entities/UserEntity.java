@@ -88,6 +88,24 @@ public class UserEntity {
         this.userSocialId = userSocialId;
     }
 
+    public UserEntity(String username, String password, String role, PhotosEntity photosByPhotoId, Integer userSocialId) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.photosByPhotoId = photosByPhotoId;
+        this.userSocialId = userSocialId;
+    }
+
+    public UserEntity(String username, String password, String role, PhotosEntity photosByPhotoId, Integer userSocialId,
+                      UserSocialEntity userSocialEntity) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.photosByPhotoId = photosByPhotoId;
+        this.userSocialId = userSocialId;
+        this.userSocialByUserSocialId = userSocialEntity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

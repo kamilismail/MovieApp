@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WantToWatchDao {
-    BooleanDTO addFavourite(int userId, int movieId);
+    BooleanDTO addWantToWatch(int userId, int movieId);
 
-    BooleanDTO deleteFavourite(int userId, int movieId);
+    BooleanDTO deleteWantToWatch(int userId, int movieId);
 }

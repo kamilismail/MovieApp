@@ -15,6 +15,7 @@ import info.talacha.filmweb.search.models.FilmSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.toIntExact;
@@ -38,7 +39,7 @@ public class FavouriteDaoImpl implements FavouriteDao {
         if (movieEntity == null) {
             Constants constants = new Constants();
             TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
-            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), "pl");
+            MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), Constants.getLanguage());
             FilmwebApi fa = new FilmwebApi();
             FilmSearchResult filmResult = fa.findFilm(tmdbResult.getTitle(), Integer.parseInt(tmdbResult.getReleaseDate().substring(0, 4))).get(0);
             movieEntity = new MoviesEntity(tmdbResult.getTitle(),toIntExact(filmResult.getId()),tmdbResult.getId(),
@@ -47,13 +48,10 @@ public class FavouriteDaoImpl implements FavouriteDao {
             movieEntity.setOverview(tmdbResult.getOverview());
             movieRepository.save(movieEntity);
         }
-
         FavouritesEntity favEntity = new FavouritesEntity(userEntity.getUserId(), movieEntity.getMovieId(), userEntity, movieEntity);
         favRepository.save(favEntity);
-
         movieEntity.setFavouritesByMovieId(favRepository.findFavouritesEntityByUserId(userId));
         movieRepository.save(movieEntity);
-
         userEntity.setFavouritesByUserId(favRepository.findFavouritesEntityByUserId(userId));
         userRepository.save(userEntity);
 
@@ -62,13 +60,11 @@ public class FavouriteDaoImpl implements FavouriteDao {
 
     @Override
     public BooleanDTO deleteFavourite(int userId, int movieId) {
-        List<FavouritesEntity> favsEntitiesList = favRepository.findFavouritesEntityByUserId(userId);
-        for (FavouritesEntity favList : favsEntitiesList) {
-            if (favList.getMoviesByMovieId().getTmdbId() == movieId) {
-                favRepository.delete(favList);
-                return new BooleanDTO(true);
-            }
-        }
-        return new BooleanDTO(false);
+        FavouritesEntity favouritesEntity = favRepository.findFavouritesEntityByUserIdAndMovieId(userId, movieId);
+        if (favouritesEntity != null) {
+            favRepository.delete(favouritesEntity);
+            return new BooleanDTO(true);
+        } else
+            return new BooleanDTO(false);
     }
 }
