@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.R;
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements
     public void logoutUser() {
         deleteFirebaseID(sessionController.getCookie());
         sessionController.logoutUser();
+        LoginManager.getInstance().logOut();
         finish();
     }
 
