@@ -51,6 +51,17 @@ public class PopularMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.production_list, viewGroup, false);
 
+        /*ScaleTouchListener.Config config = new ScaleTouchListener.Config(
+                300,    // Duration
+                0.75f,  // ScaleDown
+                0.75f); // Alpha
+
+        view.setOnTouchListener(new ScaleTouchListener(config) {
+            @Override
+            public void onClick(View v) {
+            }
+        });*/
+
         //przejscie do widoku z detalami
         //TODO
         view.setOnClickListener(new View.OnClickListener() {

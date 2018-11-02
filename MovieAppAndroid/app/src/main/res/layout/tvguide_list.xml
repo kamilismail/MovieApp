@@ -11,6 +11,7 @@
         android:id="@+id/cv"
         card_view:cardElevation="7dp"
         card_view:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground"
         >
 
         <RelativeLayout
@@ -89,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logo"
                 android:layout_toRightOf="@+id/channel"
-                android:layout_below="@+id/release"
+                android:layout_below="@+id/hour"
                 />
 
 

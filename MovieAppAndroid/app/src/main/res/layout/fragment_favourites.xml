@@ -8,18 +8,23 @@
     android:layout_marginRight="15dp"
     android:layout_marginBottom="57dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ProgressBar
+        android:id="@+id/mProgressBarProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nothing found :("
         android:id="@+id/info"
         android:textSize="15dp"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-    <ProgressBar
-        android:id="@+id/mProgressBarProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"/>
 
     <ScrollView
@@ -60,5 +65,7 @@
         </LinearLayout>
 
     </ScrollView>
+
+    </com.baoyz.widget.PullRefreshLayout>
 
 </FrameLayout>

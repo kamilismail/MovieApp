@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -26,6 +27,8 @@ import com.kamilismail.movieappandroid.connection.ApiDiscover;
 import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,13 +53,24 @@ public class DiscoverFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout pullRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+        final View view = inflater.inflate(R.layout.fragment_discover, container, false);
         this.sessionController = new SessionController(getContext());
+        ButterKnife.bind(this, view);
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(view);
+            }
+        });
+
         getData(view);
         return view;
     }
@@ -85,11 +99,12 @@ public class DiscoverFragment extends Fragment {
                     mCallback.logoutUser();
                 }
                 onSuccess(discoverDTO, view);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<DiscoverDTO> call, Throwable t) {
-                onFailed();
+                onFailed(view);
             }
         });
     }
@@ -131,8 +146,8 @@ public class DiscoverFragment extends Fragment {
         return recyclerView;
     }
 
-    private void onFailed() {
-        Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT).show();
+    private void onFailed(View view) {
+        Toast.makeText(view.getContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 
     @Override

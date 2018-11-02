@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -53,6 +54,8 @@ public class TVFragment extends Fragment {
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout pullRefreshLayout;
 
     public TVFragment() {
         // Required empty public constructor
@@ -63,10 +66,19 @@ public class TVFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tv, container, false);
+        final View view = inflater.inflate(R.layout.fragment_tv, container, false);
         ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(view);
+            }
+        });
+
         getData(view);
         return view;
     }
@@ -92,6 +104,7 @@ public class TVFragment extends Fragment {
                     mCallback.logoutUser();
                 }
                 onSuccess(movieDetailDTOS, view);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -107,6 +120,7 @@ public class TVFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         PagerSnapHelper snapHelper = new PagerSnapHelper();
+        recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new TVGuideRecyclerViewAdapter(movieDetailDTOS, recyclerView, mCallback));

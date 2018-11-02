@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.fragments.TVFragment;
+import com.kamilismail.movieappandroid.helpers.UnitConversionHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<TVGuideDTO> movieDetailDTOS;
     private RecyclerView mRecyclerView;
     private TVFragment.SendArgumentsAndLaunchFragment mCallback;
+    private View view;
 
     // implementacja wzorca ViewHolder
     // każdy obiekt tej klasy przechowuje odniesienie do layoutu elementu listy
@@ -54,7 +56,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
         // tworzymy layout artykułu oraz obiekt ViewHoldera
-        View view = LayoutInflater.from(viewGroup.getContext())
+        view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.tvguide_list, viewGroup, false);
 
         //przejscie do widoku z detalami
@@ -75,6 +77,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
+        UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
         TVGuideDTO data = movieDetailDTOS.get(i);
         Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
@@ -84,7 +87,10 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
         ((MyViewHolder) viewHolder).mHour.setText("When: " + data.getHour().substring(11,16));
         ((MyViewHolder) viewHolder).mChannel.setText("Channel: " + data.getChanel());
         if (!data.getLogoPath().isEmpty())
-            Picasso.get().load(data.getLogoPath()).resize(150,100).into(((MyViewHolder) viewHolder).mLogo);
+            Picasso.get().load(data.getLogoPath())
+                    .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
+                            ,(int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
+                    .into(((MyViewHolder) viewHolder).mLogo);
     }
 
     @Override

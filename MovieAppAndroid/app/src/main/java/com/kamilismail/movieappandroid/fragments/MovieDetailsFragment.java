@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
@@ -35,6 +37,7 @@ import com.kamilismail.movieappandroid.connection.ApiSearch;
 import com.kamilismail.movieappandroid.connection.ApiWantToWatch;
 import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
+import com.kamilismail.movieappandroid.helpers.UnitConversionHelper;
 import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.ScaleRatingBar;
 
@@ -91,6 +94,16 @@ public class MovieDetailsFragment extends Fragment {
     TextView mTVDate;
     @BindView(R.id.sendRating)
     Button mSendRating;
+    @BindView(R.id.userRating)
+    TextView tUserRating;
+    @BindView(R.id.onTV)
+    TextView tOnTV;
+    @BindView(R.id.chanelInfo)
+    TextView tChanelInfo;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout pullRefreshLayout;
+    @BindView(R.id.mProgressBarProfile)
+    ProgressBar mProgressBar;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
@@ -108,6 +121,18 @@ public class MovieDetailsFragment extends Fragment {
         this.id = args.getString("id");
         this.title = args.getString("title");
         mTitle.setText(this.title);
+
+        setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(view);
+            }
+        });
+
         getData(view);
 
         mAddFav.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +216,24 @@ public class MovieDetailsFragment extends Fragment {
         return view;
     }
 
+    private void setVisibility(int visibility) {
+        mPoster.setVisibility(visibility);
+        mAvarageRating.setVisibility(visibility);
+        mRatingBar.setVisibility(visibility);
+        mReminder.setVisibility(visibility);
+        mAddFav.setVisibility(visibility);
+        mWantToWatch.setVisibility(visibility);
+        mTVChanel.setVisibility(visibility);
+        mTVLogo.setVisibility(visibility);
+        mRelease.setVisibility(visibility);
+        mDescription.setVisibility(visibility);
+        mTVDate.setVisibility(visibility);
+        mSendRating.setVisibility(visibility);
+        tUserRating.setVisibility(visibility);
+        tOnTV.setVisibility(visibility);
+        tChanelInfo.setVisibility(visibility);
+    }
+
     public static MovieDetailsFragment newInstance() {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
         return movieDetailsFragment;
@@ -209,8 +252,10 @@ public class MovieDetailsFragment extends Fragment {
                 GetMovieDTO result = response.body();
                 if (result == null) {
                     mCallback.logoutUser();
-                } else
+                } else {
                     onSuccess(result, view);
+                    pullRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
@@ -221,8 +266,6 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void onSuccess(GetMovieDTO result, final View view) {
-        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath()).resize(400,640).into(mPoster);
-        Picasso.get().load(result.getLogoPath()).resize(150,100).into(mTVLogo);
         mAvarageRating.setText("Rating: " + result.getAvarageRating());
         if (!result.getUserRating().isEmpty())
             mRatingBar.setRating(Float.valueOf(result.getUserRating()));
@@ -252,6 +295,24 @@ public class MovieDetailsFragment extends Fragment {
         favBool = result.getUserFav();
         reminderBool = result.getUserReminder();
         wantBool = result.getUserWantToWatch();
+        UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath())
+                .resize((int) unitConversionHelper.convertDpToPixel(130, view.getContext()),
+                        (int) unitConversionHelper.convertDpToPixel(200, view.getContext()))
+                .into(mPoster, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                mProgressBar.setVisibility(View.GONE);
+                setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError(Exception e) {}
+        });
+        Picasso.get().load(result.getLogoPath())
+                .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
+                        ,(int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
+                .into(mTVLogo);
     }
 
     private void onFailed() {

@@ -165,7 +165,9 @@ public class MainActivity extends AppCompatActivity implements
     public void logoutUser() {
         deleteFirebaseID(sessionController.getCookie());
         sessionController.logoutUser();
-        LoginManager.getInstance().logOut();
+        try {
+            LoginManager.getInstance().logOut();
+        } catch(Exception e) {}
         finish();
     }
 

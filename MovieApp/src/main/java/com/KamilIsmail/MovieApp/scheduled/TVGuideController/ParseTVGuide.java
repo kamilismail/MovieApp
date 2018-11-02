@@ -35,9 +35,10 @@ public class ParseTVGuide {
 
     private Logger log = LoggerFactory.getLogger(ParseTVGuide.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); //20180916000500
+    private static final long minutesInMillis = 60000;
 
     /**
-     * Przetworzenie pobranego pliku xml zawierającego program telewizyjny.
+     * Pobranie, zdekompresowanie i przetworzenie programu tv.
      */
     public ArrayList<MovieBean> run() {
         ArrayList<MovieBean> movieBeanList;
@@ -91,7 +92,7 @@ public class ParseTVGuide {
      * @return
      */
     private MovieBean getMovie(Node node, TVChanels tvChanels){
-        String date, channel, title, description = "";
+        String startDate, stopDate, channel, title, description = "";
         MovieBean movieBean = null;
 
         if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -100,16 +101,20 @@ public class ParseTVGuide {
             try {
                 channel = getAttribute("channel", element);
                 if (tvChanels.ifContainsAlternative(channel)) { //alternatywne
-                    date = getAttribute("start", element);
-                    Date parsedDate = parseStringToDate(date);
+                    startDate = getAttribute("start", element);
+                    stopDate = getAttribute("stop", element);
+                    Date parsedStartDate = parseStringToDate(startDate);
+                    Date parsedStopDate = parseStringToDate(stopDate);
                     //parsedDate = DateUtils.addHours(parsedDate, 2); //alternatywa zakomentować
-                    if (!checkEmissionTime(parsedDate))
+                    if (!checkEmissionTime(parsedStartDate))
+                        return null;
+                    if (!checkEmissionInterval(parsedStartDate, parsedStopDate))
                         return null;
                     title = getTagValue("title", element);
                     if (getTagValue("desc", element) != null)
                         description = getTagValue("desc", element);
                     String productionYear = getTagValue("date", element); //alternatywne
-                    movieBean = new MovieBean(parsedDate, channel.substring(0,channel.indexOf(".")), title, description);
+                    movieBean = new MovieBean(parsedStartDate, channel.substring(0,channel.indexOf(".")), title, description);
                     movieBean.setProductionYear(Integer.parseInt(productionYear));
                     if (tvChanels.excludeProductions(movieBean.getDescription()))
                         return null;
@@ -143,6 +148,21 @@ public class ParseTVGuide {
                 return true;
             else return false;
         } else return false;
+    }
+
+    /**
+     * Sprawdzenie czy czas pomiedzy rozpoczeciem a zakonczeniem programu jest wiekszy niz 60 min. Ma to na celu elieminacje
+     * seriali i innych programow rozrywkowych.
+     * @param startDate
+     * @param stopDate
+     * @return
+     */
+    private Boolean checkEmissionInterval(Date startDate, Date stopDate) {
+        long interval = stopDate.getTime() - startDate.getTime(); //in milisec
+        if (interval/minutesInMillis > 60)
+            return true;
+        else
+            return false;
     }
 
     /**

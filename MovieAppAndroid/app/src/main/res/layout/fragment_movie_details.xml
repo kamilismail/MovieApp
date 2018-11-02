@@ -9,6 +9,17 @@
     android:layout_marginBottom="60dp"
     tools:context=".fragments.MovieDetailsFragment">
 
+    <ProgressBar
+        android:id="@+id/mProgressBarProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -211,5 +222,7 @@
         </LinearLayout>
 
     </ScrollView>
+
+    </com.baoyz.widget.PullRefreshLayout>
 
 </FrameLayout>

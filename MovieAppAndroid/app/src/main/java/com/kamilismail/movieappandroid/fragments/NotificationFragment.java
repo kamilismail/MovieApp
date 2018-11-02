@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.RemindersDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -48,6 +50,10 @@ public class NotificationFragment extends Fragment {
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
+    @BindView(R.id.info)
+    TextView nothingFound;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout pullRefreshLayout;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -58,10 +64,20 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        final View view = inflater.inflate(R.layout.fragment_notification, container, false);
         ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        nothingFound.setVisibility(View.GONE);
+
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(view);
+            }
+        });
+
         getData(view);
         return view;
     }
@@ -87,6 +103,7 @@ public class NotificationFragment extends Fragment {
                     mCallback.logoutUser();
                 }
                 onSuccess(remindersDTOS, view);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -98,14 +115,19 @@ public class NotificationFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList <RemindersDTO> movieDetailDTOS, final View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.reminderList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new RemindersRecyclerViewAdapter(movieDetailDTOS, recyclerView, mCallback));
-        progressBar.setVisibility(View.GONE);
+        if (!movieDetailDTOS.isEmpty()) {
+            RecyclerView recyclerView = view.findViewById(R.id.reminderList);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+            PagerSnapHelper snapHelper = new PagerSnapHelper();
+            snapHelper.attachToRecyclerView(recyclerView);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(new RemindersRecyclerViewAdapter(movieDetailDTOS, recyclerView, mCallback));
+            progressBar.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            nothingFound.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onFailed(View view) {

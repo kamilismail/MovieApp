@@ -23,6 +23,7 @@ public class SessionController {
 
     public static final String KEY_COOKIE = "Cookie";
     private static final String USERNAME = "Username";
+    private static final String ROLE = "Role";
     private static final String FIREBASE_TOKEN = "FirebaseToken";
 
     // Constructor
@@ -53,6 +54,11 @@ public class SessionController {
         editor.commit();
     }
 
+    public void saveUserRole(String role) {
+        editor.putString(ROLE, role);
+        editor.commit();
+    }
+
     public void saveFirebaseToken(String token) {
         editor.putString(FIREBASE_TOKEN, token);
         editor.commit();
@@ -64,6 +70,10 @@ public class SessionController {
 
     public String getUsername () {
         return pref.getString(USERNAME, null);
+    }
+
+    public String getRole () {
+        return pref.getString(ROLE, null);
     }
 
     /**

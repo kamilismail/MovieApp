@@ -7,152 +7,158 @@
     android:layout_marginRight="15dp"
     android:layout_marginBottom="57dp">
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingBottom="8dp"
-        android:text="Discover"
-        android:textColor="@android:color/black"
-        android:textSize="50dp"
-        android:textStyle="bold"/>
-
-    <RelativeLayout
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textview1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="Popular movies"
-            android:textColor="@android:color/black"
-            android:textSize="25dp" />
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/popularMoviesList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview1"/>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/popularMoviesList"
-            app:spi_dotSelectedColor="@color/DeepRed"
-            app:spi_visibleDotCount='11'
-            android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingBottom="8dp"
+                    android:text="Discover"
+                    android:textColor="@android:color/black"
+                    android:textSize="50dp"
+                    android:textStyle="bold" />
 
-    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/textview1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Popular movies"
+                        android:textColor="@android:color/black"
+                        android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/textview2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="Popular series"
-            android:textColor="@android:color/black"
-            android:textSize="25dp" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/popularMoviesList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textview1" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/popularSeriesList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview2"/>
+                    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/popularMoviesList"
+                        app:spi_dotSelectedColor="@color/DeepRed"
+                        app:spi_visibleDotCount='11'
+                        android:layout_centerHorizontal="true" />
 
-        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/indicator2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/popularSeriesList"
-            app:spi_dotSelectedColor="@color/DeepRed"
-            app:spi_visibleDotCount='11'
-            android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
 
-    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/textview2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Popular series"
+                        android:textColor="@android:color/black"
+                        android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/textview3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="Upcoming movies"
-            android:textColor="@android:color/black"
-            android:textSize="25dp" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/popularSeriesList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textview2" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/upcomingMoviesList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview3"/>
+                    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/indicator2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/popularSeriesList"
+                        app:spi_dotSelectedColor="@color/DeepRed"
+                        app:spi_visibleDotCount='11'
+                        android:layout_centerHorizontal="true" />
 
-        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/indicator3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/upcomingMoviesList"
-            app:spi_dotSelectedColor="@color/DeepRed"
-            app:spi_visibleDotCount='11'
-            android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
 
-    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/textview3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Upcoming movies"
+                        android:textColor="@android:color/black"
+                        android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/textview4"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="Nowplaying"
-            android:textColor="@android:color/black"
-            android:textSize="25dp" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/upcomingMoviesList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textview3" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/nowplayingList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview4" />
+                    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/indicator3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upcomingMoviesList"
+                        app:spi_dotSelectedColor="@color/DeepRed"
+                        app:spi_visibleDotCount='11'
+                        android:layout_centerHorizontal="true" />
 
-        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/indicator4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nowplayingList"
-            app:spi_dotSelectedColor="@color/DeepRed"
-            app:spi_visibleDotCount='11'
-            android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
 
-    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-</LinearLayout>
+                    <TextView
+                        android:id="@+id/textview4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Nowplaying"
+                        android:textColor="@android:color/black"
+                        android:textSize="25dp" />
 
-</ScrollView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/nowplayingList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textview4" />
+
+                    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/indicator4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/nowplayingList"
+                        app:spi_dotSelectedColor="@color/DeepRed"
+                        app:spi_visibleDotCount='11'
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.baoyz.widget.PullRefreshLayout>
 
 </FrameLayout>

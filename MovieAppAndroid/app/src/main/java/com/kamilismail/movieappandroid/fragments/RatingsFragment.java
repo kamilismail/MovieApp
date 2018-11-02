@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.FavouritesDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -51,6 +52,8 @@ public class RatingsFragment extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.info)
     TextView nothingFound;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout pullRefreshLayout;
 
     public RatingsFragment() {
         // Required empty public constructor
@@ -61,11 +64,20 @@ public class RatingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ratings, container, false);
+        final View view = inflater.inflate(R.layout.fragment_ratings, container, false);
         ButterKnife.bind(this, view);
         this.sessionController = new SessionController(getContext());
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         nothingFound.setVisibility(View.GONE);
+
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(view);
+            }
+        });
+
         getData(view);
         return view;
     }
@@ -87,10 +99,11 @@ public class RatingsFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList <FavouritesDTO>> call, Response<ArrayList <FavouritesDTO>> response) {
                 ArrayList <FavouritesDTO> favouritesDTOS = response.body();
-                if (favouritesDTOS.get(0) == null) {
+                if (favouritesDTOS == null) {
                     mCallback.logoutUser();
                 }
                 onSuccess(favouritesDTOS, view);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override

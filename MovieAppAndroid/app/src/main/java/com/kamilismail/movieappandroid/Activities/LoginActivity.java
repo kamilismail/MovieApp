@@ -26,6 +26,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -154,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
                 sessionController.saveUsername(userDTO.getUsername());
+                sessionController.saveUserRole("facebook");
                 onLoginSuccess();
             }
 
@@ -195,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                 sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
                 sessionController.saveUsername(userDTO.getUsername());
+                sessionController.saveUserRole("user");
                 onLoginSuccess();
             }
 
@@ -221,14 +224,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess() { //view
-        sendFirebaseID(); //view
+        try {
+            sendFirebaseID(); //view
+        } catch (Exception e) {
+            sessionController.logoutUser();
+            LoginManager.getInstance().logOut();
+        }
         progressBar.setVisibility(View.GONE);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void sendFirebaseID() {
+    private void sendFirebaseID() throws Exception{
         new AsyncTask<Void,Void,Void>() {
             @Override
             protected Void doInBackground(Void... params) {
