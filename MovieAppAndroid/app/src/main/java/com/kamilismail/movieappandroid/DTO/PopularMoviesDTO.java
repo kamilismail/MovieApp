@@ -25,13 +25,11 @@ public class PopularMoviesDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public PopularMoviesDTO() {
     }
 
     /**
-     *
      * @param id
      * @param title
      * @param releaseDate

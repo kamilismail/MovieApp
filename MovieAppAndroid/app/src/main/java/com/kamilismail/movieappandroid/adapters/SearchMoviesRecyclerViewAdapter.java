@@ -38,7 +38,7 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public SearchMoviesRecyclerViewAdapter(List <Result> nowPlayingDTOList, RecyclerView _recyclerView, SearchFragment.SendArgumentsAndLaunchFragment callback) {
+    public SearchMoviesRecyclerViewAdapter(List<Result> nowPlayingDTOList, RecyclerView _recyclerView, SearchFragment.SendArgumentsAndLaunchFragment callback) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
@@ -70,7 +70,7 @@ public class SearchMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
         // uzupełniamy layout artykułu
         Result data = nowPlayingDTOS.get(i);
         if (data.getPosterPath() != null)
-            Picasso.get().load("https://image.tmdb.org/t/p/w500/" + data.getBackdropPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+            Picasso.get().load("https://image.tmdb.org/t/p/w500/" + data.getBackdropPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getVoteAverage());

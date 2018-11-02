@@ -2,7 +2,6 @@ package com.kamilismail.movieappandroid.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,13 +17,11 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
-import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.adapters.NowPlayingRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.PopularMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.PopularSeriesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.adapters.UpcomingMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiDiscover;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import butterknife.BindView;
@@ -33,7 +30,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class DiscoverFragment extends Fragment {
@@ -42,23 +38,21 @@ public class DiscoverFragment extends Fragment {
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void passMovieData(String id, String title);
     }
 
     public static String TAG = "DiscoverFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     public DiscoverFragment() {
-        // Required empty public constructor
     }
 
     @BindView(R.id.swipeRefreshLayout)
     PullRefreshLayout pullRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_discover, container, false);
         this.sessionController = new SessionController(getContext());
@@ -76,26 +70,24 @@ public class DiscoverFragment extends Fragment {
     }
 
     public static DiscoverFragment newInstance() {
-        DiscoverFragment discoverFragment = new DiscoverFragment();
-        return discoverFragment;
+        return new DiscoverFragment();
     }
 
     private void getData(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
-
         ApiDiscover apiDiscover = retrofit.create(ApiDiscover.class);
-
         String cookie = sessionController.getCookie();
         Call<DiscoverDTO> call = apiDiscover.getDiscovery(cookie);
         call.enqueue(new Callback<DiscoverDTO>() {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
+                sessionController.saveFragmentState(TAG, response.body().toString());
                 try {
                     if (discoverDTO == null) {
                         mCallback.logoutUser();
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     mCallback.logoutUser();
                 }
                 onSuccess(discoverDTO, view);
@@ -156,7 +148,6 @@ public class DiscoverFragment extends Fragment {
         try {
             mCallback = (SendArgumentsAndLaunchFragment) context;
         } catch (ClassCastException e) {
-
         }
 
     }

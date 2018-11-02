@@ -121,13 +121,11 @@ public class Result {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Result() {
     }
 
     /**
-     *
      * @param budget
      * @param alternativeTitles
      * @param genres

@@ -37,7 +37,7 @@ public class PopularSeriesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public PopularSeriesRecyclerViewAdapter(ArrayList <PopularSeriesDTO> nowPlayingDTOList, RecyclerView _recyclerView) {
+    public PopularSeriesRecyclerViewAdapter(ArrayList<PopularSeriesDTO> nowPlayingDTOList, RecyclerView _recyclerView) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
     }
@@ -66,7 +66,7 @@ public class PopularSeriesRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
         PopularSeriesDTO data = nowPlayingDTOS.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        Picasso.get().load(data.getPosterPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());

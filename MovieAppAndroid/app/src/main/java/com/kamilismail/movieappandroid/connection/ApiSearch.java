@@ -1,7 +1,6 @@
 package com.kamilismail.movieappandroid.connection;
 
 import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
-import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.DTO.search_movies.SearchMovieDTO;
 import com.kamilismail.movieappandroid.DTO.search_person.PersonResult;
 import com.kamilismail.movieappandroid.DTO.search_series.SeriesResult;

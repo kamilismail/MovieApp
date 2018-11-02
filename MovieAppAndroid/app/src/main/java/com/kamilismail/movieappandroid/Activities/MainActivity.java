@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.facebook.login.LoginManager;
@@ -167,20 +166,19 @@ public class MainActivity extends AppCompatActivity implements
         sessionController.logoutUser();
         try {
             LoginManager.getInstance().logOut();
-        } catch(Exception e) {}
+        } catch (Exception e) {
+        }
         finish();
     }
 
     private void deleteFirebaseID(final String cookie) {
-        new AsyncTask<Void,Void,Void>() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                try
-                {
+                try {
                     FirebaseInstanceId.getInstance().deleteInstanceId();
                     sessionController.saveFirebaseToken("");
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return null;

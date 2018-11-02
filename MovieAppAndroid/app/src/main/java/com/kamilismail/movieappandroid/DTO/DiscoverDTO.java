@@ -1,9 +1,9 @@
 package com.kamilismail.movieappandroid.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class DiscoverDTO {
 
@@ -22,13 +22,11 @@ public class DiscoverDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public DiscoverDTO() {
     }
 
     /**
-     *
      * @param popularMovies
      * @param nowplaying
      * @param upcomingMovies

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -22,12 +21,18 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment {
 
     private SendArgumentsAndLaunchFragment mCallback;
+
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void startFavouritesFragment();
+
         void startWantToWatchFragment();
+
         void startRatingsFragment();
+
         void startChangePswFragment();
+
         void deleteAccountFragment();
     }
 
@@ -49,7 +54,8 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.bDelete)
     Button bDelete;
 
-    public ProfileFragment() {}
+    public ProfileFragment() {
+    }
 
 
     @Override
@@ -144,8 +150,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public static ProfileFragment newInstance() {
-        ProfileFragment profileFragment = new ProfileFragment();
-        return profileFragment;
+        return new ProfileFragment();
     }
 
     @Override

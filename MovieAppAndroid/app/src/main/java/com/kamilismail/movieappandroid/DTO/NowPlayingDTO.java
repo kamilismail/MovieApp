@@ -26,13 +26,11 @@ public class NowPlayingDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public NowPlayingDTO() {
     }
 
     /**
-     *
      * @param id
      * @param title
      * @param releaseDate

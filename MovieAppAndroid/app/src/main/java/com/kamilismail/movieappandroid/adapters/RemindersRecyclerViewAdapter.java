@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter{
+public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<RemindersDTO> movieDetailDTOS;
     private RecyclerView mRecyclerView;
     private NotificationFragment.SendArgumentsAndLaunchFragment mCallback;
@@ -46,8 +46,8 @@ public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter{
     }
 
     // konstruktor adaptera
-    public RemindersRecyclerViewAdapter(ArrayList <RemindersDTO> movieDetailDTOS, RecyclerView _recyclerView,
-                                      NotificationFragment.SendArgumentsAndLaunchFragment callback) {
+    public RemindersRecyclerViewAdapter(ArrayList<RemindersDTO> movieDetailDTOS, RecyclerView _recyclerView,
+                                        NotificationFragment.SendArgumentsAndLaunchFragment callback) {
         this.movieDetailDTOS = movieDetailDTOS;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
@@ -79,7 +79,7 @@ public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter{
         // uzupełniamy layout artykułu
         UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
         RemindersDTO data = movieDetailDTOS.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        Picasso.get().load(data.getPosterPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
@@ -94,7 +94,7 @@ public class RemindersRecyclerViewAdapter extends RecyclerView.Adapter{
         if (!data.getLogoPath().isEmpty())
             Picasso.get().load(data.getLogoPath())
                     .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
-                            ,(int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
+                            , (int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
                     .into(((MyViewHolder) viewHolder).mLogo);
     }
 

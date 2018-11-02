@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:id="@+id/cv"
         card_view:cardElevation="7dp"
-        card_view:cardUseCompatPadding="true"
-        >
+        card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:id="@+id/poster"
                 android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
-                />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:paddingLeft="5dp"
@@ -40,8 +35,7 @@
                 android:singleLine="true"
                 android:scrollHorizontally="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"
-                />
+                android:marqueeRepeatLimit="marquee_forever" />
 
             <TextView
                 android:paddingLeft="5dp"
@@ -52,8 +46,8 @@
                 android:layout_below="@+id/title"
                 android:textColor="@color/Black"
                 android:textStyle="bold"
-                android:textSize="17dp"
-                />
+                android:textSize="17dp" />
+
             <TextView
                 android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
@@ -61,8 +55,7 @@
                 android:text="Release date: no data"
                 android:id="@+id/release"
                 android:layout_below="@+id/rating"
-                android:textColor="@color/Black"
-                />
+                android:textColor="@color/Black" />
 
         </RelativeLayout>
 

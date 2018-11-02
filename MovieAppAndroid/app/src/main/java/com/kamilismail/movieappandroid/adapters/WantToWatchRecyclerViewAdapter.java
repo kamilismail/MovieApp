@@ -39,7 +39,7 @@ public class WantToWatchRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public WantToWatchRecyclerViewAdapter(ArrayList <FavouritesDTO> nowPlayingDTOList, RecyclerView _recyclerView, WantToWatchFragment.SendArgumentsAndLaunchFragment callback) {
+    public WantToWatchRecyclerViewAdapter(ArrayList<FavouritesDTO> nowPlayingDTOList, RecyclerView _recyclerView, WantToWatchFragment.SendArgumentsAndLaunchFragment callback) {
         this.favList = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
@@ -70,7 +70,7 @@ public class WantToWatchRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
         FavouritesDTO data = favList.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        Picasso.get().load(data.getPosterPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());

@@ -3,9 +3,9 @@ package com.kamilismail.movieappandroid.activities;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import butterknife.*;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,11 +32,18 @@ import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
+import org.json.JSONObject;
+
 import java.net.HttpCookie;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONObject;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -108,9 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                                     String email = object.optString("email");
                                     String name = object.optString("name");
                                     String userId = loginResult.getAccessToken().getUserId();
-//                                    System.out.println(email);
-//                                    System.out.println(name);
-//                                    System.out.println(userId);
                                     facebookLogin(email, name, userId);
                                 }
                             });
@@ -139,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
         obj.addProperty("role", "facebook");
 
         Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
-
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call<UserDTO> call = apiUser.facebookUserLogin(obj);
 
@@ -183,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         final String credentials = "Basic " + Base64.encodeToString((login + ":" + password).getBytes(), Base64.NO_WRAP);
         Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
         ApiUser apiUser = retrofit.create(ApiUser.class);
-        Call <UserDTO> call = apiUser.getUser(credentials);
+        Call<UserDTO> call = apiUser.getUser(credentials);
 
         call.enqueue(new Callback<UserDTO>() {
             @Override
@@ -236,19 +233,20 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void sendFirebaseID() throws Exception{
-        new AsyncTask<Void,Void,Void>() {
+    private void sendFirebaseID() throws Exception {
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 String token = FirebaseInstanceId.getInstance().getToken();
                 // Used to get firebase token until its null so it will save you from null pointer exeption
-                while(token == null) {
+                while (token == null) {
                     token = FirebaseInstanceId.getInstance().getToken();
                     sessionController.saveFirebaseToken(token);
                     Log.d("New firebase token: ", token);
                 }
                 return null;
             }
+
             @Override
             protected void onPostExecute(Void result) {
                 Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext()); // albo view.getContext()

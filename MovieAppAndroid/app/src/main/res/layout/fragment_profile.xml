@@ -16,7 +16,7 @@
         android:textSize="35dp"
         android:textColor="@color/Black"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -26,9 +26,10 @@
         android:textSize="30dp"
         android:textColor="@color/Black"
         android:layout_marginTop="70dp"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal" />
 
-    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -36,8 +37,7 @@
         android:text="@string/Want_to_watch"
         android:id="@+id/bWantToWatch"
         android:clickable="true"
-        android:textColor="@android:color/black"
-        />
+        android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/bRatings"
@@ -60,8 +60,8 @@
         android:textColor="@android:color/black" />
 
 
-
-    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -71,10 +71,10 @@
         android:text="@string/Change_password"
         android:id="@+id/bChange"
         android:clickable="true"
-        android:textColor="@android:color/black"
-        />
+        android:textColor="@android:color/black" />
 
-    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -84,10 +84,10 @@
         android:text="@string/Delete_account"
         android:id="@+id/bDelete"
         android:clickable="true"
-        android:textColor="@android:color/black"
-        />
+        android:textColor="@android:color/black" />
 
-    <Button style = "@style/Widget.AppCompat.Button.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -98,7 +98,6 @@
         android:text="@string/Sign_out"
         android:id="@+id/bSignout"
         android:backgroundTint="@color/DeepRed"
-        android:textColor="@android:color/white"
-        />
+        android:textColor="@android:color/white" />
 
 </FrameLayout>

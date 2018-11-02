@@ -1,8 +1,5 @@
 package com.kamilismail.movieappandroid.firebase;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -11,6 +8,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class FirebaseMsgService extends FirebaseMessagingService {
     public FirebaseMsgService() {
     }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...

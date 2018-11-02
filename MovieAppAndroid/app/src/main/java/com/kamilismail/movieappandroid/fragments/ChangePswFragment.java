@@ -35,7 +35,6 @@ public class ChangePswFragment extends Fragment {
 
     public static String TAG = "ChangePswFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
@@ -47,9 +46,7 @@ public class ChangePswFragment extends Fragment {
     Button bCancel;
 
     public ChangePswFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +61,7 @@ public class ChangePswFragment extends Fragment {
     }
 
     public static ChangePswFragment newInstance() {
-        ChangePswFragment changePswFragment = new ChangePswFragment();
-        return changePswFragment;
+        return new ChangePswFragment();
     }
 
     private void deleteAccount(final View view) {
@@ -81,9 +77,8 @@ public class ChangePswFragment extends Fragment {
             @Override
             public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
                 BooleanDTO remindersDTOS = response.body();
-                if (remindersDTOS == null) {
+                if (remindersDTOS == null)
                     mCallback.logoutUser();
-                }
                 onSuccess(view);
             }
 
@@ -110,7 +105,6 @@ public class ChangePswFragment extends Fragment {
         try {
             mCallback = (SendArgumentsAndLaunchFragment) context;
         } catch (ClassCastException e) {
-
         }
     }
 }

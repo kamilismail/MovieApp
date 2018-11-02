@@ -12,12 +12,7 @@
         android:id="@+id/mProgressBarProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-
-    <com.baoyz.widget.PullRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_gravity="center_vertical|center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,46 +20,50 @@
         android:text="Nothing found :("
         android:id="@+id/info"
         android:textSize="15dp"
-        android:layout_gravity="center_vertical|center_horizontal"/>
+        android:layout_gravity="center_vertical|center_horizontal" />
 
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:orientation="vertical">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Ratings"
-                    android:textSize="35dp"
-                    android:textColor="@color/Black"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/mFavourites"/>
+                    android:layout_weight="1">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/favList"
-                    android:paddingTop="15dp"
-                    android:layout_below="@+id/mFavourites"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Ratings"
+                        android:textSize="35dp"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/mFavourites" />
 
-            </RelativeLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/favList"
+                        android:paddingTop="15dp"
+                        android:layout_below="@+id/mFavourites"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                </RelativeLayout>
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
 
     </com.baoyz.widget.PullRefreshLayout>
 

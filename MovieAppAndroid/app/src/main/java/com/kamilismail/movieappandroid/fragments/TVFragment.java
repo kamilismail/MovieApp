@@ -2,7 +2,6 @@ package com.kamilismail.movieappandroid.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,23 +18,18 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
-import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.adapters.TVGuideRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiTVGuide;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,12 +40,12 @@ public class TVFragment extends Fragment {
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void passMovieData(String id, String title);
     }
 
     public static String TAG = "TVFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
     @BindView(R.id.swipeRefreshLayout)
@@ -84,8 +78,7 @@ public class TVFragment extends Fragment {
     }
 
     public static TVFragment newInstance() {
-        TVFragment tvFragment = new TVFragment();
-        return tvFragment;
+        return new TVFragment();
     }
 
     private void getData(final View view) {
@@ -94,12 +87,12 @@ public class TVFragment extends Fragment {
         ApiTVGuide apiTVGuide = retrofit.create(ApiTVGuide.class);
 
         String cookie = sessionController.getCookie();
-        Call<ArrayList <TVGuideDTO>> call = apiTVGuide.getTVGuide(cookie);
+        Call<ArrayList<TVGuideDTO>> call = apiTVGuide.getTVGuide(cookie);
         progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<ArrayList <TVGuideDTO>>() {
+        call.enqueue(new Callback<ArrayList<TVGuideDTO>>() {
             @Override
-            public void onResponse(Call<ArrayList <TVGuideDTO>> call, Response<ArrayList <TVGuideDTO>> response) {
-                ArrayList <TVGuideDTO> movieDetailDTOS = response.body();
+            public void onResponse(Call<ArrayList<TVGuideDTO>> call, Response<ArrayList<TVGuideDTO>> response) {
+                ArrayList<TVGuideDTO> movieDetailDTOS = response.body();
                 if (movieDetailDTOS == null) {
                     mCallback.logoutUser();
                 }
@@ -108,14 +101,14 @@ public class TVFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList <TVGuideDTO>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<TVGuideDTO>> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 onFailed(view);
             }
         });
     }
 
-    private void onSuccess(ArrayList <TVGuideDTO> movieDetailDTOS, final View view) {
+    private void onSuccess(ArrayList<TVGuideDTO> movieDetailDTOS, final View view) {
         RecyclerView recyclerView = view.findViewById(R.id.onTV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));

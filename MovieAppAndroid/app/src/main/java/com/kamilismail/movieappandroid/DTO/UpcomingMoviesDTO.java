@@ -25,13 +25,11 @@ public class UpcomingMoviesDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public UpcomingMoviesDTO() {
     }
 
     /**
-     *
      * @param id
      * @param title
      * @param releaseDate

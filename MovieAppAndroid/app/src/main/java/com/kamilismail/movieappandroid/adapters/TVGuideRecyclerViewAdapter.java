@@ -47,7 +47,7 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public TVGuideRecyclerViewAdapter(ArrayList <TVGuideDTO> movieDetailDTOS, RecyclerView _recyclerView, TVFragment.SendArgumentsAndLaunchFragment callback) {
+    public TVGuideRecyclerViewAdapter(ArrayList<TVGuideDTO> movieDetailDTOS, RecyclerView _recyclerView, TVFragment.SendArgumentsAndLaunchFragment callback) {
         this.movieDetailDTOS = movieDetailDTOS;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
@@ -79,17 +79,17 @@ public class TVGuideRecyclerViewAdapter extends RecyclerView.Adapter {
         // uzupełniamy layout artykułu
         UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
         TVGuideDTO data = movieDetailDTOS.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        Picasso.get().load(data.getPosterPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());
         ((MyViewHolder) viewHolder).mRelease.setText("Release date: " + data.getReleaseDate());
-        ((MyViewHolder) viewHolder).mHour.setText("When: " + data.getHour().substring(11,16));
+        ((MyViewHolder) viewHolder).mHour.setText("When: " + data.getHour().substring(11, 16));
         ((MyViewHolder) viewHolder).mChannel.setText("Channel: " + data.getChanel());
         if (!data.getLogoPath().isEmpty())
             Picasso.get().load(data.getLogoPath())
                     .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
-                            ,(int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
+                            , (int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
                     .into(((MyViewHolder) viewHolder).mLogo);
     }
 

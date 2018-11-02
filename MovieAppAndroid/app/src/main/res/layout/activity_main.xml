@@ -21,7 +21,7 @@
         android:isScrollContainer="false"
         app:itemTextColor="@drawable/bottom_nav_color"
         app:itemIconTint="@drawable/bottom_nav_color"
-        app:menu="@menu/bottom_nav_bar"/>
+        app:menu="@menu/bottom_nav_bar" />
 
 
 </RelativeLayout>

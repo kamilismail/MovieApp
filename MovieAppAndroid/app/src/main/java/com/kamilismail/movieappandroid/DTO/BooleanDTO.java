@@ -11,13 +11,11 @@ public class BooleanDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public BooleanDTO() {
     }
 
     /**
-     *
      * @param result
      */
     public BooleanDTO(Boolean result) {

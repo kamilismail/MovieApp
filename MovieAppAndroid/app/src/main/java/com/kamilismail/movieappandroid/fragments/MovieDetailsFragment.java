@@ -3,39 +3,27 @@ package com.kamilismail.movieappandroid.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
-import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
-import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
-import com.kamilismail.movieappandroid.activities.LoginActivity;
-import com.kamilismail.movieappandroid.connection.ApiDiscover;
 import com.kamilismail.movieappandroid.connection.ApiFavourites;
 import com.kamilismail.movieappandroid.connection.ApiRatings;
 import com.kamilismail.movieappandroid.connection.ApiReminders;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
 import com.kamilismail.movieappandroid.connection.ApiWantToWatch;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.kamilismail.movieappandroid.helpers.UnitConversionHelper;
 import com.squareup.picasso.Picasso;
@@ -47,19 +35,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class MovieDetailsFragment extends Fragment {
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
     }
+
     private SendArgumentsAndLaunchFragment mCallback;
 
     public static String TAG = "MovieDetailsFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     private String id;
     private String title;
@@ -106,7 +92,6 @@ public class MovieDetailsFragment extends Fragment {
     ProgressBar mProgressBar;
 
     public MovieDetailsFragment() {
-        // Required empty public constructor
     }
 
 
@@ -235,8 +220,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     public static MovieDetailsFragment newInstance() {
-        MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
-        return movieDetailsFragment;
+        return new MovieDetailsFragment();
     }
 
     private void getData(final View view) {
@@ -278,7 +262,7 @@ public class MovieDetailsFragment extends Fragment {
         else
             mWantToWatch.setText("want to watch");
 
-        if(result.getUserReminder())
+        if (result.getUserReminder())
             mReminder.setText("Delete reminder");
         else
             mReminder.setText("Add reminder");
@@ -300,18 +284,19 @@ public class MovieDetailsFragment extends Fragment {
                 .resize((int) unitConversionHelper.convertDpToPixel(130, view.getContext()),
                         (int) unitConversionHelper.convertDpToPixel(200, view.getContext()))
                 .into(mPoster, new com.squareup.picasso.Callback() {
-            @Override
-            public void onSuccess() {
-                mProgressBar.setVisibility(View.GONE);
-                setVisibility(View.VISIBLE);
-            }
+                    @Override
+                    public void onSuccess() {
+                        mProgressBar.setVisibility(View.GONE);
+                        setVisibility(View.VISIBLE);
+                    }
 
-            @Override
-            public void onError(Exception e) {}
-        });
+                    @Override
+                    public void onError(Exception e) {
+                    }
+                });
         Picasso.get().load(result.getLogoPath())
                 .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
-                        ,(int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
+                        , (int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
                 .into(mTVLogo);
     }
 

@@ -1,7 +1,6 @@
 package com.kamilismail.movieappandroid.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,34 +19,29 @@ import com.kamilismail.movieappandroid.DTO.FavouritesDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.adapters.RatingsRecyclerViewAdapter;
-import com.kamilismail.movieappandroid.connection.ApiFavourites;
 import com.kamilismail.movieappandroid.connection.ApiRatings;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RatingsFragment extends Fragment {
     private SendArgumentsAndLaunchFragment mCallback;
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void passMovieData(String id, String title);
     }
 
     public static String TAG = "FavouritesFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
     @BindView(R.id.info)
@@ -56,7 +50,6 @@ public class RatingsFragment extends Fragment {
     PullRefreshLayout pullRefreshLayout;
 
     public RatingsFragment() {
-        // Required empty public constructor
     }
 
 
@@ -83,8 +76,7 @@ public class RatingsFragment extends Fragment {
     }
 
     public static FavouritesFragment newInstance() {
-        FavouritesFragment favouritesFragment = new FavouritesFragment();
-        return favouritesFragment;
+        return new FavouritesFragment();
     }
 
     private void getData(final View view) {
@@ -95,10 +87,10 @@ public class RatingsFragment extends Fragment {
         String cookie = sessionController.getCookie();
         Call<ArrayList<FavouritesDTO>> call = apiRatings.getRatings(cookie);
         progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<ArrayList <FavouritesDTO>>() {
+        call.enqueue(new Callback<ArrayList<FavouritesDTO>>() {
             @Override
-            public void onResponse(Call<ArrayList <FavouritesDTO>> call, Response<ArrayList <FavouritesDTO>> response) {
-                ArrayList <FavouritesDTO> favouritesDTOS = response.body();
+            public void onResponse(Call<ArrayList<FavouritesDTO>> call, Response<ArrayList<FavouritesDTO>> response) {
+                ArrayList<FavouritesDTO> favouritesDTOS = response.body();
                 if (favouritesDTOS == null) {
                     mCallback.logoutUser();
                 }
@@ -107,15 +99,15 @@ public class RatingsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList <FavouritesDTO>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<FavouritesDTO>> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 onFailed(view);
             }
         });
     }
 
-    private void onSuccess(ArrayList <FavouritesDTO> favouritesDTOS, final View view) {
-        if(favouritesDTOS.size() > 0) {
+    private void onSuccess(ArrayList<FavouritesDTO> favouritesDTOS, final View view) {
+        if (favouritesDTOS.size() > 0) {
             RecyclerView recyclerView = view.findViewById(R.id.favList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));

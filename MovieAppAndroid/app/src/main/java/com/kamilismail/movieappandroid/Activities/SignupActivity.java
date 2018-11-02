@@ -2,10 +2,9 @@ package com.kamilismail.movieappandroid.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +17,7 @@ import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
-import com.kamilismail.movieappandroid.helpers.SelfSigningClientBuilder;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -31,7 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -68,12 +64,6 @@ public class SignupActivity extends AppCompatActivity {
             ActionBar actionBar = getSupportActionBar();
             actionBar.hide();
             progressBar.setVisibility(View.GONE);
-
-            /*TranslateAnimation animation = new TranslateAnimation(0.0f, 400.0f, 0.0f, 0.0f);
-            animation.setDuration(10000);
-            animation.setRepeatCount(100);
-            _imageView.startAnimation(animation);*/
-
             _loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

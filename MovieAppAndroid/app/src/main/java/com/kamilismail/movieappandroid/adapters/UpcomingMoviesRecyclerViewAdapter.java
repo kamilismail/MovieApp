@@ -38,7 +38,7 @@ public class UpcomingMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     // konstruktor adaptera
-    public UpcomingMoviesRecyclerViewAdapter(ArrayList <UpcomingMoviesDTO> nowPlayingDTOList, RecyclerView _recyclerView, DiscoverFragment.SendArgumentsAndLaunchFragment callback) {
+    public UpcomingMoviesRecyclerViewAdapter(ArrayList<UpcomingMoviesDTO> nowPlayingDTOList, RecyclerView _recyclerView, DiscoverFragment.SendArgumentsAndLaunchFragment callback) {
         this.nowPlayingDTOS = nowPlayingDTOList;
         this.mRecyclerView = _recyclerView;
         this.mCallback = callback;
@@ -69,7 +69,7 @@ public class UpcomingMoviesRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
         // uzupełniamy layout artykułu
         UpcomingMoviesDTO data = nowPlayingDTOS.get(i);
-        Picasso.get().load(data.getPosterPath()).resize(1000,561).into(((MyViewHolder) viewHolder).mImageView);
+        Picasso.get().load(data.getPosterPath()).resize(1000, 561).into(((MyViewHolder) viewHolder).mImageView);
         ((MyViewHolder) viewHolder).mTitle.setText(data.getTitle());
         ((MyViewHolder) viewHolder).mTitle.setSelected(true);
         ((MyViewHolder) viewHolder).mRating.setText("Rating: " + data.getRating());

@@ -22,13 +22,11 @@ public class SearchMovieDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public SearchMovieDTO() {
     }
 
     /**
-     *
      * @param results
      * @param totalResults
      * @param page

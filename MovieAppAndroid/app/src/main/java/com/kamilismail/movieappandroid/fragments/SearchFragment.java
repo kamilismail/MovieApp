@@ -2,7 +2,6 @@ package com.kamilismail.movieappandroid.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,10 +23,8 @@ import android.widget.Toast;
 import com.kamilismail.movieappandroid.DTO.search_movies.SearchMovieDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
-import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.adapters.SearchMoviesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -39,7 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener,
         MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
@@ -49,12 +45,12 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void passMovieData(String id, String title);
     }
 
     public static String TAG = "SearchFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     private List<String> lastSearches;
     @BindView(R.id.searchBar)
@@ -95,8 +91,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
     }
 
     public static SearchFragment newInstance() {
-        SearchFragment searchFragment = new SearchFragment();
-        return searchFragment;
+        return new SearchFragment();
     }
 
     @Override
@@ -142,10 +137,10 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         String cookie = sessionController.getCookie();
         Call<SearchMovieDTO> call;
         switch (mChoice.getText().toString()) {
-            case "movies" :
+            case "movies":
                 call = apiSearch.getMovies(cookie, text.toString().replaceAll(" ", "_"));
                 break;
-            case "series" :
+            case "series":
                 call = apiSearch.getSeries(cookie, text.toString().replaceAll(" ", "_"));
                 break;
             default:
@@ -193,7 +188,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        switch (buttonCode){
+        switch (buttonCode) {
             case MaterialSearchBar.BUTTON_SPEECH:
                 break;
             case MaterialSearchBar.BUTTON_BACK:

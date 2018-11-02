@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,8 +13,7 @@
         android:src="@drawable/web_hi_res_512"
         android:scaleX="0.6"
         android:scaleY="0.6"
-        android:layout_marginBottom="460dp"
-        />
+        android:layout_marginBottom="460dp" />
 
     <TextView
         android:id="@+id/tName"
@@ -26,8 +24,7 @@
         android:text="Movie Time!"
         android:textStyle="bold"
         android:textSize="30dp"
-        android:textColor="@color/Black"
-        />
+        android:textColor="@color/Black" />
 
     <TextView
         android:id="@+id/tLogin"
@@ -38,18 +35,16 @@
         android:layout_marginRight="60dp"
         android:layout_marginBottom="390dp"
         android:text="Login"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <EditText
-        android:id = "@+id/eLogin"
+        android:id="@+id/eLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="340dp"
-        />
+        android:layout_marginBottom="340dp" />
 
     <TextView
         android:id="@+id/tPassword"
@@ -60,19 +55,17 @@
         android:layout_marginRight="60dp"
         android:layout_marginBottom="320dp"
         android:text="Password"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <EditText
-        android:id = "@+id/ePassword"
+        android:id="@+id/ePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="270dp"
-        />
+        android:layout_marginBottom="270dp" />
 
     <TextView
         android:id="@+id/tPassword2"
@@ -83,21 +76,20 @@
         android:layout_marginRight="60dp"
         android:layout_marginBottom="250dp"
         android:text="Confirm password"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <EditText
-        android:id = "@+id/ePassword2"
+        android:id="@+id/ePassword2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_gravity="bottom"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="200dp"
-        />
+        android:layout_marginBottom="200dp" />
 
-    <Button style = "@style/Widget.AppCompat.Button.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -107,10 +99,10 @@
         android:text="@string/Register"
         android:id="@+id/bSignUp"
         android:backgroundTint="@color/DeepRed"
-        android:textColor="@android:color/white"
-        />
+        android:textColor="@android:color/white" />
 
-    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
@@ -120,15 +112,13 @@
         android:text="@string/Already_signedup"
         android:clickable="true"
         android:id="@+id/tCancel"
-        android:textColor="@color/DeepRed"
-        />
+        android:textColor="@color/DeepRed" />
 
     <ProgressBar
         android:id="@+id/mProgressBarProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center" />
 
 </android.support.design.widget.CoordinatorLayout>

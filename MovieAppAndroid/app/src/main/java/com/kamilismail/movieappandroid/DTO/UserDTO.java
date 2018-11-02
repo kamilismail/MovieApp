@@ -11,13 +11,11 @@ public class UserDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public UserDTO() {
     }
 
     /**
-     *
      * @param username
      */
     public UserDTO(String username) {

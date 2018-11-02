@@ -56,7 +56,6 @@ public class GetMovieDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public GetMovieDTO() {
     }

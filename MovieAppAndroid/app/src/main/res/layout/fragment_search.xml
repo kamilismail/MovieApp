@@ -8,23 +8,21 @@
     android:layout_marginRight="15dp"
     android:layout_marginBottom="40dp">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nothing found :("
         android:id="@+id/info"
         android:textSize="15dp"
-        android:layout_gravity="center_vertical|center_horizontal"/>
+        android:layout_gravity="center_vertical|center_horizontal" />
+
     <ProgressBar
         android:id="@+id/mProgressBarProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"/>
+        android:layout_gravity="center_vertical|center_horizontal" />
 
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -45,7 +43,7 @@
                     android:textSize="35dp"
                     android:textColor="@color/Black"
                     android:textStyle="bold"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -56,15 +54,14 @@
                     android:textColor="@color/Black"
                     android:textStyle="bold"
                     android:gravity="right"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_marginTop="30dp" />
 
-                <com.mancj.materialsearchbar.MaterialSearchBar
-                    xmlns:app="http://schemas.android.com/apk/res/android"
+                <com.mancj.materialsearchbar.MaterialSearchBar xmlns:app="http://schemas.android.com/apk/res/android"
                     style="@style/MaterialSearchBarLight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/searchBar"
-                    app:layout_marginTop="80dp"/>
+                    app:layout_marginTop="80dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/search"
@@ -72,7 +69,7 @@
                     android:layout_below="@+id/searchBar"
                     android:nestedScrollingEnabled="false"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
 

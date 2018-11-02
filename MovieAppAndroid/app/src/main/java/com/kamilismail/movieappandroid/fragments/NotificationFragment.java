@@ -21,20 +21,16 @@ import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.adapters.RemindersRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiReminders;
-import com.kamilismail.movieappandroid.dictionery.Constants;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotificationFragment extends Fragment {
 
@@ -42,12 +38,12 @@ public class NotificationFragment extends Fragment {
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
+
         void passMovieData(String id, String title);
     }
 
     public static String TAG = "NotificationFragment";
     private SessionController sessionController;
-    static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
     @BindView(R.id.info)
@@ -83,8 +79,7 @@ public class NotificationFragment extends Fragment {
     }
 
     public static NotificationFragment newInstance() {
-        NotificationFragment notificationFragment = new NotificationFragment();
-        return notificationFragment;
+        return new NotificationFragment();
     }
 
     private void getData(final View view) {
@@ -95,10 +90,10 @@ public class NotificationFragment extends Fragment {
         String cookie = sessionController.getCookie();
         Call<ArrayList<RemindersDTO>> call = apiReminders.getReminders(cookie);
         progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<ArrayList <RemindersDTO>>() {
+        call.enqueue(new Callback<ArrayList<RemindersDTO>>() {
             @Override
-            public void onResponse(Call<ArrayList <RemindersDTO>> call, Response<ArrayList <RemindersDTO>> response) {
-                ArrayList <RemindersDTO> remindersDTOS = response.body();
+            public void onResponse(Call<ArrayList<RemindersDTO>> call, Response<ArrayList<RemindersDTO>> response) {
+                ArrayList<RemindersDTO> remindersDTOS = response.body();
                 if (remindersDTOS == null) {
                     mCallback.logoutUser();
                 }
@@ -107,14 +102,14 @@ public class NotificationFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList <RemindersDTO>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<RemindersDTO>> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 onFailed(view);
             }
         });
     }
 
-    private void onSuccess(ArrayList <RemindersDTO> movieDetailDTOS, final View view) {
+    private void onSuccess(ArrayList<RemindersDTO> movieDetailDTOS, final View view) {
         if (!movieDetailDTOS.isEmpty()) {
             RecyclerView recyclerView = view.findViewById(R.id.reminderList);
             recyclerView.setHasFixedSize(true);

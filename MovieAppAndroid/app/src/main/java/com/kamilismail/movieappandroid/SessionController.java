@@ -6,6 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.kamilismail.movieappandroid.activities.LoginActivity;
+import com.kamilismail.movieappandroid.helpers.CalendarHelper;
+
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class SessionController {
     // Shared Preferences
@@ -45,10 +51,6 @@ public class SessionController {
         editor.commit();
     }
 
-    /**
-     * Save username
-     * @param username
-     */
     public void saveUsername(String username) {
         editor.putString(USERNAME, username);
         editor.commit();
@@ -64,37 +66,34 @@ public class SessionController {
         editor.commit();
     }
 
+    public void saveFragmentState(String key, String value) {
+        CalendarHelper calendarHelper = new CalendarHelper();
+        Set <String> set = new HashSet<String>();
+        set.add(calendarHelper.getCurrentDateWitTime());
+        set.add(value);
+        editor.putStringSet(key, set);
+        editor.commit();
+    }
+
+    public String getFragmentState(String key) {
+        CalendarHelper calendarHelper = new CalendarHelper();
+        Set <String> set = pref.getStringSet(key, null);
+        int length = set.size();
+
+
+        return null;
+    }
+
     public String getFirebaseToken() {
         return pref.getString(FIREBASE_TOKEN, null);
     }
 
-    public String getUsername () {
+    public String getUsername() {
         return pref.getString(USERNAME, null);
     }
 
-    public String getRole () {
+    public String getRole() {
         return pref.getString(ROLE, null);
-    }
-
-    /**
-     * Check login method wil check user login status If false it will redirect
-     * user to login page Else won't do anything
-     */
-    public void checkLogin() {
-        // Check login status
-        if (!this.isLoggedIn()) {
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, LoginActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            _context.startActivity(i);
-        }
-
     }
 
     public String getCookie() {

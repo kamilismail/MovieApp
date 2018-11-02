@@ -26,13 +26,11 @@ public class FavouritesDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public FavouritesDTO() {
     }
 
     /**
-     *
      * @param id
      * @param title
      * @param releaseDate

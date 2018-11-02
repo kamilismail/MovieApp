@@ -25,13 +25,11 @@ public class PopularSeriesDTO {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public PopularSeriesDTO() {
     }
 
     /**
-     *
      * @param id
      * @param title
      * @param posterPath
