@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kamilismail.movieappandroid.DTO.TVGuideDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -45,6 +47,7 @@ public class TVFragment extends Fragment {
     }
 
     public static String TAG = "TVFragment";
+    public static String TAG_DATE = "TVFragmentDate";
     private SessionController sessionController;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
@@ -73,8 +76,23 @@ public class TVFragment extends Fragment {
             }
         });
 
-        getData(view);
+        if (!checkIfViewSaved(view))
+            getData(view);
         return view;
+    }
+
+    private boolean checkIfViewSaved(View view) {
+        String str = sessionController.getFragmentState(TAG, TAG_DATE);
+        if (str == null)
+            return false;
+        else {
+            Gson gson = new Gson();
+            TypeToken<ArrayList<TVGuideDTO>> token = new TypeToken<ArrayList<TVGuideDTO>>() {};
+            ArrayList<TVGuideDTO> movieDetailDTOS = gson.fromJson(str, token.getType());
+            onSuccess(movieDetailDTOS, view);
+            pullRefreshLayout.setRefreshing(false);
+            return true;
+        }
     }
 
     public static TVFragment newInstance() {
@@ -96,7 +114,9 @@ public class TVFragment extends Fragment {
                 if (movieDetailDTOS == null) {
                     mCallback.logoutUser();
                 }
+                Gson gson = new Gson();
                 onSuccess(movieDetailDTOS, view);
+                sessionController.saveFragmentState(TAG, gson.toJson(movieDetailDTOS), TAG_DATE);
                 pullRefreshLayout.setRefreshing(false);
             }
 

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kamilismail.movieappandroid.DTO.FavouritesDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -41,6 +43,7 @@ public class WantToWatchFragment extends Fragment {
     }
 
     public static String TAG = "WantToWatchFragment";
+    public static String TAG_DATE = "WantToWatchFragmentDate";
     private SessionController sessionController;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
@@ -71,8 +74,23 @@ public class WantToWatchFragment extends Fragment {
             }
         });
 
-        getData(view);
+        if (!checkIfViewSaved(view))
+            getData(view);
         return view;
+    }
+
+    private boolean checkIfViewSaved(View view) {
+        String str = sessionController.getFragmentState(TAG, TAG_DATE);
+        if (str == null)
+            return false;
+        else {
+            Gson gson = new Gson();
+            TypeToken<ArrayList<FavouritesDTO>> token = new TypeToken<ArrayList<FavouritesDTO>>() {};
+            ArrayList<FavouritesDTO> favouritesDTOS = gson.fromJson(str, token.getType());
+            onSuccess(favouritesDTOS, view);
+            pullRefreshLayout.setRefreshing(false);
+            return true;
+        }
     }
 
     public static FavouritesFragment newInstance() {
@@ -95,6 +113,8 @@ public class WantToWatchFragment extends Fragment {
                     mCallback.logoutUser();
                 }
                 onSuccess(favouritesDTOS, view);
+                Gson gson = new Gson();
+                sessionController.saveFragmentState(TAG, gson.toJson(favouritesDTOS), TAG_DATE);
                 pullRefreshLayout.setRefreshing(false);
             }
 

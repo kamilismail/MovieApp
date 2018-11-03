@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.gson.Gson;
 import com.kamilismail.movieappandroid.DTO.DiscoverDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -43,6 +44,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     public static String TAG = "DiscoverFragment";
+    public static String TAG_DATE = "DiscoverFragmentDate";
     private SessionController sessionController;
 
     public DiscoverFragment() {
@@ -65,12 +67,27 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        getData(view);
+
+        if (!checkIfViewSaved(view))
+            getData(view);
         return view;
     }
 
     public static DiscoverFragment newInstance() {
         return new DiscoverFragment();
+    }
+
+    private boolean checkIfViewSaved(View view) {
+        String str = sessionController.getFragmentState(TAG, TAG_DATE);
+        if (str == null)
+            return false;
+        else {
+            Gson gson = new Gson();
+            DiscoverDTO discoverDTO = gson.fromJson(str, DiscoverDTO.class);
+            onSuccess(discoverDTO, view);
+            pullRefreshLayout.setRefreshing(false);
+            return true;
+        }
     }
 
     private void getData(final View view) {
@@ -82,7 +99,6 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void onResponse(Call<DiscoverDTO> call, Response<DiscoverDTO> response) {
                 DiscoverDTO discoverDTO = response.body();
-                sessionController.saveFragmentState(TAG, response.body().toString());
                 try {
                     if (discoverDTO == null) {
                         mCallback.logoutUser();
@@ -90,6 +106,8 @@ public class DiscoverFragment extends Fragment {
                 } catch (Exception e) {
                     mCallback.logoutUser();
                 }
+                Gson gson = new Gson();
+                sessionController.saveFragmentState(TAG, gson.toJson(discoverDTO), TAG_DATE);
                 onSuccess(discoverDTO, view);
                 pullRefreshLayout.setRefreshing(false);
             }

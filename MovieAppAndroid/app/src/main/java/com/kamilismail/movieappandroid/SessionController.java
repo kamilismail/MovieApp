@@ -66,22 +66,26 @@ public class SessionController {
         editor.commit();
     }
 
-    public void saveFragmentState(String key, String value) {
+    public void saveFragmentState(String key, String value, String keyData) {
         CalendarHelper calendarHelper = new CalendarHelper();
-        Set <String> set = new HashSet<String>();
-        set.add(calendarHelper.getCurrentDateWitTime());
-        set.add(value);
-        editor.putStringSet(key, set);
+        editor.putString(key, value);
+        editor.putString(keyData, calendarHelper.getCurrentDateWitTime());
         editor.commit();
     }
 
-    public String getFragmentState(String key) {
+    public String getFragmentState(String key, String keyData) {
         CalendarHelper calendarHelper = new CalendarHelper();
-        Set <String> set = pref.getStringSet(key, null);
-        int length = set.size();
-
-
-        return null;
+        String data = pref.getString(keyData, null);
+        if (data == null)
+            return null;
+        try {
+            if (calendarHelper.checkIfNotToOld(data)) {
+                return pref.getString(key, null);
+            } else
+                return null;
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     public String getFirebaseToken() {

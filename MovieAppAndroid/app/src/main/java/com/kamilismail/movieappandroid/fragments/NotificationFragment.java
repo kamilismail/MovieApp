@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kamilismail.movieappandroid.DTO.RemindersDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -43,6 +45,7 @@ public class NotificationFragment extends Fragment {
     }
 
     public static String TAG = "NotificationFragment";
+    public static String TAG_DATE = "NotificationFragmentDate";
     private SessionController sessionController;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
@@ -74,8 +77,23 @@ public class NotificationFragment extends Fragment {
             }
         });
 
-        getData(view);
+        if (!checkIfViewSaved(view))
+            getData(view);
         return view;
+    }
+
+    private boolean checkIfViewSaved(View view) {
+        String str = sessionController.getFragmentState(TAG, TAG_DATE);
+        if (str == null)
+            return false;
+        else {
+            Gson gson = new Gson();
+            TypeToken<ArrayList<RemindersDTO>> token = new TypeToken<ArrayList<RemindersDTO>>() {};
+            ArrayList<RemindersDTO> remindersDTOS = gson.fromJson(str, token.getType());
+            onSuccess(remindersDTOS, view);
+            pullRefreshLayout.setRefreshing(false);
+            return true;
+        }
     }
 
     public static NotificationFragment newInstance() {
@@ -98,6 +116,8 @@ public class NotificationFragment extends Fragment {
                     mCallback.logoutUser();
                 }
                 onSuccess(remindersDTOS, view);
+                Gson gson = new Gson();
+                sessionController.saveFragmentState(TAG, gson.toJson(remindersDTOS), TAG_DATE);
                 pullRefreshLayout.setRefreshing(false);
             }
 
