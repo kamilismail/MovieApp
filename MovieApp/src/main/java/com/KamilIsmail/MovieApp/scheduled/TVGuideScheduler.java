@@ -1,17 +1,15 @@
 package com.KamilIsmail.MovieApp.scheduled;
 
 import com.KamilIsmail.MovieApp.DAO.ReminderDao;
-import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RemindersEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
-import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
+import com.KamilIsmail.MovieApp.repository.TvStationRepository;
 import com.KamilIsmail.MovieApp.service.ParseService;
 import info.talacha.filmweb.api.FilmwebApi;
 import info.talacha.filmweb.connection.FilmwebException;
 import info.talacha.filmweb.models.Broadcast;
-import info.talacha.filmweb.models.Program;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class TVGuideScheduler {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Autowired
-    TvSatationRepository tvSatationRepository;
+    TvStationRepository tvStationRepository;
     @Autowired
     ReminderRepository reminderRepository;
     @Autowired
@@ -47,7 +45,7 @@ public class TVGuideScheduler {
             log.info("Something went wrong while parsing tv guide", dateFormat.format(new Date()));
 
         log.info("Checking tv guide at: " + dateFormat.format(new Date()), dateFormat.format(new Date()));
-        List<TvstationsEntity> tvstationsEntities = tvSatationRepository.findAll();
+        List<TvstationsEntity> tvstationsEntities = tvStationRepository.findAll();
         FilmwebApi fa = new FilmwebApi();
         for (TvstationsEntity tvstationsEntity : tvstationsEntities) {
             if (tvstationsEntity.getName().equals("to_remind")) {

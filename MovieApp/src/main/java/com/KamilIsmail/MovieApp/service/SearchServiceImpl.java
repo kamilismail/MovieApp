@@ -5,7 +5,7 @@ import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
-import com.KamilIsmail.MovieApp.entities.WanttowatchEntity;
+import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
 import com.KamilIsmail.MovieApp.repository.*;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
@@ -47,6 +47,12 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     ReminderRepository reminderRepository;
 
+    @Autowired
+    TVGuideRepository tvGuideRepository;
+
+    @Autowired
+    TvStationRepository tvStationRepository;
+
     @Cacheable(value = "getMovies")
     @Override
     public MovieResultsPage getMovies(String production) {
@@ -74,6 +80,7 @@ public class SearchServiceImpl implements SearchService {
         FilmSearchResult filmResult = null;
         FilmwebApi fa = new FilmwebApi();
         MoviesEntity moviesEntity = movieRepository.findMoviesEntityByTmdbId(id.intValue());
+
         if (moviesEntity != null) {
             try {
                 broadcasts = fa.getBroadcasts(Long.valueOf(moviesEntity.getFilmwebId()), 0, 20);
@@ -90,9 +97,16 @@ public class SearchServiceImpl implements SearchService {
                 e.printStackTrace();
             }
         }
+        Broadcast broadcastResult = broadcasts.get(0);
         try {
             if (!broadcasts.isEmpty()) {
-                Long chanelID = broadcasts.get(0).getChannelId();
+                for (Broadcast broadcast: broadcasts) {
+                    if(broadcast.getTime().getHour() >= 18) {
+                        broadcastResult = broadcast;
+                        break;
+                    }
+                }
+                Long chanelID = broadcastResult.getChannelId();
                 List<TVChannel> tvChannels = fa.getTvChannels();
                 for (TVChannel tvChannel : tvChannels) {
                     if (tvChannel.getId() == chanelID) {
@@ -149,12 +163,12 @@ public class SearchServiceImpl implements SearchService {
         if (moviesEntity == null) {
             return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
                     tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
-                    tmdbResult.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
+                    tmdbResult.getReleaseDate(), broadcastResult.getDate().toString(), broadcastResult.getTime().toString(),
                     chanel, filmResult.getId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
         } else {
             return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
                     moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
-                    moviesEntity.getReleaseDate(), broadcasts.get(0).getDate().toString(), broadcasts.get(0).getTime().toString(),
+                    moviesEntity.getReleaseDate(), broadcastResult.getDate().toString(), broadcastResult.getTime().toString(),
                     chanel, moviesEntity.getFilmwebId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
         }
     }

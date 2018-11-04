@@ -3,12 +3,15 @@ package com.kamilismail.movieappandroid.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -90,6 +93,8 @@ public class MovieDetailsFragment extends Fragment {
     PullRefreshLayout pullRefreshLayout;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar mProgressBar;
+    @BindView(R.id.shareButton)
+    ImageButton mShareButton;
 
     public MovieDetailsFragment() {
     }
@@ -105,11 +110,10 @@ public class MovieDetailsFragment extends Fragment {
         Bundle args = this.getArguments();
         this.id = args.getString("id");
         this.title = args.getString("title");
+        mTitle.setGravity(Gravity.CENTER);
         mTitle.setText(this.title);
-
         setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
-
         pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -117,8 +121,24 @@ public class MovieDetailsFragment extends Fragment {
                 getData(view);
             }
         });
-
         getData(view);
+
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareBody = "Check out this movie:\n" + mTitle.getText().toString()
+                        + ", " + mAvarageRating.getText().toString() + ".";
+                if (mRatingBar.getRating() > 0)
+                    shareBody += " I've rated it for : " + mRatingBar.getRating() + "/10.";
+                if (!mTVDate.getText().toString().equals("No tv emission info"))
+                    shareBody += " It's on tv today at " + mTVDate.getText().toString() + " on "
+                            + mTVChanel.getText().toString();
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+            }
+        });
 
         mAddFav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,6 +237,7 @@ public class MovieDetailsFragment extends Fragment {
         tUserRating.setVisibility(visibility);
         tOnTV.setVisibility(visibility);
         tChanelInfo.setVisibility(visibility);
+        mShareButton.setVisibility(visibility);
     }
 
     public static MovieDetailsFragment newInstance() {

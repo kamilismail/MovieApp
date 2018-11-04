@@ -6,7 +6,7 @@ import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.TVGuideRepository;
-import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
+import com.KamilIsmail.MovieApp.repository.TvStationRepository;
 import com.KamilIsmail.MovieApp.scheduled.TVGuideBean.MovieBean;
 import info.talacha.filmweb.api.FilmwebApi;
 import info.talacha.filmweb.connection.FilmwebException;
@@ -29,7 +29,7 @@ public class TVGuideDaoImpl implements TVGuideDao {
     @Autowired
     MovieRepository movieRepository;
     @Autowired
-    TvSatationRepository tvSatationRepository;
+    TvStationRepository tvStationRepository;
 
     @Override
     public BooleanDTO addTVGuide(MovieBean movieBean) {
@@ -93,11 +93,11 @@ public class TVGuideDaoImpl implements TVGuideDao {
         if (stationName.equals(""))
             stationName = movieBean.getChanel();
         TvstationsEntity tvstationsEntity = null;
-        List<TvstationsEntity> stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
+        List<TvstationsEntity> stationsList = tvStationRepository.findTvstationsEntitiesByName(stationName);
 
         if (stationsList.isEmpty()) {
             tvstationsEntity = new TvstationsEntity(stationName, logoPath);
-            tvSatationRepository.save(tvstationsEntity);
+            tvStationRepository.save(tvstationsEntity);
         } else {
             tvstationsEntity = stationsList.get(0);
         }

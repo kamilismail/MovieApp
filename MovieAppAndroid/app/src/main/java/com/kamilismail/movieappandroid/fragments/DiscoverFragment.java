@@ -67,7 +67,6 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-
         if (!checkIfViewSaved(view))
             getData(view);
         return view;

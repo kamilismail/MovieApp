@@ -73,9 +73,8 @@ public class MainActivity extends AppCompatActivity implements
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-                    final FragmentManager supportFragmentManager = getSupportFragmentManager();
+                    FragmentManager supportFragmentManager = getSupportFragmentManager();
                     switch (item.getItemId()) {
-                        // Launch Home Fragment.
                         case R.id.action_discover:
                             item.setChecked(true);
                             final Fragment discoverFragment = supportFragmentManager.findFragmentByTag(DiscoverFragment.TAG);
@@ -91,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements
                                         .commit();
                             }
                             break;
-                        // Launch Locations Fragment.
                         case R.id.action_tv:
                             item.setChecked(true);
                             final Fragment tvFragment = supportFragmentManager.findFragmentByTag(TVFragment.TAG);
@@ -107,8 +105,6 @@ public class MainActivity extends AppCompatActivity implements
                                         .commit();
                             }
                             break;
-
-                        // Launch Menu Fragment.
                         case R.id.action_search:
                             item.setChecked(true);
                             final Fragment searchFragment = supportFragmentManager.findFragmentByTag(SearchFragment.TAG);

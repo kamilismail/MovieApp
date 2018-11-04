@@ -5,18 +5,12 @@ import com.KamilIsmail.MovieApp.DTO.TVGuideMovieDTO;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
-import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.TVGuideRepository;
-import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.model.MovieDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.toIntExact;
 
 @Service
 public class TVGuideServiceImpl implements TVGuideService {

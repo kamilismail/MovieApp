@@ -73,6 +73,7 @@ public class NotificationFragment extends Fragment {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                nothingFound.setVisibility(View.GONE);
                 getData(view);
             }
         });

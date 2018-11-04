@@ -8,96 +8,123 @@
     android:layout_marginRight="15dp"
     android:layout_marginBottom="40dp">
 
-
-    <TextView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile"
-        android:textSize="35dp"
-        android:textColor="@color/Black"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/username"
-        android:text="Username"
-        android:textSize="30dp"
-        android:textColor="@color/Black"
-        android:layout_marginTop="70dp"
-        android:gravity="center_horizontal" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="120dp"
-        android:text="@string/Want_to_watch"
-        android:id="@+id/bWantToWatch"
-        android:clickable="true"
-        android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Profile"
+                android:textSize="50dp"
+                android:textColor="@color/Black"
+                android:textStyle="bold"
+                android:id="@+id/textProfile"
+                android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/bRatings"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
-        android:clickable="true"
-        android:text="@string/Ratings"
-        android:textColor="@android:color/black" />
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                card_view:cardElevation="7dp"
+                card_view:cardUseCompatPadding="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textProfile"
+                android:id="@+id/cvPhoto"
+                android:layout_centerHorizontal="true">
 
-    <Button
-        android:id="@+id/bFavourites"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:clickable="true"
-        android:text="@string/Favourites"
-        android:textColor="@android:color/black" />
+                <ProgressBar
+                    android:id="@+id/mProgressBarProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textProfile"
+                    android:layout_gravity="center_horizontal|center_vertical"/>
+
+                <ImageView
+                    android:layout_width="130dp"
+                    android:id="@+id/profilePhoto"
+                    android:layout_height="130dp"
+                    android:layout_centerHorizontal="true" />
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/username"
+                android:text="Username"
+                android:textSize="30dp"
+                android:textColor="@color/Black"
+                android:layout_below="@+id/cvPhoto"
+                android:gravity="center_horizontal" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Want_to_watch"
+                android:id="@+id/bWantToWatch"
+                android:layout_below="@+id/username"
+                android:clickable="true"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/bRatings"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="@string/Ratings"
+                android:layout_below="@+id/bWantToWatch"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/bFavourites"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bRatings"
+                android:clickable="true"
+                android:text="@string/Favourites"
+                android:textColor="@android:color/black" />
 
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="140dp"
-        android:text="@string/Change_password"
-        android:id="@+id/bChange"
-        android:clickable="true"
-        android:textColor="@android:color/black" />
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bFavourites"
+                android:text="@string/Change_password"
+                android:id="@+id/bChange"
+                android:clickable="true"
+                android:textColor="@android:color/black" />
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="80dp"
-        android:text="@string/Delete_account"
-        android:id="@+id/bDelete"
-        android:clickable="true"
-        android:textColor="@android:color/black" />
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bChange"
+                android:text="@string/Delete_account"
+                android:id="@+id/bDelete"
+                android:clickable="true"
+                android:textColor="@android:color/black" />
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:text="@string/Sign_out"
-        android:id="@+id/bSignout"
-        android:backgroundTint="@color/DeepRed"
-        android:textColor="@android:color/white" />
+            <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bDelete"
+                android:clickable="true"
+                android:text="@string/Sign_out"
+                android:id="@+id/bSignout"
+                android:backgroundTint="@color/DeepRed"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </FrameLayout>

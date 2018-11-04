@@ -3,6 +3,7 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
+import com.KamilIsmail.MovieApp.DTO.UserPhotoDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface UserService {
     BooleanDTO setFirebaseID(int userID, String token);
 
     GetUsernameDTO facebookLogin(String username, String facebookID, String mail, String role);
+
+    @PreAuthorize("hasAnyAuthority('admin','facebook')")
+    UserPhotoDTO facebookPhoto(int userID);
 }

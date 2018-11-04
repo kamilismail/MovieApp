@@ -9,9 +9,6 @@ import com.kamilismail.movieappandroid.activities.LoginActivity;
 import com.kamilismail.movieappandroid.helpers.CalendarHelper;
 
 import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class SessionController {
     // Shared Preferences

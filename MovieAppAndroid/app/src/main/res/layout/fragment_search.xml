@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Search"
-                    android:textSize="35dp"
+                    android:textSize="50dp"
                     android:textColor="@color/Black"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp" />
@@ -49,15 +49,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="for movies"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:id="@+id/choice"
                     android:textColor="@color/Black"
                     android:textStyle="bold"
                     android:gravity="right"
-                    android:layout_marginTop="30dp" />
+                    android:layout_marginTop="40dp" />
 
-                <com.mancj.materialsearchbar.MaterialSearchBar xmlns:app="http://schemas.android.com/apk/res/android"
-                    style="@style/MaterialSearchBarLight"
+                <com.mancj.materialsearchbar.MaterialSearchBar
+                    xmlns:app="http://schemas.android.com/apk/res/android"
+                    style="@style/MyCustomTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/searchBar"

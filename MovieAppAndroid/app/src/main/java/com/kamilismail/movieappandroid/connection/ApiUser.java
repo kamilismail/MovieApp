@@ -3,6 +3,7 @@ package com.kamilismail.movieappandroid.connection;
 import com.google.gson.JsonObject;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.UserDTO;
+import com.kamilismail.movieappandroid.DTO.UserPhotoDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,4 +29,7 @@ public interface ApiUser {
 
     @POST("user/facebookLogin")
     Call<UserDTO> facebookUserLogin(@Body JsonObject bean);
+
+    @GET("user/facebookPhoto")
+    Call<UserPhotoDTO> facebookPhoto(@Header("Cookie") String cookie);
 }

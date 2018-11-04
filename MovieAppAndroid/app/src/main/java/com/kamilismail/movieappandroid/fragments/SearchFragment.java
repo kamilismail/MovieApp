@@ -79,6 +79,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         mChoice.setText("for movies");
         searchBar.setHint("Search for movies");
         searchBar.setSpeechMode(true);
+        searchBar.setRoundedSearchBarEnabled(true);
         //enable searchbar callbacks
         searchBar.setOnSearchActionListener(this);
         //restore last queries from disk
@@ -199,7 +200,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        mChoice.setText(item.getTitle());
+        mChoice.setText("for " + item.getTitle());
         searchBar.setHint("Search for " + item.getTitle());
         return true;
     }

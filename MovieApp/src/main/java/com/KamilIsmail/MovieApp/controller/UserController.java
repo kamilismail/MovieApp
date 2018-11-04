@@ -3,6 +3,7 @@ package com.KamilIsmail.MovieApp.controller;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
+import com.KamilIsmail.MovieApp.DTO.UserPhotoDTO;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.CreateUserParam;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.FacebookUserParam;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
@@ -83,5 +84,12 @@ public class UserController {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return getUsernameDTO;
+    }
+
+    @GetMapping("facebookPhoto")
+    public UserPhotoDTO facebookPhoto(Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
+        UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
+        return userService.facebookPhoto(userEntity.getUserId());
     }
 }

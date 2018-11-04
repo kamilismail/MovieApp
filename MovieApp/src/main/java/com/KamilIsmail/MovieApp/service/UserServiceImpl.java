@@ -4,6 +4,8 @@ import com.KamilIsmail.MovieApp.DAO.UserDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
+import com.KamilIsmail.MovieApp.DTO.UserPhotoDTO;
+import com.KamilIsmail.MovieApp.entities.PhotosEntity;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
 import com.KamilIsmail.MovieApp.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -59,5 +61,11 @@ public class UserServiceImpl implements UserService {
             return userDao.createFacebookUser(username, facebookID, mail, role);
         } else
             return userDao.getFacebookUsername(userEntity.getUserSocialId());
+    }
+
+    @Override
+    public UserPhotoDTO facebookPhoto(int userID) {
+        PhotosEntity photosEntity = userRepository.findByUserId(userID).getPhotosByPhotoId();
+        return new UserPhotoDTO(photosEntity.getPath());
     }
 }

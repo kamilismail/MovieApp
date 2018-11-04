@@ -4,17 +4,11 @@ import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.ReminderDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.ReminderDTO;
-import com.KamilIsmail.MovieApp.entities.MoviesEntity;
-import com.KamilIsmail.MovieApp.entities.RemindersEntity;
-import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
-import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
+import com.KamilIsmail.MovieApp.repository.TvStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +23,7 @@ public class ReminderServiceImpl implements ReminderService {
     ReminderDao reminderDao;
 
     @Autowired
-    TvSatationRepository tvSatationRepository;
+    TvStationRepository tvStationRepository;
 
     @Override
     public List<ReminderDTO> getReminders(int userId) {

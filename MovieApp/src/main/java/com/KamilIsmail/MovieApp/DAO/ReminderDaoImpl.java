@@ -6,10 +6,9 @@ import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RemindersEntity;
 import com.KamilIsmail.MovieApp.entities.TvstationsEntity;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
-import com.KamilIsmail.MovieApp.helpers.BroadcastsHelper;
 import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
-import com.KamilIsmail.MovieApp.repository.TvSatationRepository;
+import com.KamilIsmail.MovieApp.repository.TvStationRepository;
 import com.KamilIsmail.MovieApp.repository.UserRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -42,7 +41,7 @@ public class ReminderDaoImpl implements ReminderDao {
     UserRepository userRepository;
 
     @Autowired
-    TvSatationRepository tvSatationRepository;
+    TvStationRepository tvStationRepository;
 
     @Override
     public BooleanDTO addReminder(int userId, int movieId) {
@@ -87,18 +86,18 @@ public class ReminderDaoImpl implements ReminderDao {
         TvstationsEntity tvstationsEntity = null;
         List<TvstationsEntity> stationsList = null;
         if (!stationName.equals("to_remind"))
-            stationsList = tvSatationRepository.findTvstationsEntitiesByName(stationName);
+            stationsList = tvStationRepository.findTvstationsEntitiesByName(stationName);
 
         if (stationsList != null) {
             if (stationsList.size() < 1) {
                 tvstationsEntity = new TvstationsEntity(stationName, logoPath);
-                tvSatationRepository.save(tvstationsEntity);
+                tvStationRepository.save(tvstationsEntity);
             } else {
                 tvstationsEntity = stationsList.get(0);
             }
         } else {
             tvstationsEntity = new TvstationsEntity(stationName, logoPath);
-            tvSatationRepository.save(tvstationsEntity);
+            tvStationRepository.save(tvstationsEntity);
         }
 
         Timestamp sqlDate;
@@ -144,7 +143,7 @@ public class ReminderDaoImpl implements ReminderDao {
     @Override
     public BooleanDTO changeReminder(int tvStationId, int reminderId, int movieId) {
         RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByReminderId(reminderId);
-        TvstationsEntity tvstationsEntity = tvSatationRepository.findTvstationsEntityByTvstationId(tvStationId);
+        TvstationsEntity tvstationsEntity = tvStationRepository.findTvstationsEntityByTvstationId(tvStationId);
         FilmwebApi fa = new FilmwebApi();
         String stationName= "";
         String logoPath = "";
@@ -183,7 +182,7 @@ public class ReminderDaoImpl implements ReminderDao {
 
         tvstationsEntity.setName(stationName);
         tvstationsEntity.setLogoPath(logoPath);
-        tvSatationRepository.save(tvstationsEntity);
+        tvStationRepository.save(tvstationsEntity);
 
         return new BooleanDTO(true);
     }
