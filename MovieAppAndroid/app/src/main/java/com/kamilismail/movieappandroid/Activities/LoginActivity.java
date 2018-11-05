@@ -239,11 +239,9 @@ public class LoginActivity extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 String token = FirebaseInstanceId.getInstance().getToken();
                 // Used to get firebase token until its null so it will save you from null pointer exeption
-                while (token == null) {
+                while (token == null)
                     token = FirebaseInstanceId.getInstance().getToken();
-                    sessionController.saveFirebaseToken(token);
-                    Log.d("New firebase token: ", token);
-                }
+                sessionController.saveFirebaseToken(token);
                 return null;
             }
 

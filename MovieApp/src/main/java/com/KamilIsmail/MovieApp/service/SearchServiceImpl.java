@@ -97,7 +97,7 @@ public class SearchServiceImpl implements SearchService {
                 e.printStackTrace();
             }
         }
-        Broadcast broadcastResult = broadcasts.get(0);
+        Broadcast broadcastResult = null;
         try {
             if (!broadcasts.isEmpty()) {
                 for (Broadcast broadcast: broadcasts) {
@@ -106,6 +106,8 @@ public class SearchServiceImpl implements SearchService {
                         break;
                     }
                 }
+                if (broadcastResult == null)
+                    broadcastResult = broadcasts.get(0);
                 Long chanelID = broadcastResult.getChannelId();
                 List<TVChannel> tvChannels = fa.getTvChannels();
                 for (TVChannel tvChannel : tvChannels) {

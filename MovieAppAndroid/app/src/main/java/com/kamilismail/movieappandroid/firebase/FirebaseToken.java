@@ -18,7 +18,6 @@ public class FirebaseToken extends FirebaseInstanceIdService {
         this.registrationToken = refreshedToken;
         this.sessionController = new SessionController(this);
         sessionController.saveFirebaseToken(refreshedToken);
-        Log.d("New firebase token: ", refreshedToken);
     }
 
     private void sendRegistrationToken() {

@@ -110,7 +110,7 @@ public class TVFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<TVGuideDTO>> call, Response<ArrayList<TVGuideDTO>> response) {
                 ArrayList<TVGuideDTO> movieDetailDTOS = response.body();
-                if (movieDetailDTOS == null) {
+                if (movieDetailDTOS == null || movieDetailDTOS.isEmpty()) {
                     mCallback.logoutUser();
                 }
                 Gson gson = new Gson();

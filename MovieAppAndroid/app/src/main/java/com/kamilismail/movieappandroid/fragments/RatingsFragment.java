@@ -128,7 +128,7 @@ public class RatingsFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList<FavouritesDTO> favouritesDTOS, final View view) {
-        if (favouritesDTOS.size() > 0) {
+        if (favouritesDTOS!= null && !favouritesDTOS.isEmpty()) {
             RecyclerView recyclerView = view.findViewById(R.id.favList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));

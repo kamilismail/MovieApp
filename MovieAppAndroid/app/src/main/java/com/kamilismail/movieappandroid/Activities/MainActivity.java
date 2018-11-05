@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity implements
     BottomNavigationView mBottomNavigationView;
     private SessionController sessionController;
 
+    final Fragment discoverFragment = new DiscoverFragment();
+    final Fragment tvFragment = new TVFragment();
+    final Fragment searchFragment = new SearchFragment();
+    final Fragment notificationFragment = new NotificationFragment();
+    final Fragment profileFragment = new ProfileFragment();
+    Fragment active = discoverFragment;
+    Fragment temp = active;
+    FragmentManager supportFragmentManager = getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +70,33 @@ public class MainActivity extends AppCompatActivity implements
         this.sessionController = new SessionController(this);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mItemSelectedListener);
 
-        // Launch initial fragment.
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame, DiscoverFragment.newInstance(), DiscoverFragment.TAG)
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, tvFragment, TVFragment.TAG)
+                .addToBackStack(null)
+                .hide(tvFragment)
+                .commit();
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, searchFragment, SearchFragment.TAG)
+                .addToBackStack(null)
+                .hide(searchFragment)
+                .commit();
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, notificationFragment, NotificationFragment.TAG)
+                .addToBackStack(null)
+                .hide(notificationFragment)
+                .commit();
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, profileFragment, ProfileFragment.TAG)
+                .addToBackStack(null)
+                .hide(profileFragment)
+                .commit();
+
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, discoverFragment, DiscoverFragment.TAG)
                 .addToBackStack(null)
                 .commit();
     }
@@ -73,88 +106,42 @@ public class MainActivity extends AppCompatActivity implements
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-                    FragmentManager supportFragmentManager = getSupportFragmentManager();
                     switch (item.getItemId()) {
                         case R.id.action_discover:
                             item.setChecked(true);
-                            final Fragment discoverFragment = supportFragmentManager.findFragmentByTag(DiscoverFragment.TAG);
-                            if (discoverFragment == null) {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, DiscoverFragment.newInstance(), DiscoverFragment.TAG)
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, discoverFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            break;
+                            supportFragmentManager.beginTransaction().hide(active).show(discoverFragment).commit();
+                            active = discoverFragment;
+                            return true;
                         case R.id.action_tv:
                             item.setChecked(true);
-                            final Fragment tvFragment = supportFragmentManager.findFragmentByTag(TVFragment.TAG);
-                            if (tvFragment == null) {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, TVFragment.newInstance(), TVFragment.TAG)
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, tvFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            break;
+                            supportFragmentManager.beginTransaction().hide(active).show(tvFragment).commit();
+                            active = tvFragment;
+                            return true;
                         case R.id.action_search:
                             item.setChecked(true);
-                            final Fragment searchFragment = supportFragmentManager.findFragmentByTag(SearchFragment.TAG);
-                            if (searchFragment == null) {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, SearchFragment.newInstance(), SearchFragment.TAG)
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, searchFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            break;
+                            supportFragmentManager.beginTransaction().hide(active).show(searchFragment).commit();
+                            active = searchFragment;
+                            return true;
                         case R.id.action_notification:
                             item.setChecked(true);
-                            final Fragment notificationFragment = supportFragmentManager.findFragmentByTag(NotificationFragment.TAG);
-                            if (notificationFragment == null) {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, NotificationFragment.newInstance(), NotificationFragment.TAG)
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, notificationFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            break;
+                            supportFragmentManager.beginTransaction().hide(active).show(notificationFragment).commit();
+                            active = notificationFragment;
+                            return true;
                         case R.id.action_user:
                             item.setChecked(true);
-                            final Fragment profileFragment = supportFragmentManager.findFragmentByTag(ProfileFragment.TAG);
-                            if (profileFragment == null) {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, ProfileFragment.newInstance(), ProfileFragment.TAG)
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                supportFragmentManager.beginTransaction()
-                                        .replace(R.id.frame, profileFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            break;
+                            supportFragmentManager.beginTransaction().hide(active).show(profileFragment).commit();
+                            active = profileFragment;
+                            return true;
                     }
                     return false;
                 }
 
             };
+
+/*    @Override
+    public void onBackPressed() {
+        int selectItem = mBottomNavigationView.getSelectedItemId();
+    }*/
 
     @Override
     public void logoutUser() {
@@ -203,46 +190,53 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void startFavouritesFragment() {
         FavouritesFragment favouritesFragment = new FavouritesFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, favouritesFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        temp = active;
+        active = favouritesFragment;
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, favouritesFragment)
+                .hide(temp)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void startWantToWatchFragment() {
         WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, wantToWatchFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        temp = active;
+        active = wantToWatchFragment;
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, wantToWatchFragment)
+                .hide(temp)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void startRatingsFragment() {
         RatingsFragment ratingsFragment = new RatingsFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, ratingsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        temp = active;
+        active = ratingsFragment;
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, ratingsFragment)
+                .hide(temp)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void startChangePswFragment() {
         ChangePswFragment changePswFragment = new ChangePswFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, changePswFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        temp = active;
+        active = changePswFragment;
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, changePswFragment)
+                .hide(temp)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void deleteAccountFragment() {
-//        WantToWatchFragment wantToWatchFragment = new WantToWatchFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.frame, wantToWatchFragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
     }
 
     @Override
@@ -252,10 +246,12 @@ public class MainActivity extends AppCompatActivity implements
         args.putString("id", id);
         args.putString("title", title);
         movieDetailsFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.frame, movieDetailsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        temp = active;
+        active = movieDetailsFragment;
+        supportFragmentManager.beginTransaction()
+                .add(R.id.frame, movieDetailsFragment)
+                .hide(temp)
+                .addToBackStack(null)
+                .commit();
     }
 }

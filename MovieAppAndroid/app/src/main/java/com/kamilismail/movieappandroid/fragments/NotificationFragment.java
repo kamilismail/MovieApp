@@ -131,7 +131,7 @@ public class NotificationFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList<RemindersDTO> movieDetailDTOS, final View view) {
-        if (!movieDetailDTOS.isEmpty()) {
+        if (movieDetailDTOS!= null && !movieDetailDTOS.isEmpty()) {
             RecyclerView recyclerView = view.findViewById(R.id.reminderList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
