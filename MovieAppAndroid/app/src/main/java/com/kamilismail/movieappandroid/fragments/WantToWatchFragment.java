@@ -94,10 +94,6 @@ public class WantToWatchFragment extends Fragment {
         }
     }
 
-    public static FavouritesFragment newInstance() {
-        return new FavouritesFragment();
-    }
-
     private void getData(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 

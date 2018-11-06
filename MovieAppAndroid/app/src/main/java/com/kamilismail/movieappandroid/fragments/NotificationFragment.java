@@ -97,10 +97,6 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    public static NotificationFragment newInstance() {
-        return new NotificationFragment();
-    }
-
     private void getData(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 

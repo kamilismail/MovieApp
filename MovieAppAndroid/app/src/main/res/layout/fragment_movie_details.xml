@@ -143,19 +143,6 @@
                         android:text="Your rating:"
                         android:layout_below="@+id/poster" />
 
-                    <!--<RatingBar
-                        android:stepSize="1"
-                        android:theme="@style/RatingBar"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:rating="0"
-                        android:numStars="10"
-                        android:id="@+id/ratingBar"
-                        android:layout_below="@+id/userRating"
-                        android:layout_centerHorizontal="true"
-                        android:scaleY="0.5"
-                        android:scaleX="0.5"/-->
-
                     <com.willy.ratingbar.ScaleRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"

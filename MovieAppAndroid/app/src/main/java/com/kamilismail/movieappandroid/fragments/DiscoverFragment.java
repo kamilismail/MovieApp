@@ -41,6 +41,8 @@ public class DiscoverFragment extends Fragment {
         void logoutUser();
 
         void passMovieData(String id, String title);
+
+        void passSeriesData(String id, String title);
     }
 
     public static String TAG = "DiscoverFragment";
@@ -70,10 +72,6 @@ public class DiscoverFragment extends Fragment {
         if (!checkIfViewSaved(view))
             getData(view);
         return view;
-    }
-
-    public static DiscoverFragment newInstance() {
-        return new DiscoverFragment();
     }
 
     private boolean checkIfViewSaved(View view) {
@@ -131,7 +129,7 @@ public class DiscoverFragment extends Fragment {
             recyclerIndicator2.attachToRecyclerView(recyclerView2);
 
             RecyclerView recyclerView3 = setAdapters(R.id.popularSeriesList, view);
-            recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3));
+            recyclerView3.setAdapter(new PopularSeriesRecyclerViewAdapter(discoverDTO.getPopularSeries(), recyclerView3, mCallback));
             ScrollingPagerIndicator recyclerIndicator3 = view.findViewById(R.id.indicator2);
             recyclerIndicator3.attachToRecyclerView(recyclerView3);
 

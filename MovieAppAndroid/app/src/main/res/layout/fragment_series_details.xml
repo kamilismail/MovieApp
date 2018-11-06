@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="60dp"
+    tools:context=".fragments.SeriesDetailsFragment">
+
+    <ProgressBar
+        android:id="@+id/mProgressBarProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal" />
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/title"
+                        android:text="TWD"
+                        android:textSize="35dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Black"
+                        android:layout_centerHorizontal="true"
+                        android:padding="5dp"
+                        android:layout_marginTop="20dp"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shareButton"
+                        android:src="@mipmap/ic_share_button"
+                        android:clickable="true"
+                        android:background="@null"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="20dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/poster"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:padding="5dp"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/avarageRating"
+                        android:text="Rating:"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Black"
+                        android:layout_below="@+id/title"
+                        android:padding="5dp"
+                        android:paddingTop="20dp"
+                        android:layout_toRightOf="@+id/poster" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/release"
+                        android:layout_below="@+id/avarageRating"
+                        android:text="First air date:"
+                        android:textSize="15dp"
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/poster" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lastRelease"
+                        android:layout_below="@+id/release"
+                        android:text="Last air date:"
+                        android:textSize="15dp"
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/poster" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noEpisodes"
+                        android:layout_below="@+id/poster"
+                        android:text="Number of episodes:\n"
+                        android:textSize="15dp"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noSeasons"
+                        android:layout_below="@+id/noEpisodes"
+                        android:text="Number of episodes:\n"
+                        android:textSize="15dp"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/description"
+                        android:layout_below="@+id/noSeasons"
+                        android:text="Description:\n"
+                        android:textSize="15dp"
+                        android:padding="5dp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/description"
+                        android:id="@+id/relativeLayout"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/seasons"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Seasons"
+                            android:textColor="@android:color/black"
+                            android:textSize="25dp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/seasonsList"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/seasons" />
+
+                        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/seasonsList"
+                            app:spi_dotSelectedColor="@color/DeepRed"
+                            app:spi_visibleDotCount='11'
+                            android:layout_centerHorizontal="true" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.baoyz.widget.PullRefreshLayout>
+
+</FrameLayout>

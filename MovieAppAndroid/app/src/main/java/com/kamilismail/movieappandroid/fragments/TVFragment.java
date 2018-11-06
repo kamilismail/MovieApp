@@ -94,10 +94,6 @@ public class TVFragment extends Fragment {
         }
     }
 
-    public static TVFragment newInstance() {
-        return new TVFragment();
-    }
-
     private void getData(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 

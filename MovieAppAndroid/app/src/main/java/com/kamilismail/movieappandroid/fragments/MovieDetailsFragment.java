@@ -240,10 +240,6 @@ public class MovieDetailsFragment extends Fragment {
         mShareButton.setVisibility(visibility);
     }
 
-    public static MovieDetailsFragment newInstance() {
-        return new MovieDetailsFragment();
-    }
-
     private void getData(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 

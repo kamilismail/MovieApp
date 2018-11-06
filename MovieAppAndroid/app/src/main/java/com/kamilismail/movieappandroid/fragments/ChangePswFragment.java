@@ -60,10 +60,6 @@ public class ChangePswFragment extends Fragment {
         return view;
     }
 
-    public static ChangePswFragment newInstance() {
-        return new ChangePswFragment();
-    }
-
     private void deleteAccount(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
         ApiUser apiUser = retrofit.create(ApiUser.class);

@@ -1,5 +1,6 @@
 package com.kamilismail.movieappandroid.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
@@ -227,12 +228,9 @@ public class LoginActivity extends AppCompatActivity {
             sessionController.logoutUser();
             LoginManager.getInstance().logOut();
         }
-        progressBar.setVisibility(View.GONE);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void sendFirebaseID() throws Exception {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -247,7 +245,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void result) {
-                Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext()); // albo view.getContext()
+                Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
                 ApiUser apiUser = retrofit.create(ApiUser.class);
                 String cookie = sessionController.getCookie();
                 String token = sessionController.getFirebaseToken();
@@ -255,7 +253,11 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback<BooleanDTO>() {
                     @Override
                     public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
-                        BooleanDTO favouritesDTOS = response.body();
+                        progressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override

@@ -204,8 +204,16 @@ public class ProfileFragment extends Fragment {
                     Picasso.get().load(result.getPhoto())
                             .resize((int) unitConversionHelper.convertDpToPixel(130, view.getContext()),
                                     (int) unitConversionHelper.convertDpToPixel(130, view.getContext()))
-                            .into(mProfilePhoto);
-                    mProgressBarProfile.setVisibility(View.GONE);
+                            .into(mProfilePhoto, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    mProgressBarProfile.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                }
+                            });
                     Gson gson = new Gson();
                     sessionController.saveFragmentState(TAG, gson.toJson(result), TAG_DATE);
                     //pullRefreshLayout.setRefreshing(false);
@@ -224,10 +232,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteAccount() {
-    }
-
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
     }
 
     @Override

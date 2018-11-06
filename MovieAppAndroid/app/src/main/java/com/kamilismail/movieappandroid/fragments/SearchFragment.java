@@ -21,13 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kamilismail.movieappandroid.DTO.search_movies.SearchMovieDTO;
+import com.kamilismail.movieappandroid.DTO.search_series.SearchSeriesDTO;
+import com.kamilismail.movieappandroid.DTO.search_series.SeriesResult;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.adapters.SearchMoviesRecyclerViewAdapter;
+import com.kamilismail.movieappandroid.adapters.SearchSeriesRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +51,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         void logoutUser();
 
         void passMovieData(String id, String title);
+        void passSeriesData(String id, String title);
     }
 
     public static String TAG = "SearchFragment";
@@ -91,10 +96,6 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         return view;
     }
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -136,39 +137,59 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         ApiSearch apiSearch = retrofit.create(ApiSearch.class);
 
         String cookie = sessionController.getCookie();
-        Call<SearchMovieDTO> call;
+        Call<SearchMovieDTO> call = null;
+        Call<SearchSeriesDTO> call2 = null;
         switch (mChoice.getText().toString()) {
-            case "movies":
+            case "for movies":
                 call = apiSearch.getMovies(cookie, text.toString().replaceAll(" ", "_"));
                 break;
-            case "series":
-                call = apiSearch.getSeries(cookie, text.toString().replaceAll(" ", "_"));
-                break;
             default:
-                call = apiSearch.getProductions(cookie, text.toString().replaceAll(" ", "_"));
+                call2 = apiSearch.getSeries(cookie, text.toString().replaceAll(" ", "_"));
                 break;
         }
 
-        //progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<SearchMovieDTO>() {
-            @Override
-            public void onResponse(Call<SearchMovieDTO> call, Response<SearchMovieDTO> response) {
-                SearchMovieDTO movieDetailDTO = response.body();
-                if (movieDetailDTO.getResults() == null) {
-                    mCallback.logoutUser();
+        if (call != null) {
+            //progressBar.setVisibility(View.VISIBLE);
+            call.enqueue(new Callback<SearchMovieDTO>() {
+                @Override
+                public void onResponse(Call<SearchMovieDTO> call, Response<SearchMovieDTO> response) {
+                    SearchMovieDTO movieDetailDTO = response.body();
+                    if (movieDetailDTO.getResults() == null) {
+                        mCallback.logoutUser();
+                    }
+                    if (movieDetailDTO.getResults().size() < 1)
+                        mInfo.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                    onSuccess(movieDetailDTO, view);
                 }
-                if (movieDetailDTO.getResults().size() < 1)
-                    mInfo.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.GONE);
-                onSuccess(movieDetailDTO, view);
-            }
 
-            @Override
-            public void onFailure(Call<SearchMovieDTO> call, Throwable t) {
-                //progressBar.setVisibility(View.GONE);
-                onFailed(view);
-            }
-        });
+                @Override
+                public void onFailure(Call<SearchMovieDTO> call, Throwable t) {
+                    mProgressBar.setVisibility(View.GONE);
+                    onFailed(view);
+                }
+            });
+        } else {
+            call2.enqueue(new Callback<SearchSeriesDTO>() {
+                @Override
+                public void onResponse(Call<SearchSeriesDTO> call, Response<SearchSeriesDTO> response) {
+                    SearchSeriesDTO movieDetailDTO = response.body();
+                    if (movieDetailDTO == null || movieDetailDTO.getResults() == null) {
+                        mCallback.logoutUser();
+                    }
+                    if (movieDetailDTO.getResults().size() < 1)
+                        mInfo.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                    onSuccessSeries(movieDetailDTO.getResults(), view);
+                }
+
+                @Override
+                public void onFailure(Call<SearchSeriesDTO> call, Throwable t) {
+                    mProgressBar.setVisibility(View.GONE);
+                    onFailed(view);
+                }
+            });
+        }
     }
 
     private void onSuccess(SearchMovieDTO movieDetailDTO, View view) {
@@ -180,6 +201,18 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new SearchMoviesRecyclerViewAdapter(movieDetailDTO.getResults(), recyclerView, mCallback));
+        //progressBar.setVisibility(View.GONE);
+    }
+
+    private void onSuccessSeries(ArrayList<SeriesResult> seriesResults, View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.search);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        recyclerView.setOnFlingListener(null);
+        snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(new SearchSeriesRecyclerViewAdapter(seriesResults, recyclerView, mCallback));
         //progressBar.setVisibility(View.GONE);
     }
 
