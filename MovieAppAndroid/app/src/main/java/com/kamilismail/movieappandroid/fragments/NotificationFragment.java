@@ -89,7 +89,8 @@ public class NotificationFragment extends Fragment {
             return false;
         else {
             Gson gson = new Gson();
-            TypeToken<ArrayList<RemindersDTO>> token = new TypeToken<ArrayList<RemindersDTO>>() {};
+            TypeToken<ArrayList<RemindersDTO>> token = new TypeToken<ArrayList<RemindersDTO>>() {
+            };
             ArrayList<RemindersDTO> remindersDTOS = gson.fromJson(str, token.getType());
             onSuccess(remindersDTOS, view);
             pullRefreshLayout.setRefreshing(false);
@@ -127,7 +128,7 @@ public class NotificationFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList<RemindersDTO> movieDetailDTOS, final View view) {
-        if (movieDetailDTOS!= null && !movieDetailDTOS.isEmpty()) {
+        if (movieDetailDTOS != null && !movieDetailDTOS.isEmpty()) {
             RecyclerView recyclerView = view.findViewById(R.id.reminderList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));

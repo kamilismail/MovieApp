@@ -86,7 +86,8 @@ public class TVFragment extends Fragment {
             return false;
         else {
             Gson gson = new Gson();
-            TypeToken<ArrayList<TVGuideDTO>> token = new TypeToken<ArrayList<TVGuideDTO>>() {};
+            TypeToken<ArrayList<TVGuideDTO>> token = new TypeToken<ArrayList<TVGuideDTO>>() {
+            };
             ArrayList<TVGuideDTO> movieDetailDTOS = gson.fromJson(str, token.getType());
             onSuccess(movieDetailDTOS, view);
             pullRefreshLayout.setRefreshing(false);

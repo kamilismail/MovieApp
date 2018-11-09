@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +94,8 @@ public class MovieDetailsFragment extends Fragment {
     ProgressBar mProgressBar;
     @BindView(R.id.shareButton)
     ImageButton mShareButton;
+    @BindView(R.id.backdrop)
+    ImageView mBackdrop;
 
     public MovieDetailsFragment() {
     }
@@ -110,7 +111,6 @@ public class MovieDetailsFragment extends Fragment {
         Bundle args = this.getArguments();
         this.id = args.getString("id");
         this.title = args.getString("title");
-        mTitle.setGravity(Gravity.CENTER);
         mTitle.setText(this.title);
         setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -238,6 +238,7 @@ public class MovieDetailsFragment extends Fragment {
         tOnTV.setVisibility(visibility);
         tChanelInfo.setVisibility(visibility);
         mShareButton.setVisibility(visibility);
+        mBackdrop.setVisibility(visibility);
     }
 
     private void getData(final View view) {
@@ -298,7 +299,7 @@ public class MovieDetailsFragment extends Fragment {
         wantBool = result.getUserWantToWatch();
         UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
         Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getPosterPath())
-                .resize((int) unitConversionHelper.convertDpToPixel(130, view.getContext()),
+                .resize((int) unitConversionHelper.convertDpToPixel(140, view.getContext()),
                         (int) unitConversionHelper.convertDpToPixel(200, view.getContext()))
                 .into(mPoster, new com.squareup.picasso.Callback() {
                     @Override
@@ -315,6 +316,9 @@ public class MovieDetailsFragment extends Fragment {
                 .resize((int) unitConversionHelper.convertDpToPixel(47, view.getContext())
                         , (int) unitConversionHelper.convertDpToPixel(30, view.getContext()))
                 .into(mTVLogo);
+
+        Picasso.get().load("https://image.tmdb.org/t/p/w780/" + result.getBackdropPath())
+                .into(mBackdrop);
     }
 
     private void onFailed() {

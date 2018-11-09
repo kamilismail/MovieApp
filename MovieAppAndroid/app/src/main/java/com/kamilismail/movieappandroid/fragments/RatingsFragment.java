@@ -86,7 +86,8 @@ public class RatingsFragment extends Fragment {
             return false;
         else {
             Gson gson = new Gson();
-            TypeToken<ArrayList<FavouritesDTO>> token = new TypeToken<ArrayList<FavouritesDTO>>() {};
+            TypeToken<ArrayList<FavouritesDTO>> token = new TypeToken<ArrayList<FavouritesDTO>>() {
+            };
             ArrayList<FavouritesDTO> favouritesDTOS = gson.fromJson(str, token.getType());
             onSuccess(favouritesDTOS, view);
             pullRefreshLayout.setRefreshing(false);
@@ -124,7 +125,7 @@ public class RatingsFragment extends Fragment {
     }
 
     private void onSuccess(ArrayList<FavouritesDTO> favouritesDTOS, final View view) {
-        if (favouritesDTOS!= null && !favouritesDTOS.isEmpty()) {
+        if (favouritesDTOS != null && !favouritesDTOS.isEmpty()) {
             RecyclerView recyclerView = view.findViewById(R.id.favList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));

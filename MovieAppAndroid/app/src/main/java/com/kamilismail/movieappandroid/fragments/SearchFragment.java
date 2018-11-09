@@ -51,6 +51,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         void logoutUser();
 
         void passMovieData(String id, String title);
+
         void passSeriesData(String id, String title);
     }
 

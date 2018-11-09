@@ -10,57 +10,57 @@
         card_view:cardElevation="7dp"
         card_view:cardUseCompatPadding="true">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="220dp"
-                    android:id="@+id/poster"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="centerCrop" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="220dp"
+                android:id="@+id/poster"
+                android:layout_alignParentLeft="true"
+                android:scaleType="centerCrop" />
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/title"
-                    android:text="Title"
-                    android:textSize="30dp"
-                    android:textColor="@color/Black"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:singleLine="true"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:layout_toRightOf="@+id/poster"/>
+            <TextView
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:text="Title"
+                android:textSize="30dp"
+                android:textColor="@color/Black"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:layout_toRightOf="@+id/poster" />
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Season 1"
-                    android:id="@+id/rating"
-                    android:layout_toRightOf="@+id/poster"
-                    android:layout_below="@+id/title"
-                    android:textColor="@color/Black"
-                    android:textStyle="bold"
-                    android:textSize="17dp" />
+            <TextView
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Season 1"
+                android:id="@+id/rating"
+                android:layout_toRightOf="@+id/poster"
+                android:layout_below="@+id/title"
+                android:textColor="@color/Black"
+                android:textStyle="bold"
+                android:textSize="17dp" />
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Release date: no data"
-                    android:layout_toRightOf="@+id/poster"
-                    android:id="@+id/release"
-                    android:layout_below="@+id/rating"
-                    android:textColor="@color/Black" />
+            <TextView
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Release date: no data"
+                android:layout_toRightOf="@+id/poster"
+                android:id="@+id/release"
+                android:layout_below="@+id/rating"
+                android:textColor="@color/Black" />
 
-            </RelativeLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

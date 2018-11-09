@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kamilismail.movieappandroid.DTO.UserPhotoDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
@@ -24,8 +23,6 @@ import com.kamilismail.movieappandroid.connection.ApiUser;
 import com.kamilismail.movieappandroid.helpers.RetrofitBuilder;
 import com.kamilismail.movieappandroid.helpers.UnitConversionHelper;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

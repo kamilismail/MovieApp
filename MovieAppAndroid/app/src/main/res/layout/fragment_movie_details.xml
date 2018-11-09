@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginTop="15dp"
     android:layout_marginBottom="60dp"
     tools:context=".fragments.MovieDetailsFragment">
 
@@ -34,7 +31,29 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/relLayout">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:id="@+id/backdrop"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="centerCrop" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/shapes" />
+
+                    </RelativeLayout>
+
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="215dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/title"
@@ -43,10 +62,11 @@
                         android:textStyle="bold"
                         android:textColor="@color/Black"
                         android:padding="5dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="100dp"/>
+                        android:layout_marginRight="100dp" />
 
                     <ImageButton
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/shareButton"
@@ -54,17 +74,32 @@
                         android:clickable="true"
                         android:background="@null"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="225dp" />
 
-                    <ImageView
+                    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        card_view:cardElevation="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        card_view:cardUseCompatPadding="true"
                         android:layout_width="wrap_content"
-                        android:id="@+id/poster"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/title"
+                        android:id="@+id/cvPhoto"
                         android:padding="5dp"
-                        android:layout_alignParentLeft="true" />
+                        android:layout_alignParentLeft="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/poster"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title"
+                            android:layout_alignParentLeft="true" />
+
+                    </android.support.v7.widget.CardView>
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/avarageRating"
@@ -75,9 +110,11 @@
                         android:layout_below="@+id/title"
                         android:padding="5dp"
                         android:paddingTop="20dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/release"
@@ -85,18 +122,22 @@
                         android:text="Release date:"
                         android:textSize="12dp"
                         android:padding="5dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/onTV"
                         android:layout_below="@+id/release"
                         android:text="On TV:"
                         android:padding="5dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvDate"
@@ -106,18 +147,22 @@
                         android:textStyle="bold"
                         android:textColor="@color/Black"
                         android:padding="5dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/chanelInfo"
                         android:layout_below="@+id/tvDate"
                         android:text="Chanel:"
                         android:padding="5dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvChanel"
@@ -127,9 +172,11 @@
                         android:textStyle="bold"
                         android:textColor="@color/Black"
                         android:padding="5dp"
-                        android:layout_toRightOf="@+id/poster" />
+                        android:layout_toRightOf="@+id/cvPhoto" />
 
                     <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:id="@+id/tvlogo"
                         android:layout_height="wrap_content"
@@ -137,13 +184,17 @@
                         android:layout_toRightOf="@+id/tvChanel" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/userRating"
                         android:text="Your rating:"
-                        android:layout_below="@+id/poster" />
+                        android:layout_below="@+id/cvPhoto" />
 
                     <com.willy.ratingbar.ScaleRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,6 +211,8 @@
                         android:layout_centerHorizontal="true"></com.willy.ratingbar.ScaleRatingBar>
 
                     <Button
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -171,6 +224,8 @@
                         android:layout_centerHorizontal="true" />
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/description"
@@ -181,6 +236,8 @@
 
                     <Button
                         style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Set reminder"
@@ -192,6 +249,8 @@
 
                     <Button
                         style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Want to watch"
@@ -203,6 +262,8 @@
 
                     <Button
                         style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Add to favourites"

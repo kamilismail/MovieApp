@@ -7,14 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kamilismail.movieappandroid.DTO.UpcomingMoviesDTO;
 import com.kamilismail.movieappandroid.DTO.search_series.Season;
 import com.kamilismail.movieappandroid.R;
-import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.kamilismail.movieappandroid.helpers.UnitConversionHelper;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SeriesSeasonsRecyclerViewAdapter extends RecyclerView.Adapter {

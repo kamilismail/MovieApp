@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kamilismail.movieappandroid.DTO.search_movies.Result;
 import com.kamilismail.movieappandroid.DTO.search_series.SeriesResult;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.fragments.SearchFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchSeriesRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<SeriesResult> nowPlayingDTOS;

@@ -2,14 +2,12 @@ package com.kamilismail.movieappandroid.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +73,8 @@ public class SeriesDetailsFragment extends Fragment {
     TextView mDescription;
     @BindView(R.id.relativeLayout)
     RelativeLayout relativeLayout;
+    @BindView(R.id.backdrop)
+    ImageView mBackdrop;
 
     public SeriesDetailsFragment() {
         // Required empty public constructor
@@ -90,7 +90,6 @@ public class SeriesDetailsFragment extends Fragment {
         Bundle args = this.getArguments();
         this.id = args.getString("id");
         this.title = args.getString("title");
-        mTitle.setGravity(Gravity.CENTER);
         mTitle.setText(this.title);
         setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -127,6 +126,7 @@ public class SeriesDetailsFragment extends Fragment {
         mNoEpisodes.setVisibility(visibility);
         mNoSeasons.setVisibility(visibility);
         relativeLayout.setVisibility(visibility);
+        mBackdrop.setVisibility(visibility);
     }
 
     private void getData(final View view) {
@@ -172,7 +172,7 @@ public class SeriesDetailsFragment extends Fragment {
         }
         UnitConversionHelper unitConversionHelper = new UnitConversionHelper();
         Picasso.get().load("https://image.tmdb.org/t/p/w500/" + result.getResult().getPosterPath())
-                .resize((int) unitConversionHelper.convertDpToPixel(130, view.getContext()),
+                .resize((int) unitConversionHelper.convertDpToPixel(140, view.getContext()),
                         (int) unitConversionHelper.convertDpToPixel(220, view.getContext()))
                 .into(mPoster, new com.squareup.picasso.Callback() {
                     @Override
@@ -185,6 +185,8 @@ public class SeriesDetailsFragment extends Fragment {
                     public void onError(Exception e) {
                     }
                 });
+        Picasso.get().load("https://image.tmdb.org/t/p/w780/" + result.getResult().getBackdropPath())
+                .into(mBackdrop);
     }
 
     private RecyclerView setAdapters(Integer recyclerId, final View view) {

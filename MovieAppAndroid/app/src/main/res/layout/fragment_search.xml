@@ -56,8 +56,7 @@
                     android:gravity="right"
                     android:layout_marginTop="40dp" />
 
-                <com.mancj.materialsearchbar.MaterialSearchBar
-                    xmlns:app="http://schemas.android.com/apk/res/android"
+                <com.mancj.materialsearchbar.MaterialSearchBar xmlns:app="http://schemas.android.com/apk/res/android"
                     style="@style/MyCustomTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
