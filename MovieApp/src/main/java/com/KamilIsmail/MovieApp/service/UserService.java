@@ -29,6 +29,9 @@ public interface UserService {
 
     GetUsernameDTO facebookLogin(String username, String facebookID, String mail, String role);
 
-    @PreAuthorize("hasAnyAuthority('admin','facebook')")
+    @PreAuthorize("hasAnyAuthority('admin','facebook', 'user')")
     UserPhotoDTO facebookPhoto(int userID);
+
+    @PreAuthorize("hasAnyAuthority('admin', 'user')")
+    BooleanDTO setPhotoName(int userID, String fileName);
 }

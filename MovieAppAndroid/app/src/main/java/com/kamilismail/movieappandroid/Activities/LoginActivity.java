@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             mFacebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(final LoginResult loginResult) {
+                    progressBar.setVisibility(View.VISIBLE);
                     GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
@@ -228,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
             sessionController.logoutUser();
             LoginManager.getInstance().logOut();
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     @SuppressLint("StaticFieldLeak")

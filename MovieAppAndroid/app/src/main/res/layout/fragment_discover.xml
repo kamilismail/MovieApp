@@ -5,7 +5,7 @@
     tools:context=".fragments.DiscoverFragment"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="57dp">
+    android:layout_marginBottom="60dp">
 
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -29,7 +29,7 @@
                     android:paddingBottom="8dp"
                     android:text="Discover"
                     android:textColor="@android:color/black"
-                    android:textSize="50dp"
+                    android:textSize="35dp"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp" />
 

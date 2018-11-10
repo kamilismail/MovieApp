@@ -56,7 +56,7 @@ public class ChangePswFragment extends Fragment {
         this.sessionController = new SessionController(getContext());
         ButterKnife.bind(this, view);
         progressBar.setVisibility(View.GONE);
-        deleteAccount(view);
+        //deleteAccount(view);
         return view;
     }
 

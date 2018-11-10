@@ -20,4 +20,6 @@ public interface UserDao {
     GetUsernameDTO getFacebookUsername(int id);
 
     GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role);
+
+    BooleanDTO setPhotoName(int userID, String fileName);
 }

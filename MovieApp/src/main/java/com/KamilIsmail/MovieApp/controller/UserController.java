@@ -92,4 +92,11 @@ public class UserController {
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
         return userService.facebookPhoto(userEntity.getUserId());
     }
+
+    @PostMapping("sendPhotoName")
+    public BooleanDTO sendPhotoName(@RequestParam("photoName") String fileName, Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
+        UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
+        return userService.setPhotoName(userEntity.getUserId(), fileName);
+    }
 }

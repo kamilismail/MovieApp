@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService {
         PhotosEntity photosEntity = userRepository.findByUserId(userID).getPhotosByPhotoId();
         return new UserPhotoDTO(photosEntity.getPath());
     }
+
+    @Override
+    public BooleanDTO setPhotoName(int userID, String fileName) {
+        return userDao.setPhotoName(userID, fileName);
+    }
 }

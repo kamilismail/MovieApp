@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.WantToWatchFragment"
     android:layout_margin="15dp"
-    android:layout_marginBottom="57dp">
+    android:layout_marginBottom="60dp">
 
     <ProgressBar
         android:id="@+id/mProgressBarProfile"
@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Want to watch"
-                        android:textSize="50dp"
+                        android:textSize="35dp"
                         android:textColor="@color/Black"
                         android:textStyle="bold"
                         android:layout_marginTop="20dp"

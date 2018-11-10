@@ -39,7 +39,10 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.ome450901:SimpleRatingBar:1.4.2'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     //implementation 'com.github.mjn1369:ScaleTouchListener:1.0.0'
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'

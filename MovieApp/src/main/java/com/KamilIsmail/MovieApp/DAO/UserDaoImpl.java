@@ -101,4 +101,16 @@ public class UserDaoImpl implements UserDao {
         userRepository.save(userEntity);
         return new GetUsernameDTO(username);
     }
+
+    @Override
+    public BooleanDTO setPhotoName(int userID, String fileName) {
+        PhotosEntity photosEntity = userRepository.findByUserId(userID).getPhotosByPhotoId();
+        if (photosEntity == null)
+            photoRepository.save(new PhotosEntity(fileName));
+        else {
+            photosEntity.setPath(fileName);
+            photoRepository.save(photosEntity);
+        }
+        return new BooleanDTO(true);
+    }
 }

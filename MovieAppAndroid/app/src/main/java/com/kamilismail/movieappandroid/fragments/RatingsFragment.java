@@ -42,8 +42,8 @@ public class RatingsFragment extends Fragment {
         void passMovieData(String id, String title);
     }
 
-    public static String TAG = "FavouritesFragment";
-    public static String TAG_DATE = "FavouritesFragmentDate";
+    public static String TAG = "RatingsFragment";
+    public static String TAG_DATE = "RatingsFragmentDate";
     private SessionController sessionController;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
@@ -129,6 +129,7 @@ public class RatingsFragment extends Fragment {
             RecyclerView recyclerView = view.findViewById(R.id.favList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+            recyclerView.setOnFlingListener(null);
             PagerSnapHelper snapHelper = new PagerSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
             recyclerView.setItemAnimator(new DefaultItemAnimator());

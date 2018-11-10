@@ -128,6 +128,7 @@ public class FavouritesFragment extends Fragment {
             RecyclerView recyclerView = view.findViewById(R.id.favList);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+            recyclerView.setOnFlingListener(null);
             PagerSnapHelper snapHelper = new PagerSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
             recyclerView.setItemAnimator(new DefaultItemAnimator());

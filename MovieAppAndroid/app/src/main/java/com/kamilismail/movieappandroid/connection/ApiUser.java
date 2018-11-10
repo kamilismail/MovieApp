@@ -32,4 +32,7 @@ public interface ApiUser {
 
     @GET("user/facebookPhoto")
     Call<UserPhotoDTO> facebookPhoto(@Header("Cookie") String cookie);
+
+    @POST("user/sendPhotoName")
+    Call<BooleanDTO> sendPhoto(@Header("Cookie") String cookie, @Query("photoName") String photoName);
 }
