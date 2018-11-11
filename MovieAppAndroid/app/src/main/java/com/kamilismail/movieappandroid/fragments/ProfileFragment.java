@@ -94,6 +94,8 @@ public class ProfileFragment extends Fragment {
     ImageView mProfilePhoto;
     @BindView(R.id.mProgressBarProfile)
     ProgressBar mProgressBarProfile;
+    @BindView(R.id.taptoedit)
+    TextView _tapToEdit;
 
     public ProfileFragment() {
     }
@@ -211,6 +213,7 @@ public class ProfileFragment extends Fragment {
             mProgressBarProfile.setVisibility(View.GONE);
             mProfilePhoto.setVisibility(View.VISIBLE);
         } else {
+            _tapToEdit.setVisibility(View.GONE);
             mProfilePhoto.setVisibility(View.GONE);
             bChange.setVisibility(View.GONE);
             bDelete.setVisibility(View.GONE);

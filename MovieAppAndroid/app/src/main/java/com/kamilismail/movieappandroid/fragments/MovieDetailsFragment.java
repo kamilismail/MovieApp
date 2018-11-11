@@ -96,10 +96,17 @@ public class MovieDetailsFragment extends Fragment {
     ImageButton mShareButton;
     @BindView(R.id.backdrop)
     ImageView mBackdrop;
+    @BindView(R.id.img_send)
+    ImageView mImgSend;
+    @BindView(R.id.img_reminder)
+    ImageView mImgReminder;
+    @BindView(R.id.img_want_watch)
+    ImageView mImgWantToWatch;
+    @BindView(R.id.img_fav)
+    ImageView mImgFav;
 
     public MovieDetailsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -239,6 +246,10 @@ public class MovieDetailsFragment extends Fragment {
         tChanelInfo.setVisibility(visibility);
         mShareButton.setVisibility(visibility);
         mBackdrop.setVisibility(visibility);
+        mImgFav.setVisibility(visibility);
+        mImgReminder.setVisibility(visibility);
+        mImgSend.setVisibility(visibility);
+        mImgWantToWatch.setVisibility(visibility);
     }
 
     private void getData(final View view) {

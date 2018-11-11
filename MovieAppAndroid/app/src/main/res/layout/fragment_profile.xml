@@ -57,11 +57,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/taptoedit"
+                android:text="Tap photo to edit"
+                android:textSize="10dp"
+                android:textColor="@color/Black"
+                android:layout_below="@+id/cvPhoto"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/username"
                 android:text="Username"
                 android:textSize="30dp"
                 android:textColor="@color/Black"
-                android:layout_below="@+id/cvPhoto"
+                android:layout_below="@+id/taptoedit"
                 android:gravity="center_horizontal" />
 
             <Button
@@ -72,7 +82,17 @@
                 android:id="@+id/bWantToWatch"
                 android:layout_below="@+id/username"
                 android:clickable="true"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:layout_toRightOf="@+id/img_watch_later"/>
+
+            <ImageView
+                android:id="@+id/img_watch_later"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/username"
+                android:src="@mipmap/ic_watch_later_img"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
 
             <Button
                 android:id="@+id/bRatings"
@@ -82,7 +102,17 @@
                 android:clickable="true"
                 android:text="@string/Ratings"
                 android:layout_below="@+id/bWantToWatch"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:layout_toRightOf="@+id/img_rating"/>
+
+            <ImageView
+                android:id="@+id/img_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bWantToWatch"
+                android:src="@mipmap/ic_img_rating"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
 
             <Button
                 android:id="@+id/bFavourites"
@@ -92,7 +122,17 @@
                 android:layout_below="@+id/bRatings"
                 android:clickable="true"
                 android:text="@string/Favourites"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:layout_toRightOf="@+id/img_fav"/>
+
+            <ImageView
+                android:id="@+id/img_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bRatings"
+                android:src="@mipmap/ic_fav_img"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
 
 
             <Button

@@ -216,15 +216,23 @@
                     <Button
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="Set rating"
                         android:id="@+id/sendRating"
-                        android:backgroundTint="@color/DeepRed"
-                        android:textColor="@android:color/white"
                         android:layout_below="@+id/ratingBar"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_toRightOf="@+id/img_send"/>
+
+                    <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/img_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ratingBar"
+                        android:src="@mipmap/ic_img_send"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"/>
 
                     <TextView
                         android:layout_marginLeft="15dp"
@@ -238,43 +246,71 @@
                         android:padding="5dp" />
 
                     <Button
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Set reminder"
                         android:id="@+id/addReminder"
-                        android:backgroundTint="@color/DeepRed"
-                        android:textColor="@android:color/white"
                         android:layout_below="@+id/description"
-                        android:padding="5dp" />
+                        android:clickable="true"
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/img_reminder"/>
+
+                    <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/img_reminder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/description"
+                        android:src="@mipmap/ic_reminder_img"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"/>
 
                     <Button
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Want to watch"
                         android:id="@+id/addWantToWatch"
-                        android:backgroundTint="@color/DeepRed"
-                        android:textColor="@android:color/white"
                         android:layout_below="@+id/addReminder"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/img_want_watch"/>
+
+                    <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/img_want_watch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/addReminder"
+                        android:src="@mipmap/ic_watch_later_img"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"/>
 
                     <Button
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Add to favourites"
                         android:id="@+id/addFav"
-                        android:backgroundTint="@color/DeepRed"
-                        android:textColor="@android:color/white"
                         android:layout_below="@+id/addWantToWatch"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/img_fav"/>
+
+                    <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/img_fav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/addWantToWatch"
+                        android:src="@mipmap/ic_fav_img"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"/>
 
                 </RelativeLayout>
 
