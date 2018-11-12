@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -46,7 +46,7 @@
                                     <map>
                                       <entry key="backgroundColor" value="f8f8ff" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="outputName" value="ic_img_send" />
+                                      <entry key="outputName" value="ic_img_info" />
                                     </map>
                                   </option>
                                 </PersistentState>

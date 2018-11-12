@@ -134,12 +134,32 @@
                 android:scaleX="0.7"
                 android:scaleY="0.7"/>
 
+            <Button
+                android:id="@+id/bInfo"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_fav"
+                android:clickable="true"
+                android:text="Licences"
+                android:textColor="@android:color/black"
+                android:layout_toRightOf="@+id/img_fav"/>
+
+            <ImageView
+                android:id="@+id/img_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_fav"
+                android:src="@mipmap/ic_img_info"
+                android:scaleX="0.7"
+                android:scaleY="0.7"/>
+
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bFavourites"
+                android:layout_below="@+id/img_info"
                 android:text="@string/Change_password"
                 android:id="@+id/bChange"
                 android:clickable="true"

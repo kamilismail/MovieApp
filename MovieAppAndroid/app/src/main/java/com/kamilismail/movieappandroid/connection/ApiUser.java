@@ -24,6 +24,9 @@ public interface ApiUser {
     @DELETE("user/")
     Call<BooleanDTO> deleteUser(@Header("Cookie") String cookie, @Body JsonObject bean);
 
+    @POST("user/changePassword")
+    Call<BooleanDTO> changePassword(@Header("Cookie") String cookie, @Body JsonObject bean);
+
     @POST("user/setFirebaseID")
     Call<BooleanDTO> setFirebaseID(@Header("Cookie") String cookie, @Query("firebaseID") String firebaseID);
 

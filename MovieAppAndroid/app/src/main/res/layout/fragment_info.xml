@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.InfoFragment"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="60dp">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Licences"
+            android:textSize="35dp"
+            android:textColor="@color/Black"
+            android:textStyle="bold"
+            android:id="@+id/textProfile"
+            android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textProfile"
+                android:text="App icon:"
+                android:textColor="@color/Black"
+                android:textSize="20dp"
+                android:id="@+id/ticon"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/ticon"
+                android:id="@+id/dicon"
+                android:text="Made by: Pixel perfect from www.flaticon.com.\nLicenced under Creative Commons BY 3.0."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dicon"
+                android:id="@+id/tindicator"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="ScrollingPagerIndicator library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tindicator"
+                android:id="@+id/dindicator"
+                android:text="Made by TinkoffCreditSystems.\nLibrary licenced under the Apache License, Version 2.0."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dindicator"
+                android:id="@+id/tsearch"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="MaterialSearchBar library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tsearch"
+                android:id="@+id/dsearch"
+                android:text="Made by mancj.\nLibrary licenced under the MIT License."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dsearch"
+                android:id="@+id/tretrofit"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="Retrofit library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tretrofit"
+                android:id="@+id/dretrofit"
+                android:text="Made by Square, Inc.\nLibrary licenced under the Apache License, Version 2.0."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dretrofit"
+                android:id="@+id/tbutter"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="ButterKnife library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tbutter"
+                android:id="@+id/dbutter"
+                android:text="Made by Jake Wharton.\nLibrary licenced under the Apache License, Version 2.0."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dbutter"
+                android:id="@+id/tpicasso"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="Picasso library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tpicasso"
+                android:id="@+id/dpicasso"
+                android:text="Made by Square, Inc.\nLibrary licenced under the Apache License, Version 2.0."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/dpicasso"
+                android:id="@+id/trating"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="SimpleRatingBar library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/trating"
+                android:id="@+id/drating"
+                android:text="Made by WillyYu.\nLibrary licenced under the MIT License."/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/drating"
+                android:id="@+id/trefresh"
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:text="PullRefreshLayout library:"/>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/trefresh"
+                android:id="@+id/drefresh"
+                android:text="Made by baoyongzhang.\nLibrary licenced under the MIT License."/>
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

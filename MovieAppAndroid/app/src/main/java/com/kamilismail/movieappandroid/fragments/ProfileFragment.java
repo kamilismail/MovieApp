@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
 
         void startChangePswFragment();
 
-        void deleteAccountFragment();
+        void startInfoFragment();
     }
 
     public static String TAG = "ProfileFragment";
@@ -96,6 +96,8 @@ public class ProfileFragment extends Fragment {
     ProgressBar mProgressBarProfile;
     @BindView(R.id.taptoedit)
     TextView _tapToEdit;
+    @BindView(R.id.bInfo)
+    Button bInfo;
 
     public ProfileFragment() {
     }
@@ -147,6 +149,13 @@ public class ProfileFragment extends Fragment {
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
+            }
+        });
+
+        bInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.startInfoFragment();
             }
         });
 
@@ -399,6 +408,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteAccount() {
+
     }
 
     @Override

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:paddingBottom="8dp"
-            android:text="Delete account"
+            android:text="Change password"
             android:textColor="@android:color/black"
             android:textSize="35dp"
             android:textStyle="bold"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp"
-                android:text="Confirm password:"
+                android:text="New password:"
                 android:textStyle="bold"
                 android:layout_marginTop="100dp" />
 
@@ -49,18 +49,36 @@
                 android:layout_marginRight="60dp"
                 android:layout_below="@+id/tPassword" />
 
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
+            <TextView
+                android:id="@+id/tPasswordConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:text="Confirm new password:"
+                android:textStyle="bold"
+                android:layout_below="@+id/ePassword"/>
+
+            <EditText
+                android:id="@+id/ePassword2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:layout_below="@+id/tPasswordConfirm" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="130dp"
-                android:layout_marginRight="130dp"
-                android:text="Delete"
+                android:text="Change password"
                 android:id="@+id/bDelete"
                 android:backgroundTint="@color/DeepRed"
                 android:textColor="@android:color/white"
-                android:layout_below="@id/ePassword" />
+                android:layout_below="@id/ePassword2" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"

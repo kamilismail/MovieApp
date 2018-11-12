@@ -40,6 +40,8 @@ public class ChangePswFragment extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.ePassword)
     EditText ePassword;
+    @BindView(R.id.ePassword2)
+    EditText ePassword2;
     @BindView(R.id.bDelete)
     Button bDelete;
     @BindView(R.id.tCancel)
@@ -56,18 +58,41 @@ public class ChangePswFragment extends Fragment {
         this.sessionController = new SessionController(getContext());
         ButterKnife.bind(this, view);
         progressBar.setVisibility(View.GONE);
-        //deleteAccount(view);
+        bDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePassword(v);
+            }
+        });
         return view;
     }
 
-    private void deleteAccount(final View view) {
+    private Boolean validate() {
+        String password1 = ePassword.getText().toString();
+        String password2 = ePassword2.getText().toString();
+
+        if (password1.isEmpty()) {
+            ePassword.setError("This field cannot be empty");
+            return false;
+        }
+        if (password2.isEmpty()) {
+            ePassword2.setError("This field cannot be empty");
+            return false;
+        }
+        if (password1.equals(password2))
+            return true;
+        else return false;
+    }
+
+    private void changePassword(final View view) {
+        validate();
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
         ApiUser apiUser = retrofit.create(ApiUser.class);
         String cookie = sessionController.getCookie();
         JsonObject obj = new JsonObject();
         obj.addProperty("password", ePassword.getText().toString());
 
-        Call<BooleanDTO> call = apiUser.deleteUser(cookie, obj);
+        Call<BooleanDTO> call = apiUser.changePassword(cookie, obj);
         progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<BooleanDTO>() {
             @Override

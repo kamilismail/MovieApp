@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment implements NavigationView.OnNavigat
         mChoice.setText("for movies");
         searchBar.setHint("Search for movies");
         searchBar.setSpeechMode(true);
-        searchBar.setRoundedSearchBarEnabled(true);
+        //searchBar.setRoundedSearchBarEnabled(true);
         //enable searchbar callbacks
         searchBar.setOnSearchActionListener(this);
         //restore last queries from disk

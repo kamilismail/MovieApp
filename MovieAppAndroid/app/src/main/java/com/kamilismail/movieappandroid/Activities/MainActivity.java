@@ -21,6 +21,7 @@ import com.kamilismail.movieappandroid.connection.ApiUser;
 import com.kamilismail.movieappandroid.fragments.ChangePswFragment;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
+import com.kamilismail.movieappandroid.fragments.InfoFragment;
 import com.kamilismail.movieappandroid.fragments.MovieDetailsFragment;
 import com.kamilismail.movieappandroid.fragments.NotificationFragment;
 import com.kamilismail.movieappandroid.fragments.ProfileFragment;
@@ -223,7 +224,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void deleteAccountFragment() {
+    public void startInfoFragment() {
+        InfoFragment infoFragment = new InfoFragment();
+        temp = active;
+        active = infoFragment;
+        supportFragmentManager.beginTransaction().add(R.id.frame, infoFragment).hide(temp)
+                .addToBackStack(null).commit();
     }
 
     @Override
