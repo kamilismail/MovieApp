@@ -94,7 +94,7 @@ public class UserDaoImpl implements UserDao {
     public GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role) {
         PhotosEntity photosEntity = new PhotosEntity("https://graph.facebook.com/"+facebookID+"/picture?type=large");
         photoRepository.save(photosEntity);
-        UserSocialEntity userSocialEntity = new UserSocialEntity(username, mail, facebookID);
+        UserSocialEntity userSocialEntity = new UserSocialEntity(username, hashPassword(mail), facebookID);
         userSocialRepository.save(userSocialEntity);
         UserEntity userEntity = new UserEntity(facebookID, null, role, photosEntity, userSocialEntity.getUserSocialId(),
                 userSocialEntity);

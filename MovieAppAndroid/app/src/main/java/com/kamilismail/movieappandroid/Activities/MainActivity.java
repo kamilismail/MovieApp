@@ -19,6 +19,7 @@ import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
 import com.kamilismail.movieappandroid.fragments.ChangePswFragment;
+import com.kamilismail.movieappandroid.fragments.DeleteAccountFragment;
 import com.kamilismail.movieappandroid.fragments.DiscoverFragment;
 import com.kamilismail.movieappandroid.fragments.FavouritesFragment;
 import com.kamilismail.movieappandroid.fragments.InfoFragment;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements
         SearchFragment.SendArgumentsAndLaunchFragment, ProfileFragment.SendArgumentsAndLaunchFragment,
         WantToWatchFragment.SendArgumentsAndLaunchFragment, FavouritesFragment.SendArgumentsAndLaunchFragment,
         RatingsFragment.SendArgumentsAndLaunchFragment, ChangePswFragment.SendArgumentsAndLaunchFragment,
-        NotificationFragment.SendArgumentsAndLaunchFragment, SeriesDetailsFragment.SendArgumentsAndLaunchFragment {
+        NotificationFragment.SendArgumentsAndLaunchFragment, SeriesDetailsFragment.SendArgumentsAndLaunchFragment,
+        DeleteAccountFragment.SendArgumentsAndLaunchFragment {
 
     @BindView(R.id.bottom_navigation_menu)
     BottomNavigationView mBottomNavigationView;
@@ -229,6 +231,15 @@ public class MainActivity extends AppCompatActivity implements
         temp = active;
         active = infoFragment;
         supportFragmentManager.beginTransaction().add(R.id.frame, infoFragment).hide(temp)
+                .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void startDeleteAccountFragment() {
+        DeleteAccountFragment deleteAccountFragment = new DeleteAccountFragment();
+        temp = active;
+        active = deleteAccountFragment;
+        supportFragmentManager.beginTransaction().add(R.id.frame, deleteAccountFragment).hide(temp)
                 .addToBackStack(null).commit();
     }
 

@@ -11,6 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface ApiUser {
@@ -24,7 +25,7 @@ public interface ApiUser {
     @DELETE("user/")
     Call<BooleanDTO> deleteUser(@Header("Cookie") String cookie, @Body JsonObject bean);
 
-    @POST("user/changePassword")
+    @PUT("user/")
     Call<BooleanDTO> changePassword(@Header("Cookie") String cookie, @Body JsonObject bean);
 
     @POST("user/setFirebaseID")

@@ -27,31 +27,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
-public class ChangePswFragment extends Fragment {
+public class DeleteAccountFragment extends Fragment {
     private SendArgumentsAndLaunchFragment mCallback;
 
     public interface SendArgumentsAndLaunchFragment {
         void logoutUser();
     }
 
-    public static String TAG = "ChangePswFragment";
+    public static String TAG = "DeleteAccountFragment";
     private SessionController sessionController;
 
     @BindView(R.id.mProgressBarProfile)
     ProgressBar progressBar;
-    @BindView(R.id.ePassword)
-    EditText ePassword;
-    @BindView(R.id.ePassword2)
-    EditText ePassword2;
+    @BindView(R.id.ePsw)
+    EditText ePsw;
     @BindView(R.id.bDelete)
     Button bDelete;
     @BindView(R.id.tCancel)
     Button bCancel;
-    @BindView(R.id.eOldPsw)
-    EditText eOldPsw;
 
-    public ChangePswFragment() {
+    public DeleteAccountFragment() {
     }
 
     @Override
@@ -66,10 +61,10 @@ public class ChangePswFragment extends Fragment {
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to change password?")
+                builder.setMessage("Are you sure you want to delete account?")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                changePassword(v);
+                                deleteAccount(v);
                             }
                         })
                         .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -81,6 +76,7 @@ public class ChangePswFragment extends Fragment {
                         .show();
             }
         });
+
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,38 +87,24 @@ public class ChangePswFragment extends Fragment {
     }
 
     private Boolean validate() {
-        String password0 = eOldPsw.getText().toString();
-        String password1 = ePassword.getText().toString();
-        String password2 = ePassword2.getText().toString();
+        String password = ePsw.getText().toString();
 
-        if (password0.isEmpty()) {
-            ePassword.setError("This field cannot be empty");
+        if (password.isEmpty()) {
+            ePsw.setError("This field cannot be empty");
             return false;
         }
-
-        if (password1.isEmpty()) {
-            ePassword.setError("This field cannot be empty");
-            return false;
-        }
-        if (password2.isEmpty()) {
-            ePassword2.setError("This field cannot be empty");
-            return false;
-        }
-        if (password1.equals(password2))
-            return true;
-        else return false;
+        else return true;
     }
 
-    private void changePassword(final View view) {
+    private void deleteAccount(final View view) {
         if (validate()) {
             Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
             ApiUser apiUser = retrofit.create(ApiUser.class);
             String cookie = sessionController.getCookie();
             JsonObject obj = new JsonObject();
-            obj.addProperty("old_password", eOldPsw.getText().toString());
-            obj.addProperty("new_password", ePassword.getText().toString());
+            obj.addProperty("password", ePsw.getText().toString());
 
-            Call<BooleanDTO> call = apiUser.changePassword(cookie, obj);
+            Call<BooleanDTO> call = apiUser.deleteUser(cookie, obj);
             progressBar.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<BooleanDTO>() {
                 @Override

@@ -4,7 +4,9 @@ import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.DTO.UserDTO;
 import com.KamilIsmail.MovieApp.DTO.UserPhotoDTO;
+import com.KamilIsmail.MovieApp.controller.userControllerParam.ChangePswParam;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.CreateUserParam;
+import com.KamilIsmail.MovieApp.controller.userControllerParam.DeleteUserParam;
 import com.KamilIsmail.MovieApp.controller.userControllerParam.FacebookUserParam;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
 import com.KamilIsmail.MovieApp.helpers.GrantAuthHelper;
@@ -56,16 +58,15 @@ public class UserController {
     }
 
     @PutMapping("")
-    public BooleanDTO changeUserPassword(@Valid @RequestParam(name = "password") String password,
-                                         @Valid @RequestParam(name = "newPassword") String newPassword, Principal principal) {
+    public BooleanDTO changeUserPassword(@Valid @RequestBody ChangePswParam param, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
-        return userService.changeUserPassword(user.getUsername(), password, newPassword);
+        return userService.changeUserPassword(user.getUsername(), param.getOldPassword(), param.getNewPassword());
     }
 
     @DeleteMapping("")
-    public BooleanDTO deleteUser(@Valid @RequestParam(name = "password") String password, Principal principal) {
+    public BooleanDTO deleteUser(@Valid @RequestBody DeleteUserParam param, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
-        return userService.deleteUser(user.getUsername(), password);
+        return userService.deleteUser(user.getUsername(), param.getPassword());
     }
 
     @GetMapping("getUsername")

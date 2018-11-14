@@ -64,6 +64,8 @@ public class ProfileFragment extends Fragment {
         void startChangePswFragment();
 
         void startInfoFragment();
+
+        void startDeleteAccountFragment();
     }
 
     public static String TAG = "ProfileFragment";
@@ -173,21 +175,7 @@ public class ProfileFragment extends Fragment {
             bDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Are you sure you want to delete account?")
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    deleteAccount();
-                                    mCallback.logoutUser();
-                                }
-                            })
-                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    mCallback.startDeleteAccountFragment();
                 }
             });
 

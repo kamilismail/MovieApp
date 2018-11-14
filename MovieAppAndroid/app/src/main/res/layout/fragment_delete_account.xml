@@ -6,7 +6,7 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginBottom="60dp"
-    tools:context=".fragments.ChangePswFragment">
+    tools:context=".fragments.DeleteAccountFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:paddingBottom="8dp"
-            android:text="Change password"
+            android:text="@string/Delete_account"
             android:textColor="@android:color/black"
             android:textSize="35dp"
             android:textStyle="bold"
@@ -30,75 +30,36 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tOldPsw"
+                android:id="@+id/tPsw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp"
-                android:text="Existing password:"
+                android:text="Confirm password:"
                 android:textStyle="bold"
                 android:layout_marginTop="100dp" />
 
             <EditText
-                android:id="@+id/eOldPsw"
+                android:id="@+id/ePsw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp"
-                android:layout_below="@+id/tOldPsw" />
+                android:layout_below="@+id/tPsw" />
 
-            <TextView
-                android:id="@+id/tPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
-                android:text="New password:"
-                android:textStyle="bold"
-                android:layout_below="@+id/eOldPsw"/>
-
-            <EditText
-                android:id="@+id/ePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
-                android:layout_below="@+id/tPassword" />
-
-            <TextView
-                android:id="@+id/tPasswordConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
-                android:text="Confirm new password:"
-                android:textStyle="bold"
-                android:layout_below="@+id/ePassword"/>
-
-            <EditText
-                android:id="@+id/ePassword2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
-                android:layout_below="@+id/tPasswordConfirm" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Change password"
+                android:text="Delete account"
                 android:id="@+id/bDelete"
                 android:backgroundTint="@color/DeepRed"
                 android:textColor="@android:color/white"
-                android:layout_below="@id/ePassword2" />
+                android:layout_below="@id/ePsw" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
