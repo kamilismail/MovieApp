@@ -39,7 +39,10 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     @Override
     public BooleanDTO addWant(int userid, int movieId) {
         try {
-            if (wantRepository.findWanttowatchEntityByMovieIdAndUserId(movieId, userid) != null)
+            MoviesEntity moviesEntity = movieRepository.findByTmdbId(movieId);
+            if (moviesEntity == null)
+                return wantDao.addWantToWatch(userid, movieId);
+            if (wantRepository.findWanttowatchEntityByMovieIdAndUserId(moviesEntity.getMovieId(), userid) != null)
                 return new BooleanDTO(false);
             else
                 return wantDao.addWantToWatch(userid, movieId);

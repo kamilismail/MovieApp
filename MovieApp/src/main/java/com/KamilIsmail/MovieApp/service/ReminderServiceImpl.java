@@ -4,6 +4,8 @@ import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DAO.ReminderDao;
 import com.KamilIsmail.MovieApp.DTO.BooleanDTO;
 import com.KamilIsmail.MovieApp.DTO.ReminderDTO;
+import com.KamilIsmail.MovieApp.entities.MoviesEntity;
+import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import com.KamilIsmail.MovieApp.repository.ReminderRepository;
 import com.KamilIsmail.MovieApp.repository.TvStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class ReminderServiceImpl implements ReminderService {
     @Autowired
     TvStationRepository tvStationRepository;
 
+    @Autowired
+    MovieRepository movieRepository;
+
     @Override
     public List<ReminderDTO> getReminders(int userId) {
         return reminderRepository.findRemindersEntitiesByUserId(userId).stream()
@@ -38,7 +43,10 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public BooleanDTO addReminder(int userId, int movieID) {
         try {
-            if (reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, movieID) != null)
+            MoviesEntity moviesEntity = movieRepository.findByTmdbId(movieID);
+            if (moviesEntity == null)
+                return reminderDao.addReminder(userId, movieID);
+            if (reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, moviesEntity.getMovieId()) != null)
                 return new BooleanDTO(false);
             else
                 return reminderDao.addReminder(userId, movieID);

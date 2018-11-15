@@ -7,6 +7,7 @@ import com.KamilIsmail.MovieApp.DTO.DiscoverMovieDTO;
 import com.KamilIsmail.MovieApp.entities.FavouritesEntity;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.repository.FavouriteRepository;
+import com.KamilIsmail.MovieApp.repository.MovieRepository;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.MovieDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class FavouritesServiceImpl implements FavouritesService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     FavouriteDao favsDao;
 
+    @Autowired
+    MovieRepository movieRepository;
+
     @Override
     public List<DiscoverMovieDTO> getFavourites(int userid) {
         return favsRepository.findFavouritesEntityByUserId(userid).stream()
@@ -41,7 +45,10 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     public BooleanDTO addFavourite(int userid, int movieId) {
         try {
-            if (favsRepository.findFavouritesEntityByUserIdAndMovieId(userid, movieId) != null)
+            MoviesEntity moviesEntity = movieRepository.findByTmdbId(movieId);
+            if (moviesEntity == null)
+                return favsDao.addFavourite(userid, movieId);
+            if (favsRepository.findFavouritesEntityByUserIdAndMovieId(userid, moviesEntity.getMovieId()) != null)
                 return new BooleanDTO(false);
             else
                 return favsDao.addFavourite(userid, movieId);
