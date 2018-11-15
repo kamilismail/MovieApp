@@ -75,7 +75,7 @@ public class GetMovieDTO {
     }
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
-                       String title, String releaseDate, String userRating) {
+                       String title, String releaseDate, String userRating, String movieId) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -86,13 +86,13 @@ public class GetMovieDTO {
         this.date = "";
         this.hour = "";
         this.chanel = "";
-        this.filmID = "";
+        this.filmID = movieId;
         this.userRating = userRating;
     }
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
                        String title, String releaseDate, String userRating, boolean wantToWatch, boolean userFav,
-                       boolean reminder) {
+                       boolean reminder, String movieId) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -103,7 +103,7 @@ public class GetMovieDTO {
         this.date = "";
         this.hour = "";
         this.chanel = "";
-        this.filmID = "";
+        this.filmID = movieId;
         this.userRating = userRating;
         this.wantToWatch = String.valueOf(wantToWatch);
         this.fav = String.valueOf(userFav);

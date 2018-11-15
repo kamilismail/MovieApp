@@ -20,5 +20,6 @@
         <mapping class="com.KamilIsmail.MovieApp.entities.TvstationsEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.WanttowatchEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.TVGuideEntity"/>
+        <mapping class="com.KamilIsmail.MovieApp.entities.MovieCommentsEntity"/>
     </session-factory>
 </hibernate-configuration>
