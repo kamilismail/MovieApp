@@ -56,8 +56,8 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
             movieEntity.setMovieName(tmdbResult.getTitle());
             movieRepository.save(movieEntity);
         }
-        MovieCommentsEntity movieCommentsEntity = new MovieCommentsEntity(movieId, userId, comment);
-        movieCommentsEntity.setMoviesByMovieId(movieRepository.findByMovieId(movieId));
+        MovieCommentsEntity movieCommentsEntity = new MovieCommentsEntity(movieEntity.getMovieId(), userId, comment);
+        movieCommentsEntity.setMoviesByMovieId(movieRepository.findByMovieId(movieEntity.getMovieId()));
         movieCommentsEntity.setUserByUserId(userRepository.findByUserId(userId));
         movieCommentsRepository.save(movieCommentsEntity);
         return new BooleanDTO(true);
@@ -65,7 +65,10 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
 
     @Override
     public BooleanDTO deleteComment(int userid, int movieId) {
-        movieCommentsRepository.delete(movieCommentsRepository.findMovieCommentsEntityByUserIdAndMovieId(userid,movieId));
-        return new BooleanDTO(true);
+        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
+        if (movieEntity != null) {
+            movieCommentsRepository.delete(movieCommentsRepository.findMovieCommentsEntityByUserIdAndMovieId(userid, movieEntity.getMovieId()));
+            return new BooleanDTO(true);
+        } else  return new BooleanDTO(false);
     }
 }

@@ -3,6 +3,9 @@ package com.KamilIsmail.MovieApp.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.MovieDb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GetMovieDTO {
 
     @JsonProperty("media_type")
@@ -53,9 +56,13 @@ public class GetMovieDTO {
     @JsonProperty("user_reminder")
     private String reminder;
 
+    @JsonProperty("comments")
+    private ArrayList<MovieCommentsDTO> movieCommentsDTOS;
+
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
                        String title, String releaseDate, String date, String hour, String chanel, String filmID,
-                       String userRating, boolean wantToWatch, boolean userFav, boolean reminder, String logoPath) {
+                       String userRating, boolean wantToWatch, boolean userFav, boolean reminder, String logoPath,
+                       ArrayList<MovieCommentsDTO> movieCommentsDTOS) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -72,10 +79,11 @@ public class GetMovieDTO {
         this.wantToWatch = String.valueOf(wantToWatch);
         this.fav = String.valueOf(userFav);
         this.reminder = String.valueOf(reminder);
+        this.movieCommentsDTOS = movieCommentsDTOS;
     }
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
-                       String title, String releaseDate, String userRating, String movieId) {
+                       String title, String releaseDate, String userRating, String movieId, ArrayList<MovieCommentsDTO> movieCommentsDTOS) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -88,11 +96,12 @@ public class GetMovieDTO {
         this.chanel = "";
         this.filmID = movieId;
         this.userRating = userRating;
+        this.movieCommentsDTOS = movieCommentsDTOS;
     }
 
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath, String posterPath,
                        String title, String releaseDate, String userRating, boolean wantToWatch, boolean userFav,
-                       boolean reminder, String movieId) {
+                       boolean reminder, String movieId, ArrayList<MovieCommentsDTO> movieCommentsDTOS) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -108,6 +117,7 @@ public class GetMovieDTO {
         this.wantToWatch = String.valueOf(wantToWatch);
         this.fav = String.valueOf(userFav);
         this.reminder = String.valueOf(reminder);
+        this.movieCommentsDTOS = movieCommentsDTOS;
     }
 
     public String getMediaType() {
@@ -236,5 +246,13 @@ public class GetMovieDTO {
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
+    }
+
+    public ArrayList<MovieCommentsDTO> getMovieCommentsDTOS() {
+        return movieCommentsDTOS;
+    }
+
+    public void setMovieCommentsDTOS(ArrayList<MovieCommentsDTO> movieCommentsDTOS) {
+        this.movieCommentsDTOS = movieCommentsDTOS;
     }
 }

@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("moviecomments/")
+@RequestMapping("moviecomments")
 public class MovieCommentsController {
 
     @Autowired

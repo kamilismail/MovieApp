@@ -132,7 +132,11 @@ public class ReminderDaoImpl implements ReminderDao {
 
     @Override
     public BooleanDTO deleteReminder(int userId, int movieId) {
-        RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, movieId);
+        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
+        RemindersEntity remindersEntity;
+        if (movieEntity != null) {
+            remindersEntity = reminderRepository.findRemindersEntityByUserIdAndMovieId(userId, movieEntity.getMovieId());
+        } else return new BooleanDTO(false);
         if (remindersEntity != null) {
             reminderRepository.delete(remindersEntity);
             return new BooleanDTO(true);

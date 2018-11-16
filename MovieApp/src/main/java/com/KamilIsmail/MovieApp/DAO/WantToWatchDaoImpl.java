@@ -63,7 +63,11 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
 
     @Override
     public BooleanDTO deleteWantToWatch(int userId, int movieId) {
-        WanttowatchEntity wanttowatchEntity = wantRepository.findWanttowatchEntityByMovieIdAndUserId(movieId, userId);
+        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
+        WanttowatchEntity wanttowatchEntity;
+        if (movieEntity != null) {
+            wanttowatchEntity = wantRepository.findWanttowatchEntityByMovieIdAndUserId(movieEntity.getMovieId(), userId);
+        } else return new BooleanDTO(false);
         if (wanttowatchEntity != null) {
             wantRepository.delete(wanttowatchEntity);
             return new BooleanDTO(true);

@@ -60,7 +60,11 @@ public class FavouriteDaoImpl implements FavouriteDao {
 
     @Override
     public BooleanDTO deleteFavourite(int userId, int movieId) {
-        FavouritesEntity favouritesEntity = favRepository.findFavouritesEntityByUserIdAndMovieId(userId, movieId);
+        MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
+        FavouritesEntity favouritesEntity;
+        if (movieEntity != null) {
+            favouritesEntity = favRepository.findFavouritesEntityByUserIdAndMovieId(userId, movieEntity.getMovieId());
+        } else return new BooleanDTO(false);
         if (favouritesEntity != null) {
             favRepository.delete(favouritesEntity);
             return new BooleanDTO(true);

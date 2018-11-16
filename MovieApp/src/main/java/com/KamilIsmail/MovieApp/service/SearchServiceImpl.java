@@ -3,6 +3,8 @@ package com.KamilIsmail.MovieApp.service;
 import com.KamilIsmail.MovieApp.Constants;
 import com.KamilIsmail.MovieApp.DTO.GetMovieDTO;
 import com.KamilIsmail.MovieApp.DTO.GetSeriesDTO;
+import com.KamilIsmail.MovieApp.DTO.MovieCommentsDTO;
+import com.KamilIsmail.MovieApp.entities.MovieCommentsEntity;
 import com.KamilIsmail.MovieApp.entities.MoviesEntity;
 import com.KamilIsmail.MovieApp.entities.RatingsEntity;
 import com.KamilIsmail.MovieApp.entities.TVGuideEntity;
@@ -25,6 +27,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.toIntExact;
@@ -52,6 +55,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     TvStationRepository tvStationRepository;
+
+    @Autowired
+    MovieCommentsRepository movieCommentsRepository;
 
     @Cacheable(value = "getMovies")
     @Override
@@ -136,7 +142,7 @@ public class SearchServiceImpl implements SearchService {
         Integer movieID = null;
         if (moviesEntity != null)
             movieID = moviesEntity.getMovieId();
-
+        ArrayList<MovieCommentsDTO> movieCommentsList = new ArrayList<>();
         if (movieID != null) {
             if (wantToWatchRepository.findWanttowatchEntityByMovieIdAndUserId(movieID, userID.intValue()) != null)
                 wantToWatch = true;
@@ -146,19 +152,24 @@ public class SearchServiceImpl implements SearchService {
 
             if(reminderRepository.findRemindersEntityByUserIdAndMovieId(userID.intValue(), movieID) != null)
                 reminder = true;
+
+            List<MovieCommentsEntity> movieCommentsEntities = movieCommentsRepository.findMovieCommentsEntitiesByMovieId(movieID);
+            for (MovieCommentsEntity movieCommentsEntity : movieCommentsEntities) {
+                movieCommentsList.add(new MovieCommentsDTO(movieCommentsEntity.getUserByUserId().getUsername(), movieCommentsEntity.getComment()));
+            }
         }
 
         if (moviesEntity == null) {
             if (broadcasts.isEmpty()) {
                 return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
                         tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
-                        tmdbResult.getReleaseDate(), ratingResult, wantToWatch, fav, reminder, String.valueOf(tmdbResult.getId())));
+                        tmdbResult.getReleaseDate(), ratingResult, wantToWatch, fav, reminder, String.valueOf(tmdbResult.getId()), movieCommentsList));
             }
         } else {
             if (broadcasts.isEmpty()) {
                 return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
                         moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
-                        moviesEntity.getReleaseDate(), ratingResult, wantToWatch, fav, reminder, moviesEntity.getTmdbId().toString()));
+                        moviesEntity.getReleaseDate(), ratingResult, wantToWatch, fav, reminder, moviesEntity.getTmdbId().toString(), movieCommentsList));
             }
         }
 
@@ -166,12 +177,12 @@ public class SearchServiceImpl implements SearchService {
             return (new GetMovieDTO(tmdbResult.getMediaType().toString(), String.valueOf(tmdbResult.getVoteAverage()),
                     tmdbResult.getOverview(), tmdbResult.getBackdropPath(), tmdbResult.getPosterPath(), tmdbResult.getTitle(),
                     tmdbResult.getReleaseDate(), broadcastResult.getDate().toString(), broadcastResult.getTime().toString(),
-                    chanel, String.valueOf(tmdbResult.getId()), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
+                    chanel, String.valueOf(tmdbResult.getId()), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath, movieCommentsList));
         } else {
             return (new GetMovieDTO(moviesEntity.getMediaType(), moviesEntity.getAvarageRating(), moviesEntity.getOverview(),
                     moviesEntity.getBackdropPath(), moviesEntity.getPosterPath(), moviesEntity.getMovieName(),
                     moviesEntity.getReleaseDate(), broadcastResult.getDate().toString(), broadcastResult.getTime().toString(),
-                    chanel, moviesEntity.getTmdbId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath));
+                    chanel, moviesEntity.getTmdbId().toString(), ratingResult, wantToWatch, fav, reminder, Constants.getLogoPath() + logoPath, movieCommentsList));
         }
     }
 
