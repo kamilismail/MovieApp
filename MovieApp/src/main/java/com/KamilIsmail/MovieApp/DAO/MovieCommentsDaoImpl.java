@@ -37,7 +37,7 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
             return movieCommentsDTOS;
         List<MovieCommentsEntity> movieCommentsEntities = movieCommentsRepository.findMovieCommentsEntitiesByMovieId(movieEntity.getMovieId());
         for (MovieCommentsEntity movieCommentsEntity : movieCommentsEntities)
-            movieCommentsDTOS.add(new MovieCommentsDTO(movieCommentsEntity.getUserByUserId().getUsername(), movieCommentsEntity.getComment()));
+            movieCommentsDTOS.add(new MovieCommentsDTO(movieCommentsEntity.getUserByUserId().getUsername(), movieCommentsEntity.getComment().replaceAll("_", " ")));
         return movieCommentsDTOS;
     }
 

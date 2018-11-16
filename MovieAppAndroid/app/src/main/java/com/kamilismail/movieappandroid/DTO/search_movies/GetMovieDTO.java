@@ -3,6 +3,8 @@ package com.kamilismail.movieappandroid.DTO.search_movies;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class GetMovieDTO {
 
     @SerializedName("media_type")
@@ -53,6 +55,12 @@ public class GetMovieDTO {
     @SerializedName("user_reminder")
     @Expose
     private Boolean userReminder;
+    @SerializedName("comments")
+    @Expose
+    private ArrayList<MovieCommentsDTO> movieCommentsDTOS;
+    @SerializedName("user_comment")
+    @Expose
+    private Boolean userComment;
 
     /**
      * No args constructor for use in serialization
@@ -63,7 +71,8 @@ public class GetMovieDTO {
     public GetMovieDTO(String mediaType, String avarageRating, String overview, String backdropPath,
                        String posterPath, String title, String releaseDate, String date, String hour,
                        String chanel, String logoPath, String filmID, String userRating, Boolean userWantToWatch,
-                       Boolean userFav, Boolean userReminder) {
+                       Boolean userFav, Boolean userReminder, ArrayList<MovieCommentsDTO> movieCommentsDTOS,
+                       Boolean userComment) {
         this.mediaType = mediaType;
         this.avarageRating = avarageRating;
         this.overview = overview;
@@ -80,6 +89,8 @@ public class GetMovieDTO {
         this.userWantToWatch = userWantToWatch;
         this.userFav = userFav;
         this.userReminder = userReminder;
+        this.movieCommentsDTOS = movieCommentsDTOS;
+        this.userComment = userComment;
     }
 
     public String getMediaType() {
@@ -208,5 +219,21 @@ public class GetMovieDTO {
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
+    }
+
+    public ArrayList<MovieCommentsDTO> getMovieCommentsDTOS() {
+        return movieCommentsDTOS;
+    }
+
+    public void setMovieCommentsDTOS(ArrayList<MovieCommentsDTO> movieCommentsDTOS) {
+        this.movieCommentsDTOS = movieCommentsDTOS;
+    }
+
+    public Boolean getUserComment() {
+        return userComment;
+    }
+
+    public void setUserComment(Boolean userComment) {
+        this.userComment = userComment;
     }
 }

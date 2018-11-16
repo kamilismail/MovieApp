@@ -312,6 +312,71 @@
                         android:scaleX="0.7"
                         android:scaleY="0.7"/>
 
+                    <RelativeLayout
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/img_fav"
+                        android:id="@+id/relativeLayout">
+
+                        <TextView
+                            android:id="@+id/seasons"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Reviews"
+                            android:textColor="@android:color/black"
+                            android:textSize="25dp" />
+
+                        <Button
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add review"
+                            android:id="@+id/addComment"
+                            android:layout_below="@+id/seasons"
+                            android:padding="5dp"
+                            android:layout_toRightOf="@+id/img_comment"/>
+
+                        <ImageView
+                            android:id="@+id/img_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/seasons"
+                            android:src="@mipmap/ic_img_comment"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/comments"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img_comment" />
+
+                        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/comments"
+                            app:spi_dotSelectedColor="@color/DeepRed"
+                            app:spi_visibleDotCount='11'
+                            android:layout_centerHorizontal="true" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/nocomments"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="No reviews yet"
+                        android:textColor="@android:color/black"
+                        android:textSize="17dp"
+                        android:layout_below="@+id/relativeLayout"/>
+
                 </RelativeLayout>
 
             </LinearLayout>

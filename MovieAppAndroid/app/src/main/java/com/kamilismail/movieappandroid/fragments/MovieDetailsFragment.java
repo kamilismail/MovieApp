@@ -6,13 +6,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +27,9 @@ import com.kamilismail.movieappandroid.DTO.BooleanDTO;
 import com.kamilismail.movieappandroid.DTO.search_movies.GetMovieDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
+import com.kamilismail.movieappandroid.adapters.MovieCommentsRecyclerViewAdapter;
 import com.kamilismail.movieappandroid.connection.ApiFavourites;
+import com.kamilismail.movieappandroid.connection.ApiMovieComments;
 import com.kamilismail.movieappandroid.connection.ApiRatings;
 import com.kamilismail.movieappandroid.connection.ApiReminders;
 import com.kamilismail.movieappandroid.connection.ApiSearch;
@@ -37,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class MovieDetailsFragment extends Fragment {
 
@@ -104,6 +113,12 @@ public class MovieDetailsFragment extends Fragment {
     ImageView mImgWantToWatch;
     @BindView(R.id.img_fav)
     ImageView mImgFav;
+    @BindView(R.id.relativeLayout)
+    RelativeLayout relativeLayout;
+    @BindView(R.id.nocomments)
+    TextView nocomments;
+    @BindView(R.id.addComment)
+    Button addComment;
 
     public MovieDetailsFragment() {
     }
@@ -120,6 +135,7 @@ public class MovieDetailsFragment extends Fragment {
         this.title = args.getString("title");
         mTitle.setText(this.title);
         setVisibility(View.GONE);
+        nocomments.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
         pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -225,6 +241,48 @@ public class MovieDetailsFragment extends Fragment {
             }
         });
 
+        addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (addComment.getText().toString().toLowerCase().contains("delete")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Delete Your review?")
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    deleteComment(view);
+                                }
+                            })
+                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Add review");
+                    alert.setMessage("When ready just click 'SEND'");
+                    final EditText input = new EditText(v.getContext());
+                    alert.setView(input);
+
+                    alert.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            addComment(view, input.getText().toString());
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                        }
+                    });
+
+                    alert.show();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -250,6 +308,8 @@ public class MovieDetailsFragment extends Fragment {
         mImgReminder.setVisibility(visibility);
         mImgSend.setVisibility(visibility);
         mImgWantToWatch.setVisibility(visibility);
+        relativeLayout.setVisibility(visibility);
+        addComment.setVisibility(visibility);
     }
 
     private void getData(final View view) {
@@ -278,7 +338,7 @@ public class MovieDetailsFragment extends Fragment {
         });
     }
 
-    private void onSuccess(GetMovieDTO result, final View view) {
+    private void onSuccess(final GetMovieDTO result, final View view) {
         mAvarageRating.setText("Rating: " + result.getAvarageRating());
         if (!result.getUserRating().isEmpty())
             mRatingBar.setRating(Float.valueOf(result.getUserRating()));
@@ -295,6 +355,11 @@ public class MovieDetailsFragment extends Fragment {
             mReminder.setText("Delete reminder");
         else
             mReminder.setText("Add reminder");
+
+        if (result.getUserComment())
+            addComment.setText("Delete review");
+        else
+            addComment.setText("Add review");
 
         mRelease.setText("Release date: " + result.getReleaseDate());
         mDescription.setText("Description:\n\t" + result.getOverview());
@@ -317,6 +382,10 @@ public class MovieDetailsFragment extends Fragment {
                     public void onSuccess() {
                         mProgressBar.setVisibility(View.GONE);
                         setVisibility(View.VISIBLE);
+                        if (result.getMovieCommentsDTOS().isEmpty())
+                            nocomments.setVisibility(View.VISIBLE);
+                        else
+                            nocomments.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -330,6 +399,15 @@ public class MovieDetailsFragment extends Fragment {
 
         Picasso.get().load("https://image.tmdb.org/t/p/w780/" + result.getBackdropPath())
                 .into(mBackdrop);
+
+        try {
+            RecyclerView recyclerView = setAdapters(R.id.comments, view);
+            recyclerView.setAdapter(new MovieCommentsRecyclerViewAdapter(result.getMovieCommentsDTOS(), recyclerView, view));
+            ScrollingPagerIndicator recyclerIndicator = view.findViewById(R.id.indicator);
+            recyclerIndicator.attachToRecyclerView(recyclerView);
+        } catch (Exception e) {
+            mCallback.logoutUser();
+        }
     }
 
     private void onFailed() {
@@ -444,6 +522,17 @@ public class MovieDetailsFragment extends Fragment {
         });
     }
 
+    private RecyclerView setAdapters(Integer recyclerId, final View view) {
+        RecyclerView recyclerView = view.findViewById(recyclerId);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        recyclerView.setOnFlingListener(null);
+        snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        return recyclerView;
+    }
+
     private void sendRatingClicked(final View view) {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
 
@@ -457,6 +546,54 @@ public class MovieDetailsFragment extends Fragment {
             @Override
             public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
                 BooleanDTO result = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void deleteComment(final View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
+
+        ApiMovieComments apiMovieComments = retrofit.create(ApiMovieComments.class);
+
+        String cookie = sessionController.getCookie();
+        Call<BooleanDTO> call;
+        call = apiMovieComments.deleteComment(cookie, this.id);
+
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO result = response.body();
+                if (result.getResult())
+                    getData(view);
+            }
+
+            @Override
+            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void addComment(final View view, String comment) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(view.getContext());
+
+        ApiMovieComments apiMovieComments = retrofit.create(ApiMovieComments.class);
+
+        String cookie = sessionController.getCookie();
+        Call<BooleanDTO> call;
+        call = apiMovieComments.addComment(cookie, this.id, comment.replaceAll(" ", "_"));
+
+        call.enqueue(new Callback<BooleanDTO>() {
+            @Override
+            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
+                BooleanDTO result = response.body();
+                if (result.getResult())
+                    getData(view);
             }
 
             @Override
