@@ -38,22 +38,31 @@ public class TVGuideDaoImpl implements TVGuideDao {
         String logoPath = "";
         String date = "";
         String time = "";
+        Broadcast broadcastResult = null;
         if (movieEntity == null) {
-            FilmSearchResult filmResult = null;
+            FilmSearchResult filmResult;
             try {
                 FilmwebApi fa = new FilmwebApi();
                 filmResult = fa.findFilm(movieBean.getMovieDb().getTitle(), Integer.parseInt(movieBean.getMovieDb().getReleaseDate().substring(0, 4))).get(0);
-                List<Broadcast> broadcasts = null;
+                List<Broadcast> broadcasts;
                 broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
                 if (!broadcasts.isEmpty()) {
-                    Long chanelID = broadcasts.get(0).getChannelId();
+                    for (Broadcast broadcast: broadcasts) {
+                        if(broadcast.getTime().getHour() >= 18) {
+                            broadcastResult = broadcast;
+                            break;
+                        }
+                    }
+                    if (broadcastResult == null)
+                        broadcastResult = broadcasts.get(0);
+                    Long chanelID = broadcastResult.getChannelId();
                     List<TVChannel> tvChannels = fa.getTvChannels();
                     for (TVChannel tvChannel : tvChannels) {
                         if (tvChannel.getId() == chanelID) {
                             stationName = tvChannel.getName();
                             logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                            date = broadcasts.get(0).getDate().toString();
-                            time = broadcasts.get(0).getTime().toString();
+                            date = broadcastResult.getDate().toString();
+                            time = broadcastResult.getTime().toString();
                             break;
                         }
                     }
@@ -74,14 +83,22 @@ public class TVGuideDaoImpl implements TVGuideDao {
             try {
                 broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
                 if (!broadcasts.isEmpty()) {
-                    Long chanelID = broadcasts.get(0).getChannelId();
+                    for (Broadcast broadcast: broadcasts) {
+                        if(broadcast.getTime().getHour() >= 18) {
+                            broadcastResult = broadcast;
+                            break;
+                        }
+                    }
+                    if (broadcastResult == null)
+                        broadcastResult = broadcasts.get(0);
+                    Long chanelID = broadcastResult.getChannelId();
                     List<TVChannel> tvChannels = fa.getTvChannels();
                     for (TVChannel tvChannel : tvChannels) {
                         if (tvChannel.getId() == chanelID) {
                             stationName = tvChannel.getName();
                             logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                            date = broadcasts.get(0).getDate().toString();
-                            time = broadcasts.get(0).getTime().toString();
+                            date = broadcastResult.getDate().toString();
+                            time = broadcastResult.getTime().toString();
                             break;
                         }
                     }

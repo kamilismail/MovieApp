@@ -52,6 +52,7 @@ public class ReminderDaoImpl implements ReminderDao {
         String logoPath = "";
         String date = "";
         String time = "";
+        Broadcast broadcastResult = null;
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         MovieDb tmdbResult = tmdbApi.getMovies().getMovie(toIntExact(movieId), Constants.getLanguage());
@@ -61,14 +62,22 @@ public class ReminderDaoImpl implements ReminderDao {
         try {
             broadcasts = fa.getBroadcasts(filmResult.getId(), 0, 20);
             if (!broadcasts.isEmpty()) {
-                Long chanelID = broadcasts.get(0).getChannelId();
+                for (Broadcast broadcast: broadcasts) {
+                    if(broadcast.getTime().getHour() >= 18) {
+                        broadcastResult = broadcast;
+                        break;
+                    }
+                }
+                if (broadcastResult == null)
+                    broadcastResult = broadcasts.get(0);
+                Long chanelID = broadcastResult.getChannelId();
                 List<TVChannel> tvChannels = fa.getTvChannels();
                 for (TVChannel tvChannel : tvChannels) {
                     if (tvChannel.getId() == chanelID) {
                         stationName = tvChannel.getName();
                         logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                        date = broadcasts.get(0).getDate().toString();
-                        time = broadcasts.get(0).getTime().toString();
+                        date = broadcastResult.getDate().toString();
+                        time = broadcastResult.getTime().toString();
                         break;
                     }
                 }
@@ -153,18 +162,26 @@ public class ReminderDaoImpl implements ReminderDao {
         String logoPath = "";
         String date = "";
         String time = "";
-
+        Broadcast broadcastResult = null;
         try {
             List<Broadcast> broadcasts = fa.getBroadcasts((long) movieId, 0, 20);
             if (!broadcasts.isEmpty()) {
-                Long chanelID = broadcasts.get(0).getChannelId();
+                for (Broadcast broadcast: broadcasts) {
+                    if(broadcast.getTime().getHour() >= 18) {
+                        broadcastResult = broadcast;
+                        break;
+                    }
+                }
+                if (broadcastResult == null)
+                    broadcastResult = broadcasts.get(0);
+                Long chanelID = broadcastResult.getChannelId();
                 List<TVChannel> tvChannels = fa.getTvChannels();
                 for (TVChannel tvChannel : tvChannels) {
                     if (tvChannel.getId() == chanelID) {
                         stationName = tvChannel.getName();
                         logoPath = tvChannel.getLogo(Size.SMALL).getPath();
-                        date = broadcasts.get(0).getDate().toString();
-                        time = broadcasts.get(0).getTime().toString();
+                        date = broadcastResult.getDate().toString();
+                        time = broadcastResult.getTime().toString();
                         break;
                     }
                 }
