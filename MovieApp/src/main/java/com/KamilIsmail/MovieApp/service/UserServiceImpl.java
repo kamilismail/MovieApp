@@ -73,4 +73,14 @@ public class UserServiceImpl implements UserService {
     public BooleanDTO setPhotoName(int userID, String fileName) {
         return userDao.setPhotoName(userID, fileName);
     }
+
+    @Override
+    public BooleanDTO deleteAdminUser(int userId) {
+        return userDao.deleteAdminUser(userId);
+    }
+
+    @Override
+    public BooleanDTO deleteFacebookUser(String mail, int userId) {
+        return userDao.deleteFacebookUser(mail, userId);
+    }
 }

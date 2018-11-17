@@ -10,4 +10,6 @@ public interface MovieCommentsRepository extends JpaRepository<MovieCommentsEnti
     List<MovieCommentsEntity> findMovieCommentsEntitiesByMovieId(int movieId);
 
     MovieCommentsEntity findMovieCommentsEntityByUserIdAndMovieId(int userId, int movieId);
+
+    List<MovieCommentsEntity> findMovieCommentsEntitiesByUserId(int userId);
 }

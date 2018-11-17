@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -45,6 +46,8 @@ public class DeleteAccountFragment extends Fragment {
     Button bDelete;
     @BindView(R.id.tCancel)
     Button bCancel;
+    @BindView(R.id.tPsw)
+    TextView tPsw;
 
     public DeleteAccountFragment() {
     }
@@ -53,7 +56,7 @@ public class DeleteAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_change_psw, container, false);
+        View view = inflater.inflate(R.layout.fragment_delete_account, container, false);
         this.sessionController = new SessionController(getContext());
         ButterKnife.bind(this, view);
         progressBar.setVisibility(View.GONE);
@@ -83,6 +86,9 @@ public class DeleteAccountFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
+        if (sessionController.getRole().toLowerCase().equals("facebook"))
+            tPsw.setText("Confirm facebook mail");
         return view;
     }
 
@@ -103,8 +109,11 @@ public class DeleteAccountFragment extends Fragment {
             String cookie = sessionController.getCookie();
             JsonObject obj = new JsonObject();
             obj.addProperty("password", ePsw.getText().toString());
-
-            Call<BooleanDTO> call = apiUser.deleteUser(cookie, obj);
+            Call<BooleanDTO> call;
+            if (sessionController.getRole().toLowerCase().equals("facebook"))
+                call = apiUser.deleteFacebookUser(cookie, obj);
+            else
+                call = apiUser.deleteUser(cookie, obj);
             progressBar.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<BooleanDTO>() {
                 @Override

@@ -22,4 +22,8 @@ public interface UserDao {
     GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role);
 
     BooleanDTO setPhotoName(int userID, String fileName);
+
+    BooleanDTO deleteAdminUser(int userId);
+
+    BooleanDTO deleteFacebookUser(String mail, int userId);
 }

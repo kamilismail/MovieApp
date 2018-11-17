@@ -161,6 +161,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        bDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.startDeleteAccountFragment();
+            }
+        });
+
         if (sessionController.getRole().equals("user")) {
             bChange.setVisibility(View.VISIBLE);
             bDelete.setVisibility(View.VISIBLE);
@@ -169,13 +176,6 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     mCallback.startChangePswFragment();
-                }
-            });
-
-            bDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.startDeleteAccountFragment();
                 }
             });
 
@@ -213,7 +213,6 @@ public class ProfileFragment extends Fragment {
             _tapToEdit.setVisibility(View.GONE);
             mProfilePhoto.setVisibility(View.GONE);
             bChange.setVisibility(View.GONE);
-            bDelete.setVisibility(View.GONE);
             mProgressBarProfile.setVisibility(View.VISIBLE);
             if (!checkIfViewSaved(view))
                 getData(view);
@@ -393,10 +392,6 @@ public class ProfileFragment extends Fragment {
 
     private void onFailed() {
         Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT).show();
-    }
-
-    private void deleteAccount() {
-
     }
 
     @Override

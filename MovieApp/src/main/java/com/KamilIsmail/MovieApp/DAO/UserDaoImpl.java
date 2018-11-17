@@ -27,6 +27,8 @@ public class UserDaoImpl implements UserDao {
     ReminderRepository reminderRepository;
     @Autowired
     UserSocialRepository userSocialRepository;
+    @Autowired
+    MovieCommentsRepository movieCommentsRepository;
 
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(12);
@@ -59,14 +61,15 @@ public class UserDaoImpl implements UserDao {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
         final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         if (pwEncoder.matches(password, userEntity.getPassword())) {
-            photoRepository.delete(userEntity.getPhotosByPhotoId());
+            reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId()).forEach(p -> reminderRepository.delete(p));
+            favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId()).forEach(p -> favouriteRepository.delete(p));
+            movieCommentsRepository.findMovieCommentsEntitiesByUserId(userEntity.getUserId()).forEach(p -> movieCommentsRepository.delete(p));
             ratingRepository.findRatingsEntityByUserId(userEntity.getUserId()).forEach(p -> ratingRepository.delete(p));
             wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId()).forEach(p -> wantToWatchRepository.delete(p));
-            favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId()).forEach(p -> favouriteRepository.delete(p));
-            reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId()).forEach(p -> reminderRepository.delete(p));
+            userRepository.deleteById(userEntity.getUserId());
             if (userEntity.getUserSocialId() != null)
                 userSocialRepository.delete(userSocialRepository.findByUserSocialId(userEntity.getUserSocialId()));
-            userRepository.deleteById(userEntity.getUserId());
+            photoRepository.delete(userEntity.getPhotosByPhotoId());
             return new BooleanDTO(true);
         } else
             return new BooleanDTO(false);
@@ -112,5 +115,39 @@ public class UserDaoImpl implements UserDao {
             photoRepository.save(photosEntity);
         }
         return new BooleanDTO(true);
+    }
+
+    @Override
+    public BooleanDTO deleteAdminUser(int userId) {
+        final UserEntity userEntity = userRepository.findByUserId(userId);
+        reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId()).forEach(p -> reminderRepository.delete(p));
+        favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId()).forEach(p -> favouriteRepository.delete(p));
+        movieCommentsRepository.findMovieCommentsEntitiesByUserId(userEntity.getUserId()).forEach(p -> movieCommentsRepository.delete(p));
+        ratingRepository.findRatingsEntityByUserId(userEntity.getUserId()).forEach(p -> ratingRepository.delete(p));
+        wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId()).forEach(p -> wantToWatchRepository.delete(p));
+        userRepository.deleteById(userEntity.getUserId());
+        if (userEntity.getUserSocialId() != null)
+            userSocialRepository.delete(userSocialRepository.findByUserSocialId(userEntity.getUserSocialId()));
+        photoRepository.delete(userEntity.getPhotosByPhotoId());
+        return new BooleanDTO(true);
+    }
+
+    @Override
+    public BooleanDTO deleteFacebookUser(String mail, int userId) {
+        final UserEntity userEntity = userRepository.findByUserId(userId);
+        final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
+        if (pwEncoder.matches(mail, userEntity.getUserSocialByUserSocialId().getMail())) {
+            reminderRepository.findRemindersEntitiesByUserId(userEntity.getUserId()).forEach(p -> reminderRepository.delete(p));
+            favouriteRepository.findFavouritesEntityByUserId(userEntity.getUserId()).forEach(p -> favouriteRepository.delete(p));
+            movieCommentsRepository.findMovieCommentsEntitiesByUserId(userEntity.getUserId()).forEach(p -> movieCommentsRepository.delete(p));
+            ratingRepository.findRatingsEntityByUserId(userEntity.getUserId()).forEach(p -> ratingRepository.delete(p));
+            wantToWatchRepository.findWanttowatchEntityByUserId(userEntity.getUserId()).forEach(p -> wantToWatchRepository.delete(p));
+            userRepository.deleteById(userEntity.getUserId());
+            if (userEntity.getUserSocialId() != null)
+                userSocialRepository.delete(userSocialRepository.findByUserSocialId(userEntity.getUserSocialId()));
+            photoRepository.delete(userEntity.getPhotosByPhotoId());
+            return new BooleanDTO(true);
+        } else
+            return new BooleanDTO(false);
     }
 }

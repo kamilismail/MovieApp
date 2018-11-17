@@ -34,4 +34,10 @@ public interface UserService {
 
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
     BooleanDTO setPhotoName(int userID, String fileName);
+
+    @PreAuthorize("hasAnyAuthority('admin')")
+    BooleanDTO deleteAdminUser(int userId);
+
+    @PreAuthorize("hasAnyAuthority('facebook')")
+    BooleanDTO deleteFacebookUser(String mail, int userId);
 }

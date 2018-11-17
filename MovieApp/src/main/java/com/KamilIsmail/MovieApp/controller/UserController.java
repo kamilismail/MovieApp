@@ -69,6 +69,19 @@ public class UserController {
         return userService.deleteUser(user.getUsername(), param.getPassword());
     }
 
+    @DeleteMapping("admin")
+    public BooleanDTO deleteAdminUser(@RequestParam("userid") int userId, Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
+        return userService.deleteAdminUser(userId);
+    }
+
+    @DeleteMapping("facebook")
+    public BooleanDTO deleteFacebookUser(@Valid @RequestBody DeleteUserParam param, Principal principal) {
+        User user = (User) ((Authentication) principal).getPrincipal();
+        UserEntity userEntity = userRepository.findByUsername(user.getUsername()).get(0);
+        return userService.deleteFacebookUser(param.getPassword(), userEntity.getUserId());
+    }
+
     @GetMapping("getUsername")
     public GetUsernameDTO getUsername(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
