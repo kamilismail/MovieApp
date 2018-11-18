@@ -232,8 +232,9 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
+    //do sprawdzenia
     @SuppressLint("StaticFieldLeak")
-    private void sendFirebaseID() throws Exception {
+    private void sendFirebaseID() throws Exception { //test
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -255,11 +256,17 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback<BooleanDTO>() {
                     @Override
                     public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
-                        progressBar.setVisibility(View.GONE);
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
+                        BooleanDTO result = response.body();
+                        if (result != null && result.getResult()) {
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            onLoginFailed();
+                            return;
+                        }
                     }
 
                     @Override
@@ -273,6 +280,10 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginFailed() {
         _loginButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
+        sessionController.logoutUser();
+        try {
+            LoginManager.getInstance().logOut();
+        } catch (Exception e) {}
         Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT).show();
     }
 }
