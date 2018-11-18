@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class DiscoverServiceImpl implements DiscoverService {
 

@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa odpowiadająca za obsługę połączenia z bazą danych. Komunikacja z tabelami dotyczącymi użytkowników.
+ */
 @Service
 public class UserDaoImpl implements UserDao {
     @Autowired
@@ -30,11 +34,23 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     MovieCommentsRepository movieCommentsRepository;
 
+    /**
+     * Metoda hashująca przekazay String.
+     * @param password_plaintext
+     * @return
+     */
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(12);
         return (BCrypt.hashpw(password_plaintext, salt));
     }
 
+    /**
+     * Metoda tworząca użytkownika.
+     * @param username
+     * @param password
+     * @param role
+     * @return
+     */
     @Override
     public UserEntity createUser(String username, String password, String role) {
         PhotosEntity photosEntity = new PhotosEntity("");
@@ -44,6 +60,13 @@ public class UserDaoImpl implements UserDao {
         return userEntity;
     }
 
+    /**
+     * Metoda zmieniająca hasło użytkownika.
+     * @param username
+     * @param password
+     * @param newPassword
+     * @return
+     */
     @Override
     public BooleanDTO changeUserPassword(String username, String password, String newPassword) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
@@ -56,6 +79,12 @@ public class UserDaoImpl implements UserDao {
             return new BooleanDTO(false);
     }
 
+    /**
+     * Metoda usuwająca konto użytkownika. Usuwa wszystkie powiązane z nim dane.
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public BooleanDTO deleteUser(String username, String password) {
         final UserEntity userEntity = userRepository.findByUsername(username).get(0);
@@ -75,11 +104,22 @@ public class UserDaoImpl implements UserDao {
             return new BooleanDTO(false);
     }
 
+    /**
+     * Metoda zwracająca nazwę użytkownika.
+     * @param id
+     * @return
+     */
     @Override
     public GetUsernameDTO getUsername(int id) {
         return new GetUsernameDTO(userRepository.findByUserId(id).getUsername());
     }
 
+    /**
+     * Metoda zapisują nowy token firebase, służacy do wysyłania powiadomień na telefon użytkownika.
+     * @param id
+     * @param token
+     * @return
+     */
     @Override
     public BooleanDTO setFirebaseID(int id, String token) {
         final UserEntity userEntity = userRepository.findByUserId(id);
@@ -88,11 +128,24 @@ public class UserDaoImpl implements UserDao {
         return new BooleanDTO(true);
     }
 
+    /**
+     * Metoda zwracająca nazwę użytkownika zalogowanego przez Facebooka.
+     * @param id
+     * @return
+     */
     @Override
     public GetUsernameDTO getFacebookUsername(int id) {
         return new GetUsernameDTO(userSocialRepository.findByUserSocialId(id).getUsername());
     }
 
+    /**
+     * Metoda tworzy konto użytkownikowi zalogowanemu przez Facebooka.
+     * @param username
+     * @param facebookID
+     * @param mail
+     * @param role
+     * @return
+     */
     @Override
     public GetUsernameDTO createFacebookUser(String username, String facebookID, String mail, String role) {
         PhotosEntity photosEntity = new PhotosEntity("https://graph.facebook.com/"+facebookID+"/picture?type=large");
@@ -105,6 +158,12 @@ public class UserDaoImpl implements UserDao {
         return new GetUsernameDTO(username);
     }
 
+    /**
+     * Metoda zapiusują url zdjęcia profilowego użytkownika.
+     * @param userID
+     * @param fileName
+     * @return
+     */
     @Override
     public BooleanDTO setPhotoName(int userID, String fileName) {
         PhotosEntity photosEntity = userRepository.findByUserId(userID).getPhotosByPhotoId();
@@ -117,6 +176,11 @@ public class UserDaoImpl implements UserDao {
         return new BooleanDTO(true);
     }
 
+    /**
+     * Metoda pozwalająca administratorowi usunięcie jakiegokolwiek konta.
+     * @param userId
+     * @return
+     */
     @Override
     public BooleanDTO deleteAdminUser(int userId) {
         final UserEntity userEntity = userRepository.findByUserId(userId);
@@ -132,6 +196,12 @@ public class UserDaoImpl implements UserDao {
         return new BooleanDTO(true);
     }
 
+    /**
+     * Metoda usuwająca konto użytkownika zalogowanego przez Facebooka.
+     * @param mail
+     * @param userId
+     * @return
+     */
     @Override
     public BooleanDTO deleteFacebookUser(String mail, int userId) {
         final UserEntity userEntity = userRepository.findByUserId(userId);

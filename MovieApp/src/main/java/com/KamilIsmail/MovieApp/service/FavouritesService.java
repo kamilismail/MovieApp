@@ -7,6 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public interface FavouritesService {
     @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     List<DiscoverMovieDTO> getFavourites(int userId) throws IOException;

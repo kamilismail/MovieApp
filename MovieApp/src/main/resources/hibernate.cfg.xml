@@ -13,7 +13,6 @@
         <mapping class="com.KamilIsmail.MovieApp.entities.UserSocialEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.MoviesEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.FavouritesEntity"/>
-        <mapping class="com.KamilIsmail.MovieApp.entities.PersistentLoginsEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.PhotosEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.RatingsEntity"/>
         <mapping class="com.KamilIsmail.MovieApp.entities.RemindersEntity"/>

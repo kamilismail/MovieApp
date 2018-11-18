@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli users. Zawiera informacje na temat kont użytkowiników.
+ */
 @Entity
 @GenericGenerator(name = "seq7", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "org.hibernate.id.enhanced.SequenceStyleGenerator", value = "user_id_seq"))
 @Table(name = "users", schema = "public", catalog = "d55rc0894f06nc")

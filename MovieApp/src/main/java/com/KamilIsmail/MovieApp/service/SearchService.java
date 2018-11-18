@@ -10,6 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.IOException;
 
+/**
+ * @author kamilismail
+ */
 public interface SearchService {
     @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     MovieResultsPage getMovies(String production) throws IOException;

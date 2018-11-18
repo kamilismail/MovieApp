@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author kamilismail
+ * Klasa odpowiadająca za autoryzację użytwkowników.
+ */
 @Component
 public class AppAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
     @Override

@@ -9,6 +9,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author kamilismail
+ * Klasa zawierająca informacji o filmie z progrmau tv.
+ */
 public class MovieBean {
 
     private Date date;
@@ -59,6 +63,10 @@ public class MovieBean {
         this.rating = rating;
     }
 
+    /**
+     * Metoda sprawdza czy dany film ma już wystawioną ocenę w systemie tmdb. Jeśli nie to znaczy, że dana produkcja nie jest filmem.
+     * @return
+     */
     public Boolean setFilmwebRating() {
         try {
             Constants constants = new Constants();
@@ -80,6 +88,9 @@ public class MovieBean {
         return true;
     }
 
+    /**
+     * Metodą znajdująca w opisie filmu datę produkcji.
+     */
     public void parseYear() {
         int actualYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = YEAR; i <= actualYear; i++) {

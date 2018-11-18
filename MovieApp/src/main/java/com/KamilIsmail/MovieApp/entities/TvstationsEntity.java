@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli stations. Zawiera informacje o stacjach telewizyjnych.
+ */
 @Entity
 @GenericGenerator(name = "seq6", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "tvstation_id_seq", value = "tvstation_id_seq"))
 @Table(name = "stations", schema = "public", catalog = "d55rc0894f06nc")

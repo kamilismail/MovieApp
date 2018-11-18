@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.Principal;
 
+
+/**
+ * @author kamilismail
+ * Klasa, w której obsługiwane jest zapytanie dotyczące pobrania list filmów popularnych, emitowanych w kinach,
+ * zbliżających się premier, popularnych seriali. Każda lista zawiera max 10 elementów.
+ */
 @RestController
 @RequestMapping("discover/")
 public class DiscoverController {
@@ -20,6 +26,12 @@ public class DiscoverController {
     @Autowired
     DiscoverService discoverService;
 
+    /**
+     * Metoda zwracająca listy filmów.
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @GetMapping("")
     public DiscoverDTO getJSON(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();

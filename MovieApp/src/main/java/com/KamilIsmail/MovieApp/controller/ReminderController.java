@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa obsługująca wszystkie zapytania dotyczące przypomnień.
+ */
 @RestController
 @RequestMapping("reminder/")
 public class ReminderController {
@@ -23,6 +27,12 @@ public class ReminderController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda zwraca listę wsyztskich ustawionych przez użytkownika przypomnień.
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @GetMapping("getReminders")
     public List<ReminderDTO> getReminders(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -30,6 +40,12 @@ public class ReminderController {
         return reminderService.getReminders((int) userEntity.getUserId());
     }
 
+    /**
+     * Metoda obsługuje dodawanie danej pozycji filmowej dla danego użytkownika.
+     * @param movieId
+     * @param principal
+     * @return
+     */
     @PostMapping("addReminder")
     public BooleanDTO addReminder(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -37,6 +53,12 @@ public class ReminderController {
         return reminderService.addReminder((int) userEntity.getUserId(), movieId);
     }
 
+    /**
+     * Metoda usuwa przypomnienie danej pozycji filmowej przez użytkownika.
+     * @param movieID
+     * @param principal
+     * @return
+     */
     @DeleteMapping("deleteReminder")
     public BooleanDTO deleteReminder(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();

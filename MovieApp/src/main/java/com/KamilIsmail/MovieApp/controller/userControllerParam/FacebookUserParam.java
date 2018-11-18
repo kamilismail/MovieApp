@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author kamilismail
+ * Klasa przechowująca dane json przy zapytaniu o zalogowanie lub zarejestrowanie użytkownika logującego się przy
+ * pomocy Facebooka.
+ */
 public class FacebookUserParam {
     @NotNull
     @NotEmpty

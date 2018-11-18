@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli movie_comments. Zawiera komenatrze użytkowników.
+ */
 @Entity
 @GenericGenerator(name = "seq11", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "org.hibernate.id.enhanced.SequenceStyleGenerator", value = "moviecomments_id_seq"))
 @Table(name = "movie_comments", schema = "public", catalog = "d55rc0894f06nc")

@@ -11,6 +11,10 @@ import info.talacha.filmweb.search.models.FilmSearchResult;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author kamilismail
+ * Klasa pozwaljąca na łatwiejsze sprawdzenie emisji danego filmu w tv.
+ */
 public class BroadcastsHelper {
 
     private String stationName;
@@ -32,6 +36,10 @@ public class BroadcastsHelper {
         this.movieID = movieId;
     }
 
+    /**
+     * Metoda sprawdzająca czy dany film jest już w programie tv.
+     * @return
+     */
     public Boolean getBroadcastById(){
         try {
             FilmwebApi fa = new FilmwebApi();
@@ -55,6 +63,10 @@ public class BroadcastsHelper {
         return true;
     }
 
+    /**
+     * Metoda sprawdzająca czy dany film jest już w programie tv.
+     * @return
+     */
     public Boolean getBroadcast(){
         Optional<FilmSearchResult> filmResult;
         try {

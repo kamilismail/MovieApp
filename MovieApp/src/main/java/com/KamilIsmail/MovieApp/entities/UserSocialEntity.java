@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli user_social. Zawiera szczegółowe informacje na temat kont użytkowników zalogowanych przez Facebooka.
+ */
 @Entity
 @GenericGenerator(name = "seq10", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "user_social_id_seq", value = "user_social_id_seq"))
 @Table(name = "user_social", schema = "public", catalog = "d55rc0894f06nc")

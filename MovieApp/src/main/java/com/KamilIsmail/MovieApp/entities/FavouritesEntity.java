@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli "favourites" zawierającj pozycje ustawione przez użytkowników jako ulubione.
+ */
 @Entity
 @GenericGenerator(name = "seq1", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "favourite_id_seq", value = "favourite_id_seq"))
 @Table(name = "favourites", schema = "public", catalog = "d55rc0894f06nc")

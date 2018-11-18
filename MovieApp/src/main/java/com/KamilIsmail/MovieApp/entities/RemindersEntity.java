@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Encja tabeli reminders. Zawiera informacje na temat ustawionych przypomnień.
+ */
 @Entity
 @GenericGenerator(name = "seq5", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "reminder_id_seq", value = "reminder_id_seq"))
 @Table(name = "reminders", schema = "public", catalog = "d55rc0894f06nc")

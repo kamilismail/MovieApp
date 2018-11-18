@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa obsługuje listę "want to watch".
+ */
 @RestController
 @RequestMapping("want/")
 public class WantToWatchController {
@@ -22,6 +26,12 @@ public class WantToWatchController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda zwraca listę pozycji filmowych ustawionych jako "want to watch" przez danego użytkownika.
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @GetMapping("getWants")
     public List<DiscoverMovieDTO> getWants(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -29,6 +39,12 @@ public class WantToWatchController {
         return wantService.getWants(userEntity.getUserId());
     }
 
+    /**
+     * Metoda dodaje daną pozycję filmową do listy "want to watch".
+     * @param movieId
+     * @param principal
+     * @return
+     */
     @PostMapping("addWant")
     public BooleanDTO addWant(@RequestParam("movieID") int movieId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -36,6 +52,12 @@ public class WantToWatchController {
         return wantService.addWant(userEntity.getUserId(), movieId);
     }
 
+    /**
+     * Metoda usuwa daną pozycję filmową z listy "want to watch".
+     * @param movieID
+     * @param principal
+     * @return
+     */
     @DeleteMapping("deleteWant")
     public BooleanDTO deleteWant(@RequestParam("movieID") int movieID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();

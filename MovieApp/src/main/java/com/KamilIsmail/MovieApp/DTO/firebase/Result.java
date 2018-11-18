@@ -3,6 +3,9 @@ package com.KamilIsmail.MovieApp.DTO.firebase;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author kamilismail
+ */
 public class Result {
 
     @SerializedName("message_id")

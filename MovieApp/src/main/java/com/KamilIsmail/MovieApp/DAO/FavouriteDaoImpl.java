@@ -20,6 +20,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa obsługująca komunikację z bazą danych. Celem jest zapis danej pozycji w tabeli ulubionych.
+ */
 @Service
 public class FavouriteDaoImpl implements FavouriteDao {
 
@@ -32,6 +36,12 @@ public class FavouriteDaoImpl implements FavouriteDao {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda dodaje nową pozycję do tabeli ulubionych.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addFavourite(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -58,6 +68,12 @@ public class FavouriteDaoImpl implements FavouriteDao {
         return (new BooleanDTO(true));
     }
 
+    /**
+     * Metoda usuwa daną pozycję filmową z tabeli ulubionych.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteFavourite(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);

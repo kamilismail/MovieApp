@@ -20,6 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa rozpoczynająca proces pobierania nowego programu tv.
+ */
 @Component
 public class TVGuideScheduler {
     private static final Logger log = LoggerFactory.getLogger(TVGuideScheduler.class);
@@ -35,6 +39,9 @@ public class TVGuideScheduler {
     @Autowired
     ParseService parseService;
 
+    /**
+     * Każdego dnia o godzienie 8:00 następuje pobranie nowego programu tv.
+     */
     @Scheduled(cron = "0 0 8 * * *") //everyday at 8am
     public void checkTVGuide() {
         //parsowanie nowego programu tv

@@ -8,6 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public interface UserService {
 
     @PreAuthorize("hasAuthority('admin')")

@@ -19,6 +19,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa odpowiadjąca za komunikację z tabelą "want to watch".
+ */
 @Service
 public class WantToWatchDaoImpl implements WantToWatchDao {
     @Autowired
@@ -30,6 +34,12 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda dodająca nową pozycję do tabeli.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addWantToWatch(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -61,6 +71,12 @@ public class WantToWatchDaoImpl implements WantToWatchDao {
         return (new BooleanDTO(true));
     }
 
+    /**
+     * Metoda usuwająca daną pozycję z tabeli.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteWantToWatch(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);

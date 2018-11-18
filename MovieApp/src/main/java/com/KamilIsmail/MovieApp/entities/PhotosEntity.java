@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli "photos". Zawiera linki do zdjęć profilowych użytkwoinków.
+ */
 @Entity
 @GenericGenerator(name = "seq3", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "photo_id_seq", value = "photo_id_seq"))
 @Table(name = "photos", schema = "public", catalog = "d55rc0894f06nc")

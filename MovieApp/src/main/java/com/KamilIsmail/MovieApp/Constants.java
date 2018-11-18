@@ -1,5 +1,9 @@
 package com.KamilIsmail.MovieApp;
 
+/**
+ * @author kamilismail
+ * Klasa zawierająca stałe dane.
+ */
 public class Constants {
 
     private String tmdbAPI = "4415570664d3008a558b498ee258962a";

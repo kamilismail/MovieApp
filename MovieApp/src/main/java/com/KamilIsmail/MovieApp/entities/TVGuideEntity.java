@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * @author kamilismail
+ * Encja tabeli "tvguide". Zawiera informacje na temat programu tv.
+ */
 @Entity
 @GenericGenerator(name = "seq9", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "tvguide_id_seq", value = "tvguide_id_seq"))
 @Table(name = "tvguide", schema = "public", catalog = "d55rc0894f06nc")

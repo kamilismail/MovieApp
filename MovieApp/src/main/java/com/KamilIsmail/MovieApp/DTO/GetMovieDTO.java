@@ -6,6 +6,9 @@ import info.movito.themoviedbapi.model.MovieDb;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public class GetMovieDTO {
 
     @JsonProperty("media_type")

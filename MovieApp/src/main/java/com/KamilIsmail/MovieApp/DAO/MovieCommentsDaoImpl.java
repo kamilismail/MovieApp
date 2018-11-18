@@ -19,6 +19,10 @@ import java.util.*;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa obsługująca komunikację z bazą danych. Celem jest zapis komentarza do filmu.
+ */
 @Service
 public class MovieCommentsDaoImpl implements MovieCommentsDao {
 
@@ -29,6 +33,11 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda zwraca wszystkie komentarze dla danego filmu.
+     * @param movieId
+     * @return
+     */
     @Override
     public List<MovieCommentsDTO> getComments(int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -41,6 +50,13 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
         return movieCommentsDTOS;
     }
 
+    /**
+     * Metoda dodaje nowych komentarz do filmu przez danego użytkowinka.
+     * @param userId
+     * @param comment
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addComment(int userId, String comment, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -63,6 +79,12 @@ public class MovieCommentsDaoImpl implements MovieCommentsDao {
         return new BooleanDTO(true);
     }
 
+    /**
+     * Metoda usuwa komentarz danego użytkownika dla danego filmu.
+     * @param userid
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteComment(int userid, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);

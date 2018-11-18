@@ -7,6 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public interface RatingService {
     @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     BooleanDTO setRating(int userID, int movieID, int rating) throws IOException;

@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli ratings. Zawiera informacje na temat wystawionych ocen przez użytkowników.
+ */
 @Entity
 @GenericGenerator(name = "seq4", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "rating_id_seq", value = "rating_id_seq"))
 @Table(name = "ratings", schema = "public", catalog = "d55rc0894f06nc")

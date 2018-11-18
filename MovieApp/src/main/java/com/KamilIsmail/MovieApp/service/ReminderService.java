@@ -7,6 +7,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public interface ReminderService {
     @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")
     List<ReminderDTO> getReminders(int userId) throws IOException;

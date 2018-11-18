@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class WantToWatchServiceImpl implements WantToWatchService {
     @Autowired
@@ -27,6 +31,11 @@ public class WantToWatchServiceImpl implements WantToWatchService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     WantToWatchDao wantDao;
 
+    /**
+     * Metoda zwraca listę pozycji filmowych dodanych do tabeli wanttowatch danego użytkownika.
+     * @param userid
+     * @return
+     */
     @Override
     public List<DiscoverMovieDTO> getWants(int userid) {
         return wantRepository.findWanttowatchEntityByUserId(userid).stream()
@@ -36,6 +45,12 @@ public class WantToWatchServiceImpl implements WantToWatchService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Metoda dodająca daną pozycję filmową do listy wanttowatch.
+     * @param userid
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addWant(int userid, int movieId) {
         try {
@@ -51,6 +66,12 @@ public class WantToWatchServiceImpl implements WantToWatchService {
         }
     }
 
+    /**
+     * Metoda usuwająca daną pozycję filmową z listy wanttowatch.
+     * @param userid
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteWant(int userid, int movieId) {
         return wantDao.deleteWantToWatch(userid, movieId);

@@ -2,6 +2,9 @@ package com.KamilIsmail.MovieApp.DTO.firebase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author kamilismail
+ */
 public class FirebaseDTO {
     @JsonProperty("notification")
     public Notification notification;

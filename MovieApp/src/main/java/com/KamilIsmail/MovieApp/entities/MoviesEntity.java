@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja zawierająca informacje o filmach.
+ */
 @Entity
 @GenericGenerator(name = "seq2", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "favourite_id_seq", value = "favourite_id_seq"))
 @Table(name = "movies", schema = "public", catalog = "d55rc0894f06nc")

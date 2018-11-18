@@ -21,6 +21,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa odpowiada za kounikację z bazą dancyh. Zapis do tabeli progamu tv.
+ */
 @Service
 public class TVGuideDaoImpl implements TVGuideDao {
 
@@ -31,6 +35,11 @@ public class TVGuideDaoImpl implements TVGuideDao {
     @Autowired
     TvStationRepository tvStationRepository;
 
+    /**
+     * Metoda zapisuje nowy program tv do tabeli. Sprawdza czy dany film na pewno jest emitowany w tv.
+     * @param movieBean
+     * @return
+     */
     @Override
     public BooleanDTO addTVGuide(MovieBean movieBean) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieBean.getMovieDb().getId());
@@ -125,6 +134,10 @@ public class TVGuideDaoImpl implements TVGuideDao {
         return (new BooleanDTO(true));
     }
 
+    /**
+     * Metoda usuwa cały program tv z poprzedniego dnia.
+     * @return
+     */
     @Override
     public boolean deleteTVGuide() {
         tvGuideRepository.findAll().forEach(p -> tvGuideRepository.delete(p));

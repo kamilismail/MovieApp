@@ -5,6 +5,9 @@ import com.KamilIsmail.MovieApp.DTO.GetUsernameDTO;
 import com.KamilIsmail.MovieApp.entities.UserEntity;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author kamilismail
+ */
 @Repository
 public interface UserDao {
     UserEntity createUser(String username, String password, String role);

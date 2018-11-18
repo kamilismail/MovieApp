@@ -3,6 +3,9 @@ package com.KamilIsmail.MovieApp.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.movito.themoviedbapi.model.tv.TvSeries;
 
+/**
+ * @author kamilismail
+ */
 public class GetSeriesDTO {
 
     private TvSeries result;

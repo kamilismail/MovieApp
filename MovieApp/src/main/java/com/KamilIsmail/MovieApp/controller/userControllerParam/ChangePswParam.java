@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author kamilismail
+ * Klasa służaca do przechowywania danych json do zapytania oz mianę hasła użytkownika.
+ */
 public class ChangePswParam {
     @NotNull
     @NotEmpty

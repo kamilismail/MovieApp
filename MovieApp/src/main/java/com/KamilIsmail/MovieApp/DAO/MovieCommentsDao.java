@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 @Repository
 public interface MovieCommentsDao {
     List<MovieCommentsDTO> getComments(int movieId);

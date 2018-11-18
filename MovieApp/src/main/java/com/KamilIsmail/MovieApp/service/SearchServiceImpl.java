@@ -32,6 +32,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class SearchServiceImpl implements SearchService {
 
@@ -59,6 +63,11 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     MovieCommentsRepository movieCommentsRepository;
 
+    /**
+     * Metoda zwracjąca wynik wyszukania filmów.
+     * @param production
+     * @return
+     */
     @Cacheable(value = "getMovies")
     @Override
     public MovieResultsPage getMovies(String production) {
@@ -67,6 +76,11 @@ public class SearchServiceImpl implements SearchService {
         return tmdbApi.getSearch().searchMovie(production, 0, Constants.getLanguage(), false, 0);
     }
 
+    /**
+     * Metoda zwracająca wynik wyszukiwania danego serialu.
+     * @param production
+     * @return
+     */
     @Cacheable(value = "tvShows")
     @Override
     public TvResultsPage getTVShows(String production) {
@@ -75,6 +89,12 @@ public class SearchServiceImpl implements SearchService {
         return tmdbApi.getSearch().searchTv(production, Constants.getLanguage(), 0);
     }
 
+    /**
+     * Metoda zwracająca szczegóły danego filmu dla danego użytkownika.
+     * @param id
+     * @param userID
+     * @return
+     */
     @Override
     public GetMovieDTO getMovie(Long id, Long userID) {
         Constants constants = new Constants();
@@ -196,6 +216,11 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
+    /**
+     * Metoda zwracająca szczegóły serialu.
+     * @param id
+     * @return
+     */
     @Override
     public GetSeriesDTO getTVShow(Long id) {
         Constants constants = new Constants();
@@ -228,15 +253,25 @@ public class SearchServiceImpl implements SearchService {
                 chanel, broadcasts.get(0).getDescription(), filmResult.getId().toString()));
     }
 
+    /**
+     * Metoda zwracająca wynik wyszukania dla dowolnej pozycji.
+     * @param production
+     * @return
+     */
     @Override
-    public TmdbSearch.MultiListResultsPage getProductions(String production) throws IOException {
+    public TmdbSearch.MultiListResultsPage getProductions(String production) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         return tmdbApi.getSearch().searchMulti(production, Constants.getLanguage(), 0);
     }
 
+    /**
+     * Metoda zwracająca szczegóły danej osoby filmowej.
+     * @param id
+     * @return
+     */
     @Override
-    public PersonPeople getPerson(Long id) throws IOException {
+    public PersonPeople getPerson(Long id) {
         Constants constants = new Constants();
         TmdbApi tmdbApi = new TmdbApi(constants.getTmdbAPI());
         return tmdbApi.getPeople().getPersonInfo(toIntExact(id));

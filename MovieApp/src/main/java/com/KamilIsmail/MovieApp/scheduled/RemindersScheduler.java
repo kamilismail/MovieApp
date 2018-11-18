@@ -36,6 +36,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa zarządza wysyłaniem powiadomień do użytwkoników.
+ */
 @Component
 public class RemindersScheduler {
 
@@ -59,7 +63,10 @@ public class RemindersScheduler {
     @Autowired
     ReminderDao reminderDao;
 
-    //wysyłanie powiadomień ok godzinę przed seansem w tv
+    /**
+     * Wysyłanie powiadomień ok godzinę przed seansem w tv. Metoda sprawdza czy powiadomienie zostało już wysłane.
+     * Jeśli tak to je usuwa. Następnie sparwdza czy dane powiadomienie należy wysłać.
+     */
     @Scheduled(cron = "0 0/10 * 1/1 * ?") //every 10 minutes
     public void checkReminders() {
         log.info("Checking reminders at: " + dateFormat.format(new Date()), dateFormat.format(new Date()));

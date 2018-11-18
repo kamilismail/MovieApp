@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 
+/**
+ * @author kamilismail
+ * Klasa obsługuje zapytanie dotyczące programu tv.
+ */
 @RestController
 @RequestMapping("tvguide/")
 public class TVGuideController {
@@ -20,6 +24,12 @@ public class TVGuideController {
     @Autowired
     TVGuideService tvGuideService;
 
+    /**
+     * Metoda zwraca najlepsze filmy dnia w telewizji.
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @GetMapping("")
     public ArrayList<TVGuideMovieDTO> getTVGuide(Principal principal) throws IOException {
         User user = (User) ((Authentication) principal).getPrincipal();

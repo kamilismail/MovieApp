@@ -2,6 +2,9 @@ package com.KamilIsmail.MovieApp.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author kamilismail
+ */
 public class DiscoverMovieDTO {
     @JsonProperty("mediaType")
     private String mediaType;

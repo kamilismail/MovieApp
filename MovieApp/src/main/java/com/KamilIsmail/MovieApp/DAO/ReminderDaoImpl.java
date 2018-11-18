@@ -28,6 +28,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa odpowiadająca za komunikację z bazą danych. Zapis dd tabeli przypomnien.
+ */
 @Service
 public class ReminderDaoImpl implements ReminderDao {
 
@@ -43,6 +47,14 @@ public class ReminderDaoImpl implements ReminderDao {
     @Autowired
     TvStationRepository tvStationRepository;
 
+    /**
+     * Metoda odpowiada za zapis nowego filmu do tabeli przypomnien. Sprawdza czy dany film jest aktualnie emitowany
+     * w tv i jeśli jest ustawia od razu odpowiednią datę emisji, jeśli nie to ustawia atrybut "to_remind".
+     * Atrybut ten powoduje, że dana pozycja będzie regularnie sparwdzana czy film jest już w programie tv.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addReminder(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -139,6 +151,12 @@ public class ReminderDaoImpl implements ReminderDao {
         return (new BooleanDTO(true));
     }
 
+    /**
+     * Metoda usuwa ustawione przypomnienie.
+     * @param userId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteReminder(int userId, int movieId) {
         MoviesEntity movieEntity = movieRepository.findByTmdbId(movieId);
@@ -153,6 +171,13 @@ public class ReminderDaoImpl implements ReminderDao {
             return new BooleanDTO(false);
     }
 
+    /**
+     * W przypadku odnalezienia danego filmu w programie tv, metoda ustawia dla danej pozycji datę emisji.
+     * @param tvStationId
+     * @param reminderId
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO changeReminder(int tvStationId, int reminderId, int movieId) {
         RemindersEntity remindersEntity = reminderRepository.findRemindersEntityByReminderId(reminderId);

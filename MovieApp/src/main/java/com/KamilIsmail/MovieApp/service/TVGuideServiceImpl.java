@@ -12,12 +12,20 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class TVGuideServiceImpl implements TVGuideService {
 
     @Autowired
     TVGuideRepository tvGuideRepository;
 
+    /**
+     * Metoda zwracająca listę najlepszych filmów w danym dniu w tv pomiędzy godzinami 18:00 - 02:00.
+     * @return
+     */
     @Cacheable(value = "tvGuide")
     @Override
     public ArrayList <TVGuideMovieDTO> getTVGuide() {

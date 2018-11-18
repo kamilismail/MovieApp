@@ -19,6 +19,10 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Klasa obsługująca komunikację z bazą danych. Zapisuje pozycje do tabeli ocen.
+ */
 @Service
 public class RatingDaoImpl implements RatingDao {
 
@@ -31,7 +35,13 @@ public class RatingDaoImpl implements RatingDao {
     @Autowired
     UserRepository userRepository;
 
-
+    /**
+     * Metoda ustawia ocenę użytkownika dla danego filmu.
+     * @param userId
+     * @param movieId
+     * @param rating
+     * @return
+     */
     @Override
     public BooleanDTO setRating(int userId, int movieId, int rating) {
         UserEntity userEntity = userRepository.findByUserId(userId);

@@ -21,6 +21,10 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.toIntExact;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class FavouritesServiceImpl implements FavouritesService {
     @Autowired
@@ -33,6 +37,11 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Autowired
     MovieRepository movieRepository;
 
+    /**
+     * Metoda zwracająca listę pozycji ulubionych przez użytkownika.
+     * @param userid
+     * @return
+     */
     @Override
     public List<DiscoverMovieDTO> getFavourites(int userid) {
         return favsRepository.findFavouritesEntityByUserId(userid).stream()
@@ -42,6 +51,12 @@ public class FavouritesServiceImpl implements FavouritesService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Metoda dodająca daną pozycję do listy ulubionych.
+     * @param userid
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO addFavourite(int userid, int movieId) {
         try {
@@ -57,6 +72,12 @@ public class FavouritesServiceImpl implements FavouritesService {
         }
     }
 
+    /**
+     * Metoda usuwająca daną pozycję z listy ulubionych.
+     * @param userid
+     * @param movieId
+     * @return
+     */
     @Override
     public BooleanDTO deleteFavourite(int userid, int movieId) {
         return favsDao.deleteFavourite(userid, movieId);

@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * @author kamilismail
+ * Entry point servera
+ */
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableScheduling

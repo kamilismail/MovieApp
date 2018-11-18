@@ -1,5 +1,8 @@
 package com.KamilIsmail.MovieApp.DTO;
 
+/**
+ * @author kamilismail
+ */
 public class GetUsernameDTO {
     private String username;
 

@@ -31,6 +31,11 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 //http://epg.koditvepg2.com/PL/guide.xml.gz
+
+/**
+ * @author kamilismail
+ * Klasa zarządza nowym programem tv na mnowy dzień.
+ */
 public class ParseTVGuide {
 
     private Logger log = LoggerFactory.getLogger(ParseTVGuide.class);

@@ -27,6 +27,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa obsługujące zapytania dotyczące użytkownika.
+ */
 @RestController
 @RequestMapping("user/")
 public class UserController {
@@ -37,12 +41,22 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Metoda zwraca wszystkich użytkowników zarejestrowanych w systemie.
+     * @param principal
+     * @return
+     */
     @GetMapping("all")
     public List<UserDTO> getAllUser(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.getAllUser();
     }
 
+    /**
+     * Metoda tworzy nowego użytkownika.
+     * @param param
+     * @return
+     */
     @PostMapping("")
     public UserDTO createUser(@Valid @RequestBody CreateUserParam param) {
         if (!userRepository.findByUsername(param.getUsername()).isEmpty())
@@ -50,6 +64,13 @@ public class UserController {
         return userService.createUser(param.getUsername(), param.getPassword(), param.getRole());
     }
 
+    /**
+     * Metoda zapisuje nowey token firebase dla danego użytkownika. Token służy do wysyłania powiadomień na telefon
+     * użytkownika.
+     * @param firebaseID
+     * @param principal
+     * @return
+     */
     @PostMapping("setFirebaseID")
     public BooleanDTO setFirebaseID(@RequestParam("firebaseID") String firebaseID, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -57,24 +78,48 @@ public class UserController {
         return userService.setFirebaseID(userEntity.getUserId(), firebaseID);
     }
 
+    /**
+     * Metoda obsługuje zmienę hasła użytkownika. Przyjmuje jsona zawierającego stare oraz nowe hasło.
+     * @param param
+     * @param principal
+     * @return
+     */
     @PutMapping("")
     public BooleanDTO changeUserPassword(@Valid @RequestBody ChangePswParam param, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.changeUserPassword(user.getUsername(), param.getOldPassword(), param.getNewPassword());
     }
 
+    /**
+     * Metoda usuwa konto użytkownika.
+     * @param param
+     * @param principal
+     * @return
+     */
     @DeleteMapping("")
     public BooleanDTO deleteUser(@Valid @RequestBody DeleteUserParam param, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.deleteUser(user.getUsername(), param.getPassword());
     }
 
+    /**
+     * Metoda pozwala administartorowi na usuwanie dowolnego konta użytkownika.
+     * @param userId
+     * @param principal
+     * @return
+     */
     @DeleteMapping("admin")
     public BooleanDTO deleteAdminUser(@RequestParam("userid") int userId, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
         return userService.deleteAdminUser(userId);
     }
 
+    /**
+     * Metoda obsługuje usuwanie konta stworzonego przez użytkownika zalogowanego przez Facebooka.
+     * @param param
+     * @param principal
+     * @return
+     */
     @DeleteMapping("facebook")
     public BooleanDTO deleteFacebookUser(@Valid @RequestBody DeleteUserParam param, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -82,6 +127,11 @@ public class UserController {
         return userService.deleteFacebookUser(param.getPassword(), userEntity.getUserId());
     }
 
+    /**
+     * Metoda zwraca nazwę użytkownika.
+     * @param principal
+     * @return
+     */
     @GetMapping("getUsername")
     public GetUsernameDTO getUsername(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -89,6 +139,12 @@ public class UserController {
         return userService.getUsername((int) userEntity.getUserId());
     }
 
+    /**
+     * Metoda w zależności czy użytkwonik logujący się przez Facebooka posiada już zapisane konto lub nie, tworzy je
+     * i zwraca nazwę loginu lub zwraca nazwę konta już utworzonego.
+     * @param param
+     * @return
+     */
     @PostMapping("facebookLogin")
     public GetUsernameDTO facebookLogin(@Valid @RequestBody FacebookUserParam param) {
         GetUsernameDTO getUsernameDTO = userService.facebookLogin(param.getUsername(), param.getFacebookID(), param.getMail(), param.getRole());
@@ -100,6 +156,11 @@ public class UserController {
         return getUsernameDTO;
     }
 
+    /**
+     * Metoda zwraca link do zdjęcia profilowego użytkownika.
+     * @param principal
+     * @return
+     */
     @GetMapping("facebookPhoto")
     public UserPhotoDTO facebookPhoto(Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();
@@ -107,6 +168,12 @@ public class UserController {
         return userService.facebookPhoto(userEntity.getUserId());
     }
 
+    /**
+     * Metoda zapisuje link do zdjęcia profilowego danego użytkownika.
+     * @param fileName
+     * @param principal
+     * @return
+     */
     @PostMapping("sendPhotoName")
     public BooleanDTO sendPhotoName(@RequestParam("photoName") String fileName, Principal principal) {
         User user = (User) ((Authentication) principal).getPrincipal();

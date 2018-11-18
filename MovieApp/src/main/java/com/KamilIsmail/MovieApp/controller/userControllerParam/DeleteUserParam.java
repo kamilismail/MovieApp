@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author kamilismail
+ * Klasa przechowująca dane json przy zapytaniu o usunięcie konta.
+ */
 public class DeleteUserParam {
     @NotNull
     @NotEmpty

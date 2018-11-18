@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author kamilismail
+ * Encja tabeli wanttowatch. Zawiera informacje na temat dodanych pozycji filmowych do listy wanttowatch.
+ */
 @Entity
 @GenericGenerator(name = "seq8", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = @org.hibernate.annotations.Parameter(name = "wanttowatch_id_seq", value = "wanttowatch_id_seq"))
 @Table(name = "wanttowatch", schema = "public", catalog = "d55rc0894f06nc")

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class RatingServiceImpl implements RatingService {
 
@@ -25,11 +29,23 @@ public class RatingServiceImpl implements RatingService {
     @Autowired
     RatingRepository ratingRepository;
 
+    /**
+     * Metoda ustawiająca nową ocenę użytkownika danemu filmowi.
+     * @param userID
+     * @param movieID
+     * @param rating
+     * @return
+     */
     @Override
     public BooleanDTO setRating(int userID, int movieID, int rating) {
         return ratingDao.setRating(userID, movieID, rating);
     }
 
+    /**
+     * Metoda zwracająca listę wszytskich ocenionych filmów przez użytkownika.
+     * @param userID
+     * @return
+     */
     @Override
     public List<DiscoverMovieDTO> getRatings(int userID) {
         return ratingRepository.findRatingsEntityByUserId(userID).stream()

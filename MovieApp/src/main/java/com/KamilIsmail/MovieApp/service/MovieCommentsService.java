@@ -6,6 +6,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public interface MovieCommentsService {
 
     @PreAuthorize("hasAnyAuthority('admin','user', 'facebook')")

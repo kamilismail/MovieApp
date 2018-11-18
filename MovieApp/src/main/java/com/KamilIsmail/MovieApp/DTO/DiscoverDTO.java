@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ */
 public class DiscoverDTO {
 
     @JsonProperty("popular_movies")

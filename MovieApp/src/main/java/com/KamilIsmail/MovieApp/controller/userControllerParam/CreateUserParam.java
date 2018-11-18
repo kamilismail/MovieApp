@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author kamilismail
+ * Klasa przechowująca otzrymanego jsona przy zapytaniu o utworzenie konta użytkownika.
+ */
 public class CreateUserParam {
     @NotNull
     @NotEmpty

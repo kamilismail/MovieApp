@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamilismail
+ * Klasa ułatwiająca utworzenie sesji dla użytkownika zalogowanego przez Facebooka.
+ */
 public class GrantAuthHelper {
 
     private String username;
@@ -18,6 +22,10 @@ public class GrantAuthHelper {
         this.role = role;
     }
 
+    /**
+     * Klasa dodająca danego użytkownika do do listy przyznanych dostępów.
+     * @return
+     */
     public UserDetails grantAuth() {
         List<GrantedAuthority> grantedList = new ArrayList<>();
         GrantedAuthority authority = new SimpleGrantedAuthority(role);

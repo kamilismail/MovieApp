@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+/**
+ * @author kamilismail
+ * Serwis wywoływany z kontrolera.
+ */
 @Service
 public class ParseServiceImpl implements ParseService{
 
@@ -16,6 +20,10 @@ public class ParseServiceImpl implements ParseService{
     @SuppressWarnings("SpringJavaAutowiringInspection")
     TVGuideDao tvGuideDao;
 
+    /**
+     * Metoda pobiera nowy program tv.
+     * @return
+     */
     @Override
     public BooleanDTO parseTVGuide() {
         ParseTVGuide tvGuide = new ParseTVGuide();
