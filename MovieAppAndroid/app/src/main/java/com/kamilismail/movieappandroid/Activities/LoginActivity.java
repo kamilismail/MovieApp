@@ -71,9 +71,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        this.sessionController = new SessionController(getApplicationContext());
+        this.sessionController = new SessionController(LoginActivity.this);
         if (sessionController.isLoggedIn()) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
@@ -92,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
             _signupText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                    startActivityForResult(intent, 0);
+                    Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                    startActivity(intent);
                 }
             });
 
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         obj.addProperty("mail", email);
         obj.addProperty("role", "facebook");
 
-        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(LoginActivity.this);
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call<UserDTO> call = apiUser.facebookUserLogin(obj);
 
@@ -180,24 +180,27 @@ public class LoginActivity extends AppCompatActivity {
         String login = _loginText.getText().toString();
         String password = _passwordText.getText().toString();
         final String credentials = "Basic " + Base64.encodeToString((login + ":" + password).getBytes(), Base64.NO_WRAP);
-        Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+        Retrofit retrofit = RetrofitBuilder.createRetrofit(LoginActivity.this);
         ApiUser apiUser = retrofit.create(ApiUser.class);
         Call<UserDTO> call = apiUser.getUser(credentials);
 
         call.enqueue(new Callback<UserDTO>() {
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                String cookiesHeader = response.headers().get("Set-Cookie");
-                List<HttpCookie> cookies = HttpCookie.parse(cookiesHeader);
-                for (HttpCookie cookie : cookies) {
-                    msCookieManager.getCookieStore().add(null, cookie);
-                }
-                String sessionToken = cookies.get(0).toString();
-                sessionController.createLoginSession(sessionToken);
                 UserDTO userDTO = response.body();
-                sessionController.saveUsername(userDTO.getUsername());
-                sessionController.saveUserRole("user");
-                onLoginSuccess();
+                if (userDTO != null && !userDTO.getUsername().isEmpty()) {
+                    String cookiesHeader = response.headers().get("Set-Cookie");
+                    List<HttpCookie> cookies = HttpCookie.parse(cookiesHeader);
+                    for (HttpCookie cookie : cookies) {
+                        msCookieManager.getCookieStore().add(null, cookie);
+                    }
+                    String sessionToken = cookies.get(0).toString();
+                    sessionController.createLoginSession(sessionToken);
+                    sessionController.saveUsername(userDTO.getUsername());
+                    sessionController.saveUserRole("user");
+                    onLoginSuccess();
+                } else
+                    onLoginFailed();
             }
 
             @Override
@@ -248,7 +251,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void result) {
-                Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
+                Retrofit retrofit = RetrofitBuilder.createRetrofit(LoginActivity.this);
                 ApiUser apiUser = retrofit.create(ApiUser.class);
                 String cookie = sessionController.getCookie();
                 String token = sessionController.getFirebaseToken();
@@ -284,6 +287,6 @@ public class LoginActivity extends AppCompatActivity {
         try {
             LoginManager.getInstance().logOut();
         } catch (Exception e) {}
-        Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "No such user", Toast.LENGTH_SHORT).show();
     }
 }

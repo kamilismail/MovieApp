@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +88,10 @@ public class DeleteAccountFragment extends Fragment {
             }
         });
 
-        if (sessionController.getRole().toLowerCase().equals("facebook"))
+        if (sessionController.getRole().toLowerCase().equals("facebook")) {
             tPsw.setText("Confirm facebook mail");
+            ePsw.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
         return view;
     }
 
@@ -137,11 +140,20 @@ public class DeleteAccountFragment extends Fragment {
 
     private void onSuccess(final View view) {
         progressBar.setVisibility(View.GONE);
-        mCallback.logoutUser();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Password has been deleted.\nYou'll be redirected to login screen.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mCallback.logoutUser();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     private void onFailed(View view) {
-        Toast.makeText(view.getContext(), "Server error", Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(view.getContext(), "Bad psw or sth went wrong", Toast.LENGTH_SHORT).show();
     }
 
     @Override

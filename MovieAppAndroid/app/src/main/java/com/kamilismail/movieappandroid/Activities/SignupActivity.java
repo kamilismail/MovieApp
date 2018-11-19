@@ -1,7 +1,11 @@
 package com.kamilismail.movieappandroid.activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.kamilismail.movieappandroid.DTO.BooleanDTO;
+import com.kamilismail.movieappandroid.DTO.UserDTO;
 import com.kamilismail.movieappandroid.R;
 import com.kamilismail.movieappandroid.SessionController;
 import com.kamilismail.movieappandroid.connection.ApiUser;
@@ -52,15 +58,16 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ButterKnife.bind(this);
 
         this.sessionController = new SessionController(getApplicationContext());
         if (sessionController.isLoggedIn()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         } else {
-            setContentView(R.layout.activity_signup);
-            ButterKnife.bind(this);
             ActionBar actionBar = getSupportActionBar();
             actionBar.hide();
             progressBar.setVisibility(View.GONE);
@@ -75,7 +82,10 @@ public class SignupActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(intent, 0);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 }
             });
         }
@@ -101,27 +111,20 @@ public class SignupActivity extends AppCompatActivity {
         Retrofit retrofit = RetrofitBuilder.createRetrofit(getApplicationContext());
 
         ApiUser apiUser = retrofit.create(ApiUser.class);
-        Call<BooleanDTO> call = apiUser.createNewUser(obj);
+        Call<UserDTO> call = apiUser.createNewUser(obj);
 
-        call.enqueue(new Callback<BooleanDTO>() {
+        call.enqueue(new Callback<UserDTO>() {
             @Override
-            public void onResponse(Call<BooleanDTO> call, Response<BooleanDTO> response) {
-                String cookiesHeader = response.headers().get("Set-Cookie");
-                List<HttpCookie> cookies = HttpCookie.parse(cookiesHeader);
-                for (HttpCookie cookie : cookies) {
-                    msCookieManager.getCookieStore().add(null, cookie);
-                }
-                String sessionToken = cookies.get(0).toString();
-                sessionController.createLoginSession(sessionToken);
-                BooleanDTO booleanDTO = response.body();
-                if (booleanDTO.getResult())
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                UserDTO booleanDTO = response.body();
+                if (booleanDTO != null && !booleanDTO.getUsername().isEmpty()) {
                     onLoginSuccess();
-                else
+                } else
                     onLoginFailed();
             }
 
             @Override
-            public void onFailure(Call<BooleanDTO> call, Throwable t) {
+            public void onFailure(Call<UserDTO> call, Throwable t) {
                 onLoginFailed();
             }
         });
@@ -153,9 +156,19 @@ public class SignupActivity extends AppCompatActivity {
 
     private void onLoginSuccess() {
         progressBar.setVisibility(View.GONE);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+        builder.setMessage("Your account has been created.\nNow You'll be redirected to login screen where You can sign in.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     private void onLoginFailed() {

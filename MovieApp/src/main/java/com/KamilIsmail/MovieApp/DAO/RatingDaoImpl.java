@@ -60,7 +60,7 @@ public class RatingDaoImpl implements RatingDao {
             movieRepository.save(movieEntity);
         }
 
-        RatingsEntity ratingEntity = ratingRepository.findRatingsEntityByUserByUserIdAndMovieId(userId, movieEntity.getMovieId());
+        RatingsEntity ratingEntity = ratingRepository.findRatingsEntityByUserIdAndMovieId(userId, movieEntity.getMovieId());
 
         if (ratingEntity == null) { //utworzenie nowej encji
             RatingsEntity newRating = new RatingsEntity(userId, movieId, Integer.toString(rating), userEntity, movieEntity);

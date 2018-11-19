@@ -58,7 +58,7 @@ public class UserController {
      * @return
      */
     @PostMapping("")
-    public UserDTO createUser(@Valid @RequestBody CreateUserParam param) {
+    public GetUsernameDTO createUser(@Valid @RequestBody CreateUserParam param) {
         if (!userRepository.findByUsername(param.getUsername()).isEmpty())
             return null;
         return userService.createUser(param.getUsername(), param.getPassword(), param.getRole());

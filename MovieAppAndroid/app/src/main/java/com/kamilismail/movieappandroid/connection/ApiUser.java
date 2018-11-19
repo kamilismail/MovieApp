@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -20,12 +21,12 @@ public interface ApiUser {
     Call<UserDTO> getUser(@Header("Authorization") String credentials);
 
     @POST("user/")
-    Call<BooleanDTO> createNewUser(@Body JsonObject bean);
+    Call<UserDTO> createNewUser(@Body JsonObject bean);
 
-    @DELETE("user/")
+    @HTTP(method = "DELETE", path = "user/", hasBody = true)
     Call<BooleanDTO> deleteUser(@Header("Cookie") String cookie, @Body JsonObject bean);
 
-    @DELETE("user/facebook")
+    @HTTP(method = "DELETE", path = "user/facebook", hasBody = true)
     Call<BooleanDTO> deleteFacebookUser(@Header("Cookie") String cookie, @Body JsonObject bean);
 
     @PUT("user/")

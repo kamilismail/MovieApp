@@ -146,7 +146,15 @@ public class ChangePswFragment extends Fragment {
 
     private void onSuccess(final View view) {
         progressBar.setVisibility(View.GONE);
-        mCallback.logoutUser();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Password has been changed.\nYou'll be redirected to login screen.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mCallback.logoutUser();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     private void onFailed(View view) {

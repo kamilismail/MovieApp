@@ -1,9 +1,13 @@
 package com.kamilismail.movieappandroid.firebase;
 
+import android.app.Notification;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.kamilismail.movieappandroid.R;
 
 public class FirebaseMsgService extends FirebaseMessagingService {
     public FirebaseMsgService() {
@@ -33,6 +37,14 @@ public class FirebaseMsgService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
+            Notification notification = new NotificationCompat.Builder(getApplicationContext())
+                    .setContentTitle(remoteMessage.getNotification().getTitle())
+                    .setContentText(remoteMessage.getNotification().getBody())
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .build();
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification);
             Log.d("", "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 

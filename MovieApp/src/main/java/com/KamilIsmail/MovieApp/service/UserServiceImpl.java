@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserDTO createUser(String username, String password, String role) {
+    public GetUsernameDTO createUser(String username, String password, String role) {
         UserEntity userEntity = userDao.createUser(username, password, role);
-        return new UserDTO(userEntity.getUserId(), userEntity.getUsername(), userEntity.getRole());
+        return new GetUsernameDTO(userEntity.getUsername());
     }
 
     /**

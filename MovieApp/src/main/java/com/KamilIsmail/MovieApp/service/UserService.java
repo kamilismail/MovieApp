@@ -16,7 +16,7 @@ public interface UserService {
     @PreAuthorize("hasAuthority('admin')")
     List<UserDTO> getAllUser();
 
-    UserDTO createUser(String username, String password, String role);
+    GetUsernameDTO createUser(String username, String password, String role);
 
     @PreAuthorize("hasAnyAuthority('admin','user')")
     BooleanDTO changeUserPassword(String username, String password, String newPassword);

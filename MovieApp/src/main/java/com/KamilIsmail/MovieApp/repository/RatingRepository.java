@@ -30,5 +30,5 @@ public interface RatingRepository extends JpaRepository<RatingsEntity, Long> {
      * @param movieId
      * @return
      */
-    RatingsEntity findRatingsEntityByUserByUserIdAndMovieId(long userId, int movieId);
+    RatingsEntity findRatingsEntityByUserIdAndMovieId(long userId, int movieId);
 }
