@@ -1,0 +1,183 @@
+1. USERS
+
+-- Drop table
+
+-- DROP TABLE public.users
+
+CREATE TABLE public.users (
+	userid serial NOT NULL,
+	username varchar NOT NULL,
+	password varchar NULL,
+	photoid int4 NULL,
+	"role" varchar NULL,
+	notificationid varchar NULL,
+	user_social_id int4 NULL,
+	CONSTRAINT user_pk PRIMARY KEY (userid),
+	CONSTRAINT user_photos_fk FOREIGN KEY (photoid) REFERENCES photos(photoid),
+	CONSTRAINT users_user_social_fk FOREIGN KEY (user_social_id) REFERENCES user_social(user_social_id)
+);
+
+
+2. MOVIES
+
+-- Drop table
+
+-- DROP TABLE public.movies
+
+CREATE TABLE public.movies (
+	movieid serial NOT NULL,
+	moviename varchar NULL,
+	filmwebid int4 NULL,
+	tmdbid int4 NULL,
+	poster_path varchar NULL,
+	release_date varchar NULL,
+	backdrop_path varchar NULL,
+	media_type varchar NOT NULL,
+	avarage_rating varchar NULL,
+	overview varchar NULL,
+	CONSTRAINT movies_pk PRIMARY KEY (movieid)
+);
+
+
+3. USER_SOCIAL
+
+
+-- Drop table
+
+-- DROP TABLE public.user_social
+
+CREATE TABLE public.user_social (
+	user_social_id serial NOT NULL,
+	username varchar NULL,
+	mail varchar NULL,
+	social_id varchar NULL,
+	CONSTRAINT user_social_pk PRIMARY KEY (user_social_id)
+);
+
+4. PHOTOS
+
+-- Drop table
+
+-- DROP TABLE public.photos
+
+CREATE TABLE public.photos (
+	photoid serial NOT NULL,
+	"path" varchar NULL,
+	CONSTRAINT photos_pk PRIMARY KEY (photoid)
+);
+
+5. FAVOURITES
+
+-- Drop table
+
+-- DROP TABLE public.favourites
+
+CREATE TABLE public.favourites (
+	favid serial NOT NULL,
+	userid int4 NULL,
+	movieid int4 NULL,
+	CONSTRAINT favourites_pk PRIMARY KEY (favid),
+	CONSTRAINT favourites_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT fkk1ofjcmvodn6igyg4j3u0x1s1 FOREIGN KEY (userid) REFERENCES users(userid)
+);
+
+
+6. MOVIE_COMMENTS
+
+-- Drop table
+
+-- DROP TABLE public.movie_comments
+
+CREATE TABLE public.movie_comments (
+	moviecommentsid serial NOT NULL,
+	movieid int4 NOT NULL,
+	userid int4 NOT NULL,
+	"comment" varchar NULL,
+	CONSTRAINT movie_comments_pk PRIMARY KEY (moviecommentsid),
+	CONSTRAINT movie_comments_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT movie_comments_users_fk FOREIGN KEY (userid) REFERENCES users(userid)
+);
+
+
+7. RATINGS
+
+-- Drop table
+
+-- DROP TABLE public.ratings
+
+CREATE TABLE public.ratings (
+	ratingid serial NOT NULL,
+	userid int4 NULL,
+	movieid int4 NULL,
+	rating varchar NULL,
+	CONSTRAINT ratings_pk PRIMARY KEY (ratingid),
+	CONSTRAINT ratings_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT ratings_user_fk FOREIGN KEY (userid) REFERENCES users(userid)
+);
+
+
+8. REMINDERS
+
+-- Drop table
+
+-- DROP TABLE public.reminders
+
+CREATE TABLE public.reminders (
+	reminderid serial NOT NULL,
+	userid int4 NULL,
+	movieid int4 NULL,
+	tvstationid int4 NULL,
+	"data" timestamp NULL,
+	reminded bool NOT NULL DEFAULT false,
+	CONSTRAINT reminders_pk PRIMARY KEY (reminderid),
+	CONSTRAINT reminders_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT reminders_tvstations_fk FOREIGN KEY (tvstationid) REFERENCES stations(tvstationid),
+	CONSTRAINT reminders_user_fk FOREIGN KEY (userid) REFERENCES users(userid)
+);
+
+
+9. STATIONS
+
+-- Drop table
+
+-- DROP TABLE public.stations
+
+CREATE TABLE public.stations (
+	tvstationid serial NOT NULL,
+	"name" varchar NULL,
+	logo_path varchar NULL,
+	CONSTRAINT tvstations_pk PRIMARY KEY (tvstationid)
+);
+
+
+10. TVGUIDE
+
+-- Drop table
+
+-- DROP TABLE public.tvguide
+
+CREATE TABLE public.tvguide (
+	tvguideid serial NOT NULL,
+	movieid int4 NOT NULL,
+	tvstationid int4 NOT NULL,
+	"date" timestamp NOT NULL,
+	CONSTRAINT tvguide_pk PRIMARY KEY (tvguideid),
+	CONSTRAINT tvguide_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT tvguide_stations_fk FOREIGN KEY (tvstationid) REFERENCES stations(tvstationid)
+);
+
+
+11. WANTTOWATCH
+
+-- Drop table
+
+-- DROP TABLE public.wanttowatch
+
+CREATE TABLE public.wanttowatch (
+	wantid serial NOT NULL,
+	userid int4 NULL,
+	movieid int4 NULL,
+	CONSTRAINT wanttowatch_pk PRIMARY KEY (wantid),
+	CONSTRAINT wanttowatch_movies_fk FOREIGN KEY (movieid) REFERENCES movies(movieid),
+	CONSTRAINT wanttowatch_user_fk FOREIGN KEY (userid) REFERENCES users(userid)
+);
