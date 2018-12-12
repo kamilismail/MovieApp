@@ -40,6 +40,7 @@ dependencies {
 
 	implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 	implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+	implementation 'org.bitbucket.varabi:filmweb-api:0.3.3'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
@@ -49,8 +50,4 @@ allprojects {
 	repositories {
 		maven { url 'https://jitpack.io' }
 	}
-}
-
-dependencies {
-	implementation 'org.bitbucket.varabi:filmweb-api:0.3.3'
 }
